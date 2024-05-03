@@ -4,13 +4,13 @@ void printContent_Global(WiFiClient client){
   client.print(" <style> ");
   client.print("  body {font-family: Arial, Helvetica, sans-serif; margin: 0;} ");
   client.print("  header {background-color: #666; padding: 10px; text-align: center; font-size: 20px; color: white;}") ;
-  client.print("  nav {float: left; width: 30%; height: 100%; background: #f1f1f1; padding: 20px;} ");
+  client.print("  nav {float: left; width: 20%; height: 100%; background: #f1f1f1; padding: 20px;} ");
   client.print("  nav ul {list-style-type: none; padding: 0;} ");
   client.print("  article {float: left; padding: 20px; width: 70%; background-color: #f1f1f1; height: 100%;} ");
   client.print("  section:after {content: \"\"; display: table; clear: both;} ");
   client.print("  footer {background-color: #777; padding: 10px; text-align: center; color: white;} </style> </head> ");
   client.print(" <body> ");
-  client.print("   header> <h2>Solar Tracker</h2> </header> ");
+  client.print("   <header> <h2>Solar Tracker</h2> </header> ");
   client.print("   <section> <nav> <ul> ");
   client.print("      <li><a href=\"/\">Home</a></li> ");
   client.print("      <li><a href=\"/Lichtsensors\">Lichtsensors</a></li> ");

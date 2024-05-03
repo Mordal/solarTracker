@@ -1,14 +1,16 @@
 void set_MoveDirection(){
  // DRAAIEN //
-  if(needToTurnLeft()){
+  if(needToTurnLeft() || linksDraaien_FORCE){
     if(rechtsDraaien == true){
+      rechtsDraaien_FORCE = false;
       deactivate_Draaien();
     }
     linksDraaien_activate();
   }
 
-  else if(needToTurnRight()){
+  else if(needToTurnRight() || rechtsDraaien_FORCE){
     if(linksDraaien == true){
+      linksDraaien_FORCE = false;
       deactivate_Draaien();
     }
     rechtsDraaien_activate();
@@ -19,15 +21,17 @@ void set_MoveDirection(){
   }
 
  // KANTELEN //
-  if(needToExtend()){
+  if(needToExtend() || uitschuiven_FORCE){
     if(inschuiven == true){
+      inschuiven_FORCE = false;
       deactivate_Kantelen();
     }
     uitschuiven_activate();
   }
 
-  else if(needToRetract()){
+  else if(needToRetract() || inschuiven_FORCE){
     if(uitschuiven == true){
+      uitschuiven_FORCE = false;
       deactivate_Kantelen();
     }
     inschuiven_activate();

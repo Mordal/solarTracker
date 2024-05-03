@@ -36,7 +36,9 @@
   const int PIN_Einde_Linksdraaien = 4; //OUTPUT
   const int PIN_Einde_Rechtsdraaien = 5; //OUTPUT
   bool linksDraaien = false;
+  bool linksDraaien_FORCE = false;
   bool rechtsDraaien = false;
+  bool rechtsDraaien_FORCE = false;
   bool einde_Linksdraaien = false;
   bool einde_Rechtsdraaien = false ;
   bool antiPendel_Draaien = false;
@@ -47,7 +49,9 @@
   const int PIN_Einde_Uitschuiven = 8; //OUTPUT
   const int PIN_Einde_Inschuiven = 9;//OUTPUT
   bool uitschuiven = false;
+  bool uitschuiven_FORCE = false;
   bool inschuiven = false;
+  bool inschuiven_FORCE = false;
   bool einde_Uitschuiven = false;
   bool einde_Inschuiven = false;
   bool antiPendel_Kantelen = false;

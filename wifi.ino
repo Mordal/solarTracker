@@ -65,8 +65,9 @@ void clientConnection(WiFiClient client){
       // if the current line is blank, you got two newline characters in a row.
       // that's the end of the client HTTP request 
       if (currentLine.length() == 0) {
-        readBody(client, contentLength); //read the body of the request
-        response_WiFi_BASIC(client);  //send a response:
+        if (!readBody(client, contentLength)){ //read the body of the request
+          response_WiFi_BASIC(client)  //send a response:
+        } ;
         break;
       } else {    // if you got a newline, then clear currentLine:
         if (contentLengthHeader){
@@ -77,9 +78,7 @@ void clientConnection(WiFiClient client){
       }
     } else if (c != '\r') {  // if you got anything else but a carriage return character,
       currentLine += c;      // add it to the end of the currentLine
-      if (currentLine == "Content-Length: "){
-        contentLengthHeader = true;
-      }
+      if (currentLine == "Content-Length: ") contentLengthHeader = true;
     }
 
     // Check to see if the client request was "GET /H" or "GET /L":
@@ -106,29 +105,8 @@ void clientConnection(WiFiClient client){
   Serial.println("client disconnected");
 }
 
-void readBody(WiFiClient client, int contentLength){
-  // Example curl http://192.48.56.2/ -d "{\"hallo\":\"no\"}"
-  String requestBody;
-  if (!contentLength || contentLength < 1) {
-    return;
-    }
-  int bodyRead = 0;
-  while (bodyRead < contentLength && client.available()) {
-    char c = client.read();
-    requestBody += c;
-    bodyRead++;
-    }
-  print("Raw: " + requestBody);
-  //voorbeeld string to send as Body:
-  // "{\"hallo\":5}"
-  // "{\"hallo\":\"no\"}"
-  JSONVar jsonBody = JSON.parse(requestBody);
-  Serial.println(jsonBody);
-}
-
 
 void mqtt_Setup(){
-
   const char broker[] = "192.168.0.205";
   int port = 49111;
 
