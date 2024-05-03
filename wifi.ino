@@ -63,10 +63,10 @@ void clientConnection(WiFiClient client){
     Serial.write(c);                    // print it out to the serial monitor
     if (c == '\n') {                    // if the byte is a newline character
       // if the current line is blank, you got two newline characters in a row.
-      // that's the end of the client HTTP request, so send a response:
+      // that's the end of the client HTTP request 
       if (currentLine.length() == 0) {
-        readBody(client, contentLength);
-        response_WiFi(client);
+        readBody(client, contentLength); //read the body of the request
+        response_WiFi_BASIC(client);  //send a response:
         break;
       } else {    // if you got a newline, then clear currentLine:
         if (contentLengthHeader){
@@ -95,6 +95,11 @@ void clientConnection(WiFiClient client){
     if (currentLine.endsWith("GET /L")) {
       digitalWrite(LED_BUILTIN, LOW);                // GET /L turns the LED off
     }
+
+    if (currentLine.endsWith("GET /JSON")){
+      response_WiFi_JSON()
+      break;
+    }
   }
   // close the connection:
   client.stop();
@@ -121,23 +126,6 @@ void readBody(WiFiClient client, int contentLength){
   Serial.println(jsonBody);
 }
 
-void response_WiFi(WiFiClient client){
-  print("responding to request..");
- // Making a JSON Object
-  Serial.println(myObject);
-
-  // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
-  // and a content-type so the client knows what's coming, then a blank line:
-  client.println("HTTP/1.1 200 OK");
-  client.println("Content-type:application/json");
-  client.println();
-
-  // the content of the HTTP response follows the header:
-  client.println(myObject);
-  
-  // The HTTP response ends with another blank line:
-  client.println();
-}
 
 void mqtt_Setup(){
 
@@ -155,7 +143,7 @@ void mqtt_Setup(){
 
 bool retryConnection(void *){
   if(wifiConnected == false){
-    stopMomevement()
+    stopMomevement();
     wifi_Setup();
   }
   if(mqttConnected == false){
