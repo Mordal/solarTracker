@@ -26,21 +26,46 @@ void printContent_GlobalEND(WiFiClient client){
 
 void printContent_Lichtsensors(WiFiClient client){
   client.print("<div> <h2>Lichtsensoren</h2> <div>");
-  client.print("<p><table><tr><td>");
+  client.print("<p><table><tr>");
 
-  client.print(" <strong> Links boven: </strong> <br>" );
-  client.print("<strong> Rechts boven: </strong> <br>");
-  client.print("<strong> Links onder: </strong> <br>" );
-  client.print("<strong> Rechts onder: </strong>" );
-  client.print("</td> <td>");
+  client.print("<th> Links boven: </th>" );
+  client.print("<th> Rechts boven: </th>");
+  client.print("<th> Links onder: </th>" );
+  client.print("<th> Rechts onder: </th>" );
+  client.print(" <td>");
   client.print(JSON.stringify(myObject["lichtSensors"]["Links_Boven"])+ "<br>");
   client.print(JSON.stringify(myObject["lichtSensors"]["Rechts_Boven"])+ "<br>");
   client.print(JSON.stringify(myObject["lichtSensors"]["Links_Onder"]) + "<br>");
   client.print(JSON.stringify(myObject["lichtSensors"]["Rechts_Onder"]));
   client.print("</td></tr></table></p> </div> </div>");
-  
-  
   }
+
+void printContent_Movement(WiFiClient client){
+  client.print("<div> <h2>Movement</h2> <div>");
+  client.print("<p><table><tr><td>");
+
+  client.print("<strong> Links draaien: </strong> <br>" );
+
+
+  client.print("</td> <td>");
+  client.print(JSON.stringify(myObject["TURN_LEFT"]["Moving"])+ "<br>");
+}
+
+void printContent_Flags(WiFiClient client){
+  client.print("<div> <h2>Flags</h2> <div>");
+  client.print("<p><table><tr><td>");
+
+  client.print("<strong> Draaien too long: </strong> <br>" );
+  client.print("<strong> Kantelen too long: </strong> <br>");
+  client.print("<strong> Safe mode: </strong> <br>" );
+  client.print("<strong> Test mode: </strong>" );
+  client.print("</td> <td>");
+  client.print(JSON.stringify(myObject["Flags"]["Draaien_too_long"])+ "<br>");
+  client.print(JSON.stringify(myObject["Flags"]["Kantelen_too_long"])+ "<br>");
+  client.print(JSON.stringify(myObject["Flags"]["Safe_mode"]) + "<br>");
+  client.print(JSON.stringify(myObject["Flags"]["Test_mode"]));
+  client.print("</td></tr></table></p> </div> </div>");
+}
 
 void printContent_Buttons(WiFiClient client){
   client.print("<div><strong><a href=\"/JSON\">Get JSON</a> </strong> </div>");

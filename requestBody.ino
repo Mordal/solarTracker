@@ -1,9 +1,10 @@
 bool readBody(WiFiClient client, int contentLength){
   // Example curl http://192.48.56.2/ -d "{\"hallo\":\"no\"}"
-  String requestBody;
-  if (!contentLength || contentLength < 1) {
+  
+  if (!contentLength || contentLength < 1 || contentLength > 1024) {
     return false;
     }
+  String requestBody;
   int bodyRead = 0;
   while (bodyRead < contentLength && client.available()) {
     char c = client.read();

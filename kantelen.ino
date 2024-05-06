@@ -1,7 +1,7 @@
 
 void uitschuiven_activate(){
 
-  if(antiPendel_Kantelen){
+  if(antiPendel_Kantelen && !uitschuiven_FORCE){
     return;
   }
 
@@ -17,7 +17,7 @@ void uitschuiven_activate(){
 
 void inschuiven_activate(){
 
-  if(antiPendel_Kantelen){
+  if(antiPendel_Kantelen && !inschuiven_FORCE){
     return;
   }
 

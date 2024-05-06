@@ -1,7 +1,7 @@
 
 void linksDraaien_activate(){
 
-  if(antiPendel_Draaien){
+  if(antiPendel_Draaien && !linksDraaien_FORCE){
     return;
   }
 
@@ -17,7 +17,7 @@ void linksDraaien_activate(){
 
 void rechtsDraaien_activate(){
 
-  if(antiPendel_Draaien){
+  if(antiPendel_Draaien && !rechtsDraaien_FORCE){
     return;
   }
 
