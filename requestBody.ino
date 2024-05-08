@@ -39,4 +39,25 @@ void setValues(JSONVar jsonBody){
     if (jsonBody.hasOwnProperty("Force_IN")){
         inschuiven_FORCE = jsonBody["Force_IN"];
     }
+    if (jsonBody.hasOwnProperty("Reset_Alarms")){
+        if jsonBody["Reset_Alarms"] == true{
+            draaienTooLong = false;
+            kantelenTooLong = false;
+        }
+    }
+    if (jsonBody.hasOwnProperty("licht_marge")){
+        licht_marge = jsonBody["licht_marge"];
+    }
+    if (jsonBody.hasOwnProperty("antiPendelTime")){
+        antiPendelTime = jsonBody["antiPendelTime"];
+    }
+    if (jsonBody.hasOwnProperty("maxMovementTime")){
+        maxMovementTime = jsonBody["maxMovementTime"];
+    }
+    if (jsonBody.hasOwnProperty("logBook_Timer")){
+        logBook_Timer = jsonBody["logBook_Timer"];
+    }
+    if (jsonBody.hasOwnProperty("retryTime")){
+        retryTime = jsonBody["retryTime"];
+    }
 }

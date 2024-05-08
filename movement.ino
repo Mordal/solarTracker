@@ -53,9 +53,9 @@ bool needToTurnLeft(){
   int lichtRechts = lichtSensor_RB + lichtSensor_RO;
 
   myObject["TURN_LEFT"]["licht_links"] = lichtLinks;
-  myObject["TURN_LEFT"]["licht_rechts"] = lichtRechts + marge;
+  myObject["TURN_LEFT"]["licht_rechts"] = lichtRechts + licht_marge;
 
-  if(lichtLinks > lichtRechts + marge){
+  if(lichtLinks > lichtRechts + licht_marge){
     myObject["TURN_LEFT"]["Sensors"] = true;
     return true;
   }
@@ -68,9 +68,9 @@ bool needToTurnRight(){
   int lichtRechts = lichtSensor_RB + lichtSensor_RO;
 
   myObject["TURN_RIGH"]["licht_rechts"] = lichtRechts;
-  myObject["TURN_RIGHT"]["licht_links"] = lichtLinks + marge;
+  myObject["TURN_RIGHT"]["licht_links"] = lichtLinks + licht_marge;
 
-  if(lichtRechts > lichtLinks + marge){
+  if(lichtRechts > lichtLinks + licht_marge){
     myObject["TURN_RIGHT"]["Sensors"] = true;
     return true;
   }
@@ -83,9 +83,9 @@ bool needToExtend(){
   int lichtOnder = lichtSensor_LO + lichtSensor_RO;
 
   myObject["EXTEND"]["licht_boven"] = lichtBoven;
-  myObject["EXTEND"]["licht_onder"] = lichtOnder + marge;
+  myObject["EXTEND"]["licht_onder"] = lichtOnder + licht_marge;
  
-  if(lichtBoven > lichtOnder + marge){
+  if(lichtBoven > lichtOnder + licht_marge){
     myObject["EXTEND"]["Sensors"] = true;
     return true;
   }
@@ -98,9 +98,9 @@ bool needToRetract(){
   int lichtOnder = lichtSensor_LO + lichtSensor_RO;
 
   myObject["RETRACT"]["licht_onder"] = lichtOnder;
-  myObject["RETRACT"]["licht_boven"] = lichtBoven + marge;
+  myObject["RETRACT"]["licht_boven"] = lichtBoven + licht_marge;
 
-  if(lichtOnder > lichtBoven + marge){
+  if(lichtOnder > lichtBoven + licht_marge){
     myObject["RETRACT"]["Sensors"] = true;
     return true;
   }

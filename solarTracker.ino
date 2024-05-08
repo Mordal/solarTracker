@@ -28,7 +28,7 @@
   int lichtSensor_RB = 0;  //from 0 - 1023
   int lichtSensor_LO = 0;  //from 0 - 1023
   int lichtSensor_RO = 0;  //from 0 - 1023
-  const int marge = 10;
+  int licht_marge = 10;
 
 //Draaien
   const int PIN_LinksDraaien = 2; //OUTPUT
@@ -57,16 +57,16 @@
   bool antiPendel_Kantelen = false;
 
 //TimeOuts
-  const int antiPendelTime = 5000;  //5 min. = 300000 ms
+  int antiPendelTime = 5000;  //5 min. = 300000 ms
   auto antiPendel_Draaien_Timer = timer_create_default();
   auto antiPendel_Kantelen_Timer = timer_create_default();
 
-  const int maxMovementTime = 30000;
+  int maxMovementTime = 30000;
   auto draaien_TimeOut = timer_create_default();
   auto kantelen_TimeOut = timer_create_default();
 
   auto logBook_Timer = timer_create_default();
-  const int retryTime = 300000;
+  int retryTime = 300000;
   auto retryTimer = timer_create_default();
   
 
