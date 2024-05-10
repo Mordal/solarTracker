@@ -70,6 +70,14 @@
   int retryTime = 300000;
   auto retryTimer = timer_create_default();
   
+// TimeRemaining
+  int antiPendel_Draaien_Timer_Remaining = 0;
+  int antiPendel_Kantelen_Timer_Remaining = 0;
+  int draaien_TimeOut_Remaining = 0;
+  int kantelen_TimeOut_Remaining = 0;
+  int logBook_Timer_Remaining = 0;
+  int retryTimer_Remaining = 0;
+
 
 //Flags
   bool wifiConnected = false;
@@ -135,12 +143,12 @@ void loop() {
 
 
 void tickTimers(){
-  antiPendel_Draaien_Timer.tick();
-  antiPendel_Kantelen_Timer.tick();
-  draaien_TimeOut.tick();
-  kantelen_TimeOut.tick();
-  logBook_Timer.tick();
-  retryTimer.tick();
+  antiPendel_Draaien_Timer_Remaining = antiPendel_Draaien_Timer.tick();
+  antiPendel_Kantelen_Timer_Remaining = antiPendel_Kantelen_Timer.tick();
+  draaien_TimeOut_Remaining = draaien_TimeOut.tick();
+  kantelen_TimeOut_Remaining = kantelen_TimeOut.tick();
+  logBook_Timer_Remaining = logBook_Timer.tick();
+  retryTimer_Remaining = retryTimer.tick();
 }
 
 

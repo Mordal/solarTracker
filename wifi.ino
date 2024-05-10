@@ -99,6 +99,11 @@ void clientConnection(WiFiClient client){
       response_WiFi_JSON(client);
       break;
     }
+    if(currentLine.endsWith("GET /TIMERS")){
+      response_WiFi_Timers(client);
+      break;
+    }
+
   }
   // close the connection:
   client.stop();

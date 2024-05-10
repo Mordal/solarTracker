@@ -26,29 +26,26 @@ void response_WiFi_JSON(WiFiClient client){
   client.println();
 
   // the content of the HTTP response follows the header:
-  JSONVar fullObject = addAllInfoToObject();
+  JSONVar fullObject = getAllData();
   client.println(fullObject);
   
   // The HTTP response ends with another blank line:
   client.println();
 }
 
-JSONVar addAllInfoToObject(){
-  JSONVar fullObject = myObject;
-  fullObject["Flags"]["TEST_MODE"] = TEST_MODE;
-  fullObject["Flags"]["SAFE_MODE"] = SAFE_MODE;
-  fullObject["Flags"]["Draaien_too_long"] = draaienTooLong;
-  fullObject["Flags"]["Kantelen_too_long"] = kantelenTooLong;
-  fullObject["Flags"]["Wifi_connected"] = wifiConnected;
-  fullObject["Flags"]["Mqtt_connected"] = mqttConnected;
-  fullObject["ForceMovement"]["Force_LEFT"] = linksDraaien_FORCE;
-  fullObject["ForceMovement"]["Force_RIGHT"] = rechtsDraaien_FORCE;
-  fullObject["ForceMovement"]["Force_OUT"] = uitschuiven_FORCE;
-  fullObject["ForceMovement"]["Force_IN"] = inschuiven_FORCE;
-  fullObject["TimeOuts"]["antiPendelTime"] = antiPendelTime;
-  fullObject["TimeOuts"]["maxMovementTime"] = maxMovementTime;
-  fullObject["TimeOuts"]["logBook_Timer_delay"] = logBook_Timer_delay;
-  fullObject["TimeOuts"]["retryTime"] = retryTime;
-  fullObject["Reset_Alarms"] = false;
-  return fullObject;
+void response_WiFi_Timers(WiFiClient client){
+  print("responding to Timers request..");
+  // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
+  // and a content-type so the client knows what's coming, then a blank line:
+  client.println("HTTP/1.1 200 OK");
+  client.println("Content-type:application/json");
+  client.println();
+
+  // the content of the HTTP response follows the header:
+  JSONVar  timersObject = addRemainingTimeToObject();
+  client.println(timersObject);
+  
+  // The HTTP response ends with another blank line:
+  client.println();
 }
+
