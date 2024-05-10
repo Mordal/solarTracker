@@ -5,7 +5,7 @@
     client.println("Content-type:text/html");
     client.println();
 
-    printContent(client);
+    printContent_Global(client);
     // the content of the HTTP response follows the header:
     // client.print("<p style=\"font-size:7vw;\">Click <a href=\"/H\">here</a> turn the LED on<br></p>");
     // client.print("<p style=\"font-size:7vw;\">Click <a href=\"/L\">here</a> turn the LED off<br></p>");
@@ -47,7 +47,7 @@ JSONVar addAllInfoToObject(){
   fullObject["ForceMovement"]["Force_IN"] = inschuiven_FORCE;
   fullObject["TimeOuts"]["antiPendelTime"] = antiPendelTime;
   fullObject["TimeOuts"]["maxMovementTime"] = maxMovementTime;
-  fullObject["TimeOuts"]["logBook_Timer"] = logBook_Timer;
+  fullObject["TimeOuts"]["logBook_Timer_delay"] = logBook_Timer_delay;
   fullObject["TimeOuts"]["retryTime"] = retryTime;
   fullObject["Reset_Alarms"] = false;
   return fullObject;

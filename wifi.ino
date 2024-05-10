@@ -66,7 +66,7 @@ void clientConnection(WiFiClient client){
       // that's the end of the client HTTP request 
       if (currentLine.length() == 0) {
         if (!readBody(client, contentLength)){ //read the body of the request
-          response_WiFi_BASIC(client)  //send a response:
+          response_WiFi_BASIC(client);  //send a response:
         } ;
         break;
       } else {    // if you got a newline, then clear currentLine:
@@ -96,7 +96,7 @@ void clientConnection(WiFiClient client){
     }
 
     if (currentLine.endsWith("GET /JSON")){
-      response_WiFi_JSON()
+      response_WiFi_JSON(client);
       break;
     }
   }

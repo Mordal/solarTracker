@@ -65,6 +65,7 @@
   auto draaien_TimeOut = timer_create_default();
   auto kantelen_TimeOut = timer_create_default();
 
+  int logBook_Timer_delay = 10000;
   auto logBook_Timer = timer_create_default();
   int retryTime = 300000;
   auto retryTimer = timer_create_default();
@@ -112,14 +113,10 @@ void setup() {
 
 //setup WIFI
   
-  logBook_Timer.every(10000, setLogbook); //10 sec ----- //every minute -> voor een week: 6 keer per uur
   wifi_Setup();
   mqtt_Setup();
 
-
-//timer setup
-  retryTimer.every(retryTime, retryConnection);
-  
+  setTimers();
   
   print("Setup done!");
   printLedMatrix();
@@ -162,6 +159,20 @@ bool set_Outputs(){
 
 void print(const char *text){
   Serial.println(text);
+}
+
+void print(const String text){
+  Serial.println(text);
+}
+
+void print (JSONVar json){
+  Serial.println(json);
+}
+
+void setTimers(){
+  //timer setup
+  retryTimer.every(retryTime, retryConnection);
+  logBook_Timer.every(logBook_Timer_delay, setLogbook); //10 sec ----- //every minute -> voor een week: 6 keer per uur
 }
 
 void printLedMatrix(){

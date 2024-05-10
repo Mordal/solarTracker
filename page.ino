@@ -16,8 +16,8 @@ void printContent_Global(WiFiClient client){
   client.print("      <li><a href=\"/Lichtsensors\">Lichtsensors</a></li> ");
   client.print("      <li><a href=\"/Buttons\">Buttons</a></li> </ul> </nav>");
   printContent_Lichtsensors(client);
-  printContent_Buttons(client)
-  printContent_GlobalEND(client)
+  printContent_Buttons(client);
+  printContent_GlobalEND(client);
   
 }
 void printContent_GlobalEND(WiFiClient client){

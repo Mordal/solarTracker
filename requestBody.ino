@@ -11,13 +11,13 @@ bool readBody(WiFiClient client, int contentLength){
     requestBody += c;
     bodyRead++;
     }
-  print("Raw: " + requestBody);
+  Serial.println("Raw: " + requestBody);
   //voorbeeld string to send as Body:
   // "{\"hallo\":5}"
   // "{\"hallo\":\"no\"}"
   JSONVar jsonBody = JSON.parse(requestBody);
   Serial.println(jsonBody);
-  return true
+  return true;
 }
 
 void setValues(JSONVar jsonBody){
@@ -40,7 +40,7 @@ void setValues(JSONVar jsonBody){
         inschuiven_FORCE = jsonBody["Force_IN"];
     }
     if (jsonBody.hasOwnProperty("Reset_Alarms")){
-        if jsonBody["Reset_Alarms"] == true{
+        if (jsonBody["Reset_Alarms"]){
             draaienTooLong = false;
             kantelenTooLong = false;
         }
@@ -54,10 +54,12 @@ void setValues(JSONVar jsonBody){
     if (jsonBody.hasOwnProperty("maxMovementTime")){
         maxMovementTime = jsonBody["maxMovementTime"];
     }
-    if (jsonBody.hasOwnProperty("logBook_Timer")){
-        logBook_Timer = jsonBody["logBook_Timer"];
+    if (jsonBody.hasOwnProperty("logBook_Timer_delay")){
+        logBook_Timer_delay = jsonBody["logBook_Timer_delay"];
+        setTimers();
     }
     if (jsonBody.hasOwnProperty("retryTime")){
         retryTime = jsonBody["retryTime"];
+        setTimers();
     }
 }

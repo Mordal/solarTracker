@@ -26,7 +26,7 @@ bool setLogbook(void *){
   mqttClient.print(message);
   mqttClient.endMessage();
   
-  message = getFlags()
+  message = getFlags();
   mqttClient.beginMessage("flags");
   mqttClient.print(message);
   mqttClient.endMessage();

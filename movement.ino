@@ -109,7 +109,7 @@ bool needToRetract(){
 }
 
 void stopMomevement(){
-  deactivate_Kantelen()
-  deactivate_Draaien()
-  set_Outputs()
+  deactivate_Kantelen();
+  deactivate_Draaien();
+  set_Outputs();
 }
