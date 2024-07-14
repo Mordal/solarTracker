@@ -1,24 +1,43 @@
 
-#include "Arduino_LED_Matrix.h" // Include the LED_Matrix library
+//TODO
+//voeg timer toe die telt hoe lang de beweging LINKS->RECHTS duurt
+//voeg timer toe die telt hoe lang de beweging ONDER->BOVEN duurt
+
+//voeg 2 variabelen toe die het percentage van de beweging bijhouden
+
+//voeg functie toe die de eindeloop een klein beetje terugdraait maar wel de flag eindeloop behoudt
+
+//Functie die een schatting maakt van verwachte positie obv de tijd
+//vergelijk met effectieve positie en corrigeer indien nodig
+
+
+
+
+//#include "Arduino_LED_Matrix.h" // Include the LED_Matrix library
 #include "WiFiS3.h"
 #include "wifi_secrets.h"
 #include "arduino-timer.h"
 #include "Arduino_JSON.h"
 #include "ArduinoMqttClient.h"
 
+#include <NTPClient.h>
+#include <WiFiUdp.h>
+#include <TimeLib.h>
+#include <RTC.h>
+
 
 //Alle variabelen
-  ArduinoLEDMatrix matrix;
-  byte ledMatrix[8][12]{
-    { 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 },
-    { 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0 },
-    { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0 },
-    { 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-    { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-  };
+  // ArduinoLEDMatrix matrix;
+  // byte ledMatrix[8][12]{
+  //   { 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 },
+  //   { 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0 },
+  //   { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0 },
+  //   { 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+  //   { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
+  //   { 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
+  //   { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+  //   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+  // };
 //Lichtsensors
   const int PIN_lichtSensor_LB = A0; //INPUT
   const int PIN_lichtSensor_RB = A1; //INPUT
@@ -33,8 +52,10 @@
 //Draaien
   const int PIN_LinksDraaien = 2; //OUTPUT
   const int PIN_RechtsDraaien = 3; //OUTPUT
-  const int PIN_Einde_Linksdraaien = 4; //OUTPUT
-  const int PIN_Einde_Rechtsdraaien = 5; //OUTPUT
+  const int PIN_Einde_Linksdraaien = 4; //INPUT
+  const int PIN_Einde_Rechtsdraaien = 5; //INPUT
+  const int PIN_Force_Linksdraaien = 10; //INPUT
+  const int PIN_Force_Rechtsdraaien = 11; //INPUT
   bool linksDraaien = false;
   bool linksDraaien_FORCE = false;
   bool rechtsDraaien = false;
@@ -46,8 +67,10 @@
 //Kantelen
   const int PIN_Uitschuiven = 6; //OUTPUT
   const int PIN_Inschuiven = 7; //OUTPUT
-  const int PIN_Einde_Uitschuiven = 8; //OUTPUT
-  const int PIN_Einde_Inschuiven = 9;//OUTPUT
+  const int PIN_Einde_Uitschuiven = 8; //INPUT
+  const int PIN_Einde_Inschuiven = 9;//INPUT
+  const int PIN_Force_Uitschuiven = 12;//INPUT
+  const int PIN_Force_Inschuiven = 13; //INPUT
   bool uitschuiven = false;
   bool uitschuiven_FORCE = false;
   bool inschuiven = false;
@@ -61,15 +84,21 @@
   auto antiPendel_Draaien_Timer = timer_create_default();
   auto antiPendel_Kantelen_Timer = timer_create_default();
 
-  int maxMovementTime = 30000;
+  int maxMovementTime = 30000; //30 sec. = 30000 ms
   auto draaien_TimeOut = timer_create_default();
   auto kantelen_TimeOut = timer_create_default();
 
-  int logBook_Timer_delay = 10000;
+  int logBook_Timer_delay = 10000; //10 sec. = 10000 ms
   auto logBook_Timer = timer_create_default();
-  int retryTime = 300000;
+  int retryTime = 300000; //5 min. = 300000 ms
   auto retryTimer = timer_create_default();
   
+
+  //Other Timers
+  int turnBackTime_delay = 1000; //1 sec. = 1000 ms
+  auto turnBackTime = timer_create_default();
+
+
 // TimeRemaining
   int antiPendel_Draaien_Timer_Remaining = 0;
   int antiPendel_Kantelen_Timer_Remaining = 0;
@@ -98,6 +127,9 @@
 //JSON
   JSONVar myObject;
 
+// Definieer NTP client to get time
+  WiFiUDP ntpUDP;
+  NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 60000);  // 0 offset initially, we will calculate it dynamically
 
 
 void setup() {
@@ -113,21 +145,33 @@ void setup() {
   pinMode(PIN_Einde_Rechtsdraaien, INPUT);
   pinMode(PIN_Einde_Uitschuiven, INPUT);
   pinMode(PIN_Einde_Inschuiven, INPUT);
-
+  
+  pinMode(PIN_Force_Linksdraaien, INPUT);
+  pinMode(PIN_Force_Rechtsdraaien, INPUT);
+  pinMode(PIN_Force_Uitschuiven, INPUT);
+  pinMode(PIN_Force_Inschuiven, INPUT);
+  
 //START INITIALIZE
   Serial.begin(9600);
-  matrix.begin();
-  printLedMatrix();
+  // matrix.begin();
 
 //setup WIFI
-  
   wifi_Setup();
   mqtt_Setup();
 
-  setTimers();
+
+//setup RTC
   
+  RTC.begin(); 
+
+  setTimeFromNet();
+  delay(1000); //Need to do 2 times to get the correct time
+  setTimeFromNet();
+
+  setTimers();
+
   print("Setup done!");
-  printLedMatrix();
+  // printLedMatrix();
 
 }
 
@@ -135,10 +179,11 @@ void loop() {
   tickTimers();
   readLichtSensors();
   readEindeloop();
+  readForceSignals();
   set_MoveDirection();
   set_Outputs();
   wiFiLoop();
-  
+  const test = millis()
 }
 
 
@@ -149,6 +194,7 @@ void tickTimers(){
   kantelen_TimeOut_Remaining = kantelen_TimeOut.tick();
   logBook_Timer_Remaining = logBook_Timer.tick();
   retryTimer_Remaining = retryTimer.tick();
+  turnBackTime.tick();
 }
 
 
@@ -177,15 +223,16 @@ void print (JSONVar json){
   Serial.println(json);
 }
 
+//set permanent timers
 void setTimers(){
   //timer setup
   retryTimer.every(retryTime, retryConnection);
   logBook_Timer.every(logBook_Timer_delay, setLogbook); //10 sec ----- //every minute -> voor een week: 6 keer per uur
 }
 
-void printLedMatrix(){
-  matrix.renderBitmap(ledMatrix, 8, 12);
-}
+// void printLedMatrix(){
+//   matrix.renderBitmap(ledMatrix, 8, 12);
+// }
 
 
 

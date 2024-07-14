@@ -47,6 +47,13 @@ void readEindeloop(){
   read_EindeLoop_Kantelen();
 }
 
+void readForceSignals(){
+  linksDraaien_FORCE = DigitalRead(PIN_Force_LinksDraaien);
+  rechtsDraaien_FORCE = DigitalRead(PIN_Force_RechtsDraaien);
+  uitschuiven_FORCE = DigitalRead(PIN_Force_Uitschuiven);
+  inschuiven_FORCE = DigitalRead(PIN_Force_Inschuiven);
+}
+
 
 bool needToTurnLeft(){
   int lichtLinks = lichtSensor_LB + lichtSensor_LO;

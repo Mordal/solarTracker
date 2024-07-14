@@ -7,11 +7,13 @@ void linksDraaien_activate(){
 
   if(einde_Linksdraaien){
     print("Trying to turn LEFT but allready on the end");
+    linksDraaien = false;
     return;
   };
 
   print("TURN LEFT");
   linksDraaien = true;
+  einde_Rechtsdraaien = false;
   set_antiPendel_Draaien();
 }
 
@@ -23,11 +25,13 @@ void rechtsDraaien_activate(){
 
   if(einde_Rechtsdraaien){
     print("Trying to turn RIGHT but allready on the end");
+    rechtsDraaien = false;
     return;
   };
 
   print("TURN RIGHT");
   rechtsDraaien = true;
+  einde_Linksdraaien = false;
   set_antiPendel_Draaien();
 }
 
@@ -54,10 +58,37 @@ bool reset_antiPendel_Draaien(void *){
 }
 
 void read_EindeLoop_Draaien(){
-  einde_Linksdraaien = digitalRead(PIN_Einde_Linksdraaien);
-  einde_Rechtsdraaien = digitalRead(PIN_Einde_Rechtsdraaien);
+  if (!einde_Linksdraaien){
+    einde_Linksdraaien = digitalRead(PIN_Einde_Linksdraaien);
+    if (einde_Linksdraaien){
+      turnRightWhenEindeLoopLeft();
+    }
+  }
+  if (!einde_Rechtsdraaien){
+    einde_Rechtsdraaien = digitalRead(PIN_Einde_Rechtsdraaien);
+    if (einde_Rechtsdraaien){
+      turnLeftWhenEindeLoopRight();
+    }
+  }
+
   myObject["TURN_LEFT"]["Einde_Loop"] = einde_Linksdraaien;
   myObject["TURN_RIGHT"]["Einde_Loop"] = einde_Rechtsdraaien;
+}
+
+void turnRightWhenEindeLoopLeft(){
+  digitalWrite(PIN_RechtsDraaien, true);
+  while digitalRead(PIN_Einde_Linksdraaien){
+    delay(100);
+  }
+  digitalWrite(PIN_RechtsDraaien, false);
+}
+
+void turnLeftWhenEindeLoopRight(){
+  digitalWrite(PIN_LinksDraaien, true);
+  while digitalRead(PIN_Einde_Rechtsdraaien){
+    delay(100);
+  }
+  digitalWrite(PIN_LinksDraaien, false);
 }
 
 bool draaienTimeOutAlarm(void *){
