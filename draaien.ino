@@ -76,6 +76,8 @@ void read_EindeLoop_Draaien(){
 }
 
 void turnRightWhenEindeLoopLeft(){
+  digitalWrite(PIN_LinksDraaien, false);
+  delay(500)
   digitalWrite(PIN_RechtsDraaien, true);
   while digitalRead(PIN_Einde_Linksdraaien){
     delay(100);
@@ -84,6 +86,8 @@ void turnRightWhenEindeLoopLeft(){
 }
 
 void turnLeftWhenEindeLoopRight(){
+  digitalWrite(PIN_RechtsDraaien, false);
+  delay(500)
   digitalWrite(PIN_LinksDraaien, true);
   while digitalRead(PIN_Einde_Rechtsdraaien){
     delay(100);
@@ -95,4 +99,26 @@ bool draaienTimeOutAlarm(void *){
   print("ALARM: draaien TimeOut!");
   draaienTooLong = true;
   return false;
+}
+
+void goToLeftEnd(includeTurnRight= true){
+  while (!digitalRead(PIN_Einde_Linksdraaien)){
+    digitalWrite(PIN_LinksDraaien, true)
+    delay(100);
+  }
+  if(includeTurnRight){
+    turnRightWhenEindeLoopLeft()
+  }
+  digitalWrite(PIN_LinksDraaien, false)
+}
+
+void goToRightEnd(includeTurnLeft= true){
+  while (!digitalRead(PIN_Einde_Rechtsdraaien)){
+    digitalWrite(PIN_RechtsDraaien, true)
+    delay(100);
+  }
+  if(includeTurnLeft){
+    turnLeftWhenEindeLoopRight()
+  }
+  digitalWrite(PIN_RechtsDraaien, false)
 }

@@ -77,6 +77,8 @@ void read_EindeLoop_Kantelen(){
 }
 
 void uitschuivenWhenEindeLoopInschuiven(){
+  digitalWrite(PIN_Inschuiven, false);
+  delay(500)
   digitalWrite(PIN_Uitschuiven, true);
   while (digitalRead(PIN_Einde_Inschuiven)){
     delay(100);
@@ -85,6 +87,8 @@ void uitschuivenWhenEindeLoopInschuiven(){
 }
 
 void inschuivenWhenEindeLoopUitschuiven(){
+  digitalWrite(PIN_Uitschuiven, false);
+  delay(500)
   digitalWrite(PIN_Inschuiven, true);
   while (digitalRead(PIN_Einde_Uitschuiven)){
     delay(100);

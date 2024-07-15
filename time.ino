@@ -84,4 +84,11 @@ void printTime() {
 
   delay(1000); // Wacht een seconde voordat de tijd opnieuw wordt opgehaald
 }
+
+void setMillis(unsigned long ms)
+{
+    extern unsigned long timer0_millis;
+    ATOMIC_BLOCK (ATOMIC_RESTORESTATE) {
+        timer0_millis = ms;
+    }
 }

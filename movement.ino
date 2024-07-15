@@ -54,7 +54,6 @@ void readForceSignals(){
   inschuiven_FORCE = DigitalRead(PIN_Force_Inschuiven);
 }
 
-
 bool needToTurnLeft(){
   int lichtLinks = lichtSensor_LB + lichtSensor_LO;
   int lichtRechts = lichtSensor_RB + lichtSensor_RO;
@@ -120,3 +119,5 @@ void stopMomevement(){
   deactivate_Draaien();
   set_Outputs();
 }
+
+

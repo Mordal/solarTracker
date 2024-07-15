@@ -25,6 +25,8 @@
 #include <TimeLib.h>
 #include <RTC.h>
 
+#include <util/atomic.h>
+
 
 //Alle variabelen
   // ArduinoLEDMatrix matrix;
@@ -63,6 +65,7 @@
   bool einde_Linksdraaien = false;
   bool einde_Rechtsdraaien = false ;
   bool antiPendel_Draaien = false;
+  const unsigned long timeNeededToTurn = 0
 
 //Kantelen
   const int PIN_Uitschuiven = 6; //OUTPUT
@@ -78,6 +81,7 @@
   bool einde_Uitschuiven = false;
   bool einde_Inschuiven = false;
   bool antiPendel_Kantelen = false;
+  const unsigned long timeNeededToTilt = 0
 
 //TimeOuts
   int antiPendelTime = 5000;  //5 min. = 300000 ms
@@ -95,8 +99,6 @@
   
 
   //Other Timers
-  int turnBackTime_delay = 1000; //1 sec. = 1000 ms
-  auto turnBackTime = timer_create_default();
 
 
 // TimeRemaining
@@ -194,7 +196,6 @@ void tickTimers(){
   kantelen_TimeOut_Remaining = kantelen_TimeOut.tick();
   logBook_Timer_Remaining = logBook_Timer.tick();
   retryTimer_Remaining = retryTimer.tick();
-  turnBackTime.tick();
 }
 
 
