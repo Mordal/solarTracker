@@ -15,6 +15,11 @@ void uitschuiven_activate(){
   uitschuiven = true;
   einde_Inschuiven = false;
   set_antiPendel_Kantelen();
+
+  if(tiltStartTime = 0){
+    tiltStartTime = (float)millis();
+  }
+
 }
 
 void inschuiven_activate(){

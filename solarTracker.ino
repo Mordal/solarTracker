@@ -1,7 +1,7 @@
 
 //TODO
-//voeg timer toe die telt hoe lang de beweging LINKS->RECHTS duurt
-//voeg timer toe die telt hoe lang de beweging ONDER->BOVEN duurt
+//voeg timer toe die telt hoe lang de beweging RECHTS->LINKS duurt --> getTimeDraaien()
+//voeg timer toe die telt hoe lang de beweging ONDER->BOVEN duurt --> getTimeKantelen()
 
 //voeg 2 variabelen toe die het percentage van de beweging bijhouden
 
@@ -66,6 +66,9 @@
   bool einde_Rechtsdraaien = false ;
   bool antiPendel_Draaien = false;
   const unsigned long timeNeededToTurn = 0
+  float currentTurnPercentage = 0.0
+  int turnStartTime = 0
+
 
 //Kantelen
   const int PIN_Uitschuiven = 6; //OUTPUT
@@ -82,6 +85,9 @@
   bool einde_Inschuiven = false;
   bool antiPendel_Kantelen = false;
   const unsigned long timeNeededToTilt = 0
+  float currentTiltPercentage = 0.0
+  int tiltStartTime = 0
+
 
 //TimeOuts
   int antiPendelTime = 5000;  //5 min. = 300000 ms
