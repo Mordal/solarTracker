@@ -17,7 +17,7 @@ void uitschuiven_activate(){
   set_antiPendel_Kantelen();
 
   if(tiltStartTime = 0){
-    tiltStartTime = (float)millis();
+    tiltStartTime = millis();
   }
 
 }

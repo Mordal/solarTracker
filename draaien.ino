@@ -15,7 +15,11 @@ void linksDraaien_activate(){
   linksDraaien = true;
   einde_Rechtsdraaien = false;
   set_antiPendel_Draaien();
-  setCurrentTurnPercentage()
+
+  if ( turnStartTime = 0){
+    turnStartTime = millis();
+  }
+
 }
 
 void rechtsDraaien_activate(){
@@ -34,11 +38,14 @@ void rechtsDraaien_activate(){
   rechtsDraaien = true;
   einde_Linksdraaien = false;
   set_antiPendel_Draaien();
-  setCurrentTurnPercentage() //baseren op timer!
+  
+  if ( turnStartTime = 0){
+    turnStartTime = millis();
+  }
 }
 
 void deactivate_Draaien(){
-
+  setCurrentTurnPercentage()
   turnStartTime = 0
   
   linksDraaien = false;
@@ -47,13 +54,10 @@ void deactivate_Draaien(){
  
 }
 
-//Baseren op TIMER
-void setCurrentTurnPercentage(){
-  if ( turnStartTime = 0){
-    return
-  }
+//Timer: setPercentageTimer
+bool setCurrentTurnPercentage(void *){
 
-  const int percentageTurned = getPercentageTurned(); //moet nog delen door 10000
+  const int percentageTurned = getPercentageTurned(); //moet nog delen door 10000 = 4 decimalen
   if (linksDraaien){
     currentTurnPercentage = currentTurnPercentage - percentageTurned 
   }
@@ -71,6 +75,7 @@ void setCurrentTurnPercentage(){
 
 // start from current time again
   turnStartTime = millis();
+  return true
 }
 
 void getPercentageTurned(){
