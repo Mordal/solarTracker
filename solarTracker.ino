@@ -66,7 +66,7 @@
   bool einde_Rechtsdraaien = false ;
   bool antiPendel_Draaien = false;
   const unsigned long timeNeededToTurn = 0
-  float currentTurnPercentage = 0.0
+  int currentTurnPercentage = 0
   int turnStartTime = 0
 
 
@@ -85,7 +85,7 @@
   bool einde_Inschuiven = false;
   bool antiPendel_Kantelen = false;
   const unsigned long timeNeededToTilt = 0
-  float currentTiltPercentage = 0.0
+  int currentTiltPercentage = 0
   int tiltStartTime = 0
 
 
@@ -97,6 +97,8 @@
   int maxMovementTime = 30000; //30 sec. = 30000 ms
   auto draaien_TimeOut = timer_create_default();
   auto kantelen_TimeOut = timer_create_default();
+  auto setPercentageTimer = timer_create_default();
+
 
   int logBook_Timer_delay = 10000; //10 sec. = 10000 ms
   auto logBook_Timer = timer_create_default();
@@ -235,6 +237,7 @@ void setTimers(){
   //timer setup
   retryTimer.every(retryTime, retryConnection);
   logBook_Timer.every(logBook_Timer_delay, setLogbook); //10 sec ----- //every minute -> voor een week: 6 keer per uur
+  setPercentageTimer.every(1000, setCurrentTurnPercentage); //1 sec
 }
 
 // void printLedMatrix(){

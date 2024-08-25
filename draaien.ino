@@ -34,11 +34,11 @@ void rechtsDraaien_activate(){
   rechtsDraaien = true;
   einde_Linksdraaien = false;
   set_antiPendel_Draaien();
-  setCurrentTurnPercentage()
+  setCurrentTurnPercentage() //baseren op timer!
 }
 
 void deactivate_Draaien(){
-  setCurrentTurnPercentage();
+
   turnStartTime = 0
   
   linksDraaien = false;
@@ -47,10 +47,12 @@ void deactivate_Draaien(){
  
 }
 
+//Baseren op TIMER
 void setCurrentTurnPercentage(){
   if ( turnStartTime = 0){
-    turnStartTime = millis();
+    return
   }
+
   const int percentageTurned = getPercentageTurned(); //moet nog delen door 10000
   if (linksDraaien){
     currentTurnPercentage = currentTurnPercentage - percentageTurned 
@@ -59,14 +61,16 @@ void setCurrentTurnPercentage(){
     currentTurnPercentage = currentTurnPercentage + percentageTurned 
   }
 
-  Serial.print("Current Turn Percentage: ");
-  Serial.println(currentTurnPercentage, 4);
+  const float floatPercentage = (float)currentTurnPercentage / 10000.0;
 
-  myObject["TURN_LEFT"]["Percentage"] = String(currentTurnPercentage, 4)
-  myObject["TURN_RIGHT"]["Percentage"] = String(currentTurnPercentage, 4)
+  Serial.print("Current Turn Percentage: ");
+  Serial.println(floatPercentage, 4);
+
+  myObject["TURN_LEFT"]["Percentage"] = String(floatPercentage)
+  myObject["TURN_RIGHT"]["Percentage"] = String(floatPercentage)
 
 // start from current time again
-  turnStartTime = (float)millis();
+  turnStartTime = millis();
 }
 
 void getPercentageTurned(){
