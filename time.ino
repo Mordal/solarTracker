@@ -27,7 +27,7 @@ void setRTC(time_t localTime) {
   // now.setSecond(second(localTime));
 
   // now.setUnixTime(localTime)
-  RTC.setUnixTime(localTime)
+  RTC.setUnixTime(localTime);
   
 }
 
@@ -65,9 +65,8 @@ void printTime() {
  time_t  test = RTC.getUnixTime();
 
   // Haal de RTC tijd op
-  RTCTime currentTime;
-  RTC.getTime(currentTime);
-  string timeString = currentTime.toString();
+  RTCTime currentTime = getRTCTime();
+  String timeString = currentTime.toString();
   
   // Print de RTC tijd
   Serial.print(currentTime.getDayOfMonth());
@@ -84,6 +83,14 @@ void printTime() {
 
   delay(1000); // Wacht een seconde voordat de tijd opnieuw wordt opgehaald
 }
+
+
+RTCTime getRTCTime(){
+  RTCTime currentTime;
+  RTC.getTime(currentTime);
+  return currentTime;
+}
+
 
 void setMillis(unsigned long ms)
 {

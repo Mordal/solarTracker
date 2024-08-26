@@ -45,8 +45,8 @@ void rechtsDraaien_activate(){
 }
 
 void deactivate_Draaien(){
-  setCurrentTurnPercentage()
-  turnStartTime = 0
+  setCurrentTurnPercentage();
+  turnStartTime = 0;
   
   linksDraaien = false;
   rechtsDraaien = false;
@@ -54,15 +54,21 @@ void deactivate_Draaien(){
  
 }
 
-//Timer: setPercentageTimer
+
+
+
+//Timer: setTurnPercentageTimer
 bool setCurrentTurnPercentage(void *){
 
-  const int percentageTurned = getPercentageTurned(); //moet nog delen door 10000 = 4 decimalen
+  const unsigned long percentageTurned = getPercentageTurned(); //moet nog delen door 10000 = 4 decimalen
   if (linksDraaien){
-    currentTurnPercentage = currentTurnPercentage - percentageTurned 
+    currentTurnPercentage = currentTurnPercentage - percentageTurned ;
   }
   else if (rechtsDraaien){
-    currentTurnPercentage = currentTurnPercentage + percentageTurned 
+    currentTurnPercentage = currentTurnPercentage + percentageTurned ;
+  }
+  else{
+    return true;
   }
 
   const float floatPercentage = (float)currentTurnPercentage / 10000.0;
@@ -70,15 +76,15 @@ bool setCurrentTurnPercentage(void *){
   Serial.print("Current Turn Percentage: ");
   Serial.println(floatPercentage, 4);
 
-  myObject["TURN_LEFT"]["Percentage"] = String(floatPercentage)
-  myObject["TURN_RIGHT"]["Percentage"] = String(floatPercentage)
+  myObject["TURN_LEFT"]["Percentage"] = String(floatPercentage);
+  myObject["TURN_RIGHT"]["Percentage"] = String(floatPercentage);
 
 // start from current time again
   turnStartTime = millis();
-  return true
+  return true;
 }
 
-void getPercentageTurned(){
+float getPercentageTurned(){
    return ((float)millis() - (float)turnStartTime) /(float)timeNeededToTurn * 1000000.0;
 }
 
@@ -103,14 +109,14 @@ void read_EindeLoop_Draaien(){
   if (!einde_Linksdraaien){
     einde_Linksdraaien = digitalRead(PIN_Einde_Linksdraaien);
     if (einde_Linksdraaien){
-      currentTurnPercentage = 0
+      currentTurnPercentage = 0;
       turnRightWhenEindeLoopLeft();
     }
   }
   if (!einde_Rechtsdraaien){
     einde_Rechtsdraaien = digitalRead(PIN_Einde_Rechtsdraaien);
     if (einde_Rechtsdraaien){
-      currentTurnPercentage = 100
+      currentTurnPercentage = 100;
       turnLeftWhenEindeLoopRight();
     }
   }
@@ -121,7 +127,7 @@ void read_EindeLoop_Draaien(){
 
 void turnRightWhenEindeLoopLeft(){
   digitalWrite(PIN_LinksDraaien, false);
-  delay(1000)
+  delay(1000);
   digitalWrite(PIN_RechtsDraaien, true);
   while digitalRead(PIN_Einde_Linksdraaien){
     delay(100);
@@ -131,7 +137,7 @@ void turnRightWhenEindeLoopLeft(){
 
 void turnLeftWhenEindeLoopRight(){
   digitalWrite(PIN_RechtsDraaien, false);
-  delay(1000)
+  delay(1000);
   digitalWrite(PIN_LinksDraaien, true);
   while digitalRead(PIN_Einde_Rechtsdraaien){
     delay(100);

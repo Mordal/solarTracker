@@ -1,11 +1,5 @@
 
 //TODO
-//voeg timer toe die telt hoe lang de beweging RECHTS->LINKS duurt --> getTimeDraaien()
-//voeg timer toe die telt hoe lang de beweging ONDER->BOVEN duurt --> getTimeKantelen()
-
-//voeg 2 variabelen toe die het percentage van de beweging bijhouden
-
-//voeg functie toe die de eindeloop een klein beetje terugdraait maar wel de flag eindeloop behoudt
 
 //Functie die een schatting maakt van verwachte positie obv de tijd
 //vergelijk met effectieve positie en corrigeer indien nodig
@@ -65,9 +59,9 @@
   bool einde_Linksdraaien = false;
   bool einde_Rechtsdraaien = false ;
   bool antiPendel_Draaien = false;
-  const unsigned long timeNeededToTurn = 0
-  int currentTurnPercentage = 0
-  int turnStartTime = 0
+  unsigned long timeNeededToTurn = 0;
+  unsigned long currentTurnPercentage = 0 ;//moet nog delen door 10000 = 4 decimalen
+  unsigned long turnStartTime = 0;
 
 
 //Kantelen
@@ -84,25 +78,26 @@
   bool einde_Uitschuiven = false;
   bool einde_Inschuiven = false;
   bool antiPendel_Kantelen = false;
-  const unsigned long timeNeededToTilt = 0
-  int currentTiltPercentage = 0
-  int tiltStartTime = 0
+  unsigned long timeNeededToTilt = 0;
+  unsigned long currentTiltPercentage = 0;//moet nog delen door 10000 = 4 decimalen
+  unsigned long tiltStartTime = 0;
 
 
 //TimeOuts
-  int antiPendelTime = 5000;  //5 min. = 300000 ms
+  unsigned int antiPendelTime = 5000;  //5 min. = 300000 ms
   auto antiPendel_Draaien_Timer = timer_create_default();
   auto antiPendel_Kantelen_Timer = timer_create_default();
 
-  int maxMovementTime = 30000; //30 sec. = 30000 ms
+  unsigned int maxMovementTime = 30000; //30 sec. = 30000 ms
   auto draaien_TimeOut = timer_create_default();
   auto kantelen_TimeOut = timer_create_default();
-  auto setPercentageTimer = timer_create_default();
+  auto setTurnPercentageTimer = timer_create_default();
+  auto setTiltPercentageTimer = timer_create_default();
 
 
-  int logBook_Timer_delay = 10000; //10 sec. = 10000 ms
+  unsigned int logBook_Timer_delay = 10000; //10 sec. = 10000 ms
   auto logBook_Timer = timer_create_default();
-  int retryTime = 300000; //5 min. = 300000 ms
+  unsigned int retryTime = 300000; //5 min. = 300000 ms
   auto retryTimer = timer_create_default();
   
 
@@ -110,12 +105,12 @@
 
 
 // TimeRemaining
-  int antiPendel_Draaien_Timer_Remaining = 0;
-  int antiPendel_Kantelen_Timer_Remaining = 0;
-  int draaien_TimeOut_Remaining = 0;
-  int kantelen_TimeOut_Remaining = 0;
-  int logBook_Timer_Remaining = 0;
-  int retryTimer_Remaining = 0;
+  unsigned int antiPendel_Draaien_Timer_Remaining = 0;
+  unsigned int antiPendel_Kantelen_Timer_Remaining = 0;
+  unsigned int draaien_TimeOut_Remaining = 0;
+  unsigned int kantelen_TimeOut_Remaining = 0;
+  unsigned int logBook_Timer_Remaining = 0;
+  unsigned int retryTimer_Remaining = 0;
 
 
 //Flags
@@ -193,7 +188,6 @@ void loop() {
   set_MoveDirection();
   set_Outputs();
   wiFiLoop();
-  const test = millis()
 }
 
 
@@ -204,6 +198,8 @@ void tickTimers(){
   kantelen_TimeOut_Remaining = kantelen_TimeOut.tick();
   logBook_Timer_Remaining = logBook_Timer.tick();
   retryTimer_Remaining = retryTimer.tick();
+  setTurnPercentageTimer.tick();
+  setTiltPercentageTimer.tick();
 }
 
 
@@ -237,7 +233,8 @@ void setTimers(){
   //timer setup
   retryTimer.every(retryTime, retryConnection);
   logBook_Timer.every(logBook_Timer_delay, setLogbook); //10 sec ----- //every minute -> voor een week: 6 keer per uur
-  setPercentageTimer.every(1000, setCurrentTurnPercentage); //1 sec
+  setTurnPercentageTimer.every(1000, setCurrentTurnPercentage); //1 sec
+  setTiltPercentageTimer.every(1000, setCurrentTiltPercentage); //1 sec
 }
 
 // void printLedMatrix(){
