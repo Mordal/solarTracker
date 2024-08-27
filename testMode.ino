@@ -2,7 +2,7 @@ void testMode(){
 }
 
 void getTimeDraaien(){
-    setMillis(0);
+    resetMillis();
     goToRightEnd();
     const unsigned long startingTime = millis();
     goToLeftEnd(false);
@@ -12,7 +12,7 @@ void getTimeDraaien(){
 }
 
 void getTimeKantelen(){
-    setMillis(0);
+    resetMillis();
     goToTopEnd();
     const unsigned long startingTime = millis();
     goToBottomEnd(false);

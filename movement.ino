@@ -48,8 +48,8 @@ void readEindeloop(){
 }
 
 void readForceSignals(){
-  linksDraaien_FORCE = DigitalRead(PIN_Force_LinksDraaien);
-  rechtsDraaien_FORCE = DigitalRead(PIN_Force_RechtsDraaien);
+  linksDraaien_FORCE = DigitalRead(PIN_Force_Linksdraaien);
+  rechtsDraaien_FORCE = DigitalRead(PIN_Force_Rechtsdraaien);
   uitschuiven_FORCE = DigitalRead(PIN_Force_Uitschuiven);
   inschuiven_FORCE = DigitalRead(PIN_Force_Inschuiven);
 }

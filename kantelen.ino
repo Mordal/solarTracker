@@ -11,7 +11,7 @@ void uitschuiven_activate(){
     return;
   };
 
-  print("EXTEND");S
+  print("EXTEND");
   uitschuiven = true;
   einde_Inschuiven = false;
   set_antiPendel_Kantelen();
@@ -44,7 +44,7 @@ void inschuiven_activate(){
 }
 
 void deactivate_Kantelen(){
-  setCurrentTiltPercentage();
+  setCurrentTiltPercentage(void*);
   tiltStartTime = 0;
 
   uitschuiven = false;
@@ -105,16 +105,16 @@ void read_EindeLoop_Kantelen(){
     einde_Uitschuiven = digitalRead(PIN_Einde_Uitschuiven);
     if(einde_Uitschuiven){
       currentTiltPercentage = 100;
-      inschuivenWhenEindeLoopUitschuiven()
-    }
+      inschuivenWhenEindeLoopUitschuiven();
+    };
   }
   
   if(!einde_Inschuiven){
     einde_Inschuiven = digitalRead(PIN_Einde_Inschuiven);
     if(einde_Inschuiven){
       currentTiltPercentage = 0;
-      uitschuivenWhenEindeLoopInschuiven()
-    }
+      uitschuivenWhenEindeLoopInschuiven();
+    };
   }
 
   myObject["EXTEND"]["Einde_Loop"] = einde_Uitschuiven;
@@ -123,7 +123,7 @@ void read_EindeLoop_Kantelen(){
 
 void uitschuivenWhenEindeLoopInschuiven(){
   digitalWrite(PIN_Inschuiven, false);
-  delay(1000)
+  delay(1000);
   digitalWrite(PIN_Uitschuiven, true);
   while (digitalRead(PIN_Einde_Inschuiven)){
     delay(100);
@@ -133,7 +133,7 @@ void uitschuivenWhenEindeLoopInschuiven(){
 
 void inschuivenWhenEindeLoopUitschuiven(){
   digitalWrite(PIN_Uitschuiven, false);
-  delay(1000)
+  delay(1000);
   digitalWrite(PIN_Inschuiven, true);
   while (digitalRead(PIN_Einde_Uitschuiven)){
     delay(100);

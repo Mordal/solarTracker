@@ -27,7 +27,7 @@ void setRTC(time_t localTime) {
   // now.setSecond(second(localTime));
 
   // now.setUnixTime(localTime)
-  RTC.setUnixTime(localTime);
+  RTC.setTime(localTime);
   
 }
 
@@ -62,7 +62,7 @@ String formatTime(time_t timeVal) {
 
 void printTime() {
 
- time_t  test = RTC.getUnixTime();
+ time_t  test = RTC.getTime();
 
   // Haal de RTC tijd op
   RTCTime currentTime = getRTCTime();
@@ -92,10 +92,17 @@ RTCTime getRTCTime(){
 }
 
 
-void setMillis(unsigned long ms)
-{
-    extern unsigned long timer0_millis;
-    ATOMIC_BLOCK (ATOMIC_RESTORESTATE) {
-        timer0_millis = ms;
-    }
+void resetMillis() {
+  millis()
+    NVIC_DisableIRQ(agt_timer.get_cfg()->cycle_end_irq); // Interrupts uitschakelen om racecondities te voorkomen
+    agt_time_ms = 0;
+    NVIC_EnableIRQ(agt_timer.get_cfg()->cycle_end_irq);  // Interrupts weer inschakelen
 }
+
+// void setMillis(unsigned long ms)
+// {
+//     extern unsigned long timer0_millis;
+//     ATOMIC_BLOCK (ATOMIC_RESTORESTATE) {
+//         timer0_millis = ms;
+//     }
+// }

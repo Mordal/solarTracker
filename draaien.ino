@@ -45,7 +45,7 @@ void rechtsDraaien_activate(){
 }
 
 void deactivate_Draaien(){
-  setCurrentTurnPercentage();
+  setCurrentTurnPercentage(0);
   turnStartTime = 0;
   
   linksDraaien = false;
@@ -129,7 +129,7 @@ void turnRightWhenEindeLoopLeft(){
   digitalWrite(PIN_LinksDraaien, false);
   delay(1000);
   digitalWrite(PIN_RechtsDraaien, true);
-  while digitalRead(PIN_Einde_Linksdraaien){
+  while (digitalRead(PIN_Einde_Linksdraaien)){
     delay(100);
   }
   digitalWrite(PIN_RechtsDraaien, false);
@@ -139,7 +139,7 @@ void turnLeftWhenEindeLoopRight(){
   digitalWrite(PIN_RechtsDraaien, false);
   delay(1000);
   digitalWrite(PIN_LinksDraaien, true);
-  while digitalRead(PIN_Einde_Rechtsdraaien){
+  while (digitalRead(PIN_Einde_Rechtsdraaien)){
     delay(100);
   }
   digitalWrite(PIN_LinksDraaien, false);
@@ -151,24 +151,24 @@ bool draaienTimeOutAlarm(void *){
   return false;
 }
 
-void goToLeftEnd(includeTurnRight= true){
+void goToLeftEnd(bool includeTurnRight= true){
   while (!digitalRead(PIN_Einde_Linksdraaien)){
-    digitalWrite(PIN_LinksDraaien, true)
+    digitalWrite(PIN_LinksDraaien, true);
     delay(100);
   }
   if(includeTurnRight){
-    turnRightWhenEindeLoopLeft()
+    turnRightWhenEindeLoopLeft();
   }
-  digitalWrite(PIN_LinksDraaien, false)
+  digitalWrite(PIN_LinksDraaien, false);
 }
 
-void goToRightEnd(includeTurnLeft= true){
+void goToRightEnd(bool includeTurnLeft= true){
   while (!digitalRead(PIN_Einde_Rechtsdraaien)){
-    digitalWrite(PIN_RechtsDraaien, true)
+    digitalWrite(PIN_RechtsDraaien, true);
     delay(100);
   }
   if(includeTurnLeft){
-    turnLeftWhenEindeLoopRight()
+    turnLeftWhenEindeLoopRight();
   }
-  digitalWrite(PIN_RechtsDraaien, false)
+  digitalWrite(PIN_RechtsDraaien, false);
 }

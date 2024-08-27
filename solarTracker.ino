@@ -19,8 +19,6 @@
 #include <TimeLib.h>
 #include <RTC.h>
 
-#include <util/atomic.h>
-
 
 //Alle variabelen
   // ArduinoLEDMatrix matrix;
