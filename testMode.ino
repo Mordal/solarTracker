@@ -15,7 +15,7 @@ void getTimeKantelen(){
     setMillis(0)
     goToTopEnd()
     unsigned long startingTime = millis();
-    goToBottomEnd()
+    goToBottomEnd(false)
     unsigned long endingTime = millis();
     timeNeededToTilt = endingTime - startingTime;
     tiltUpWhenEindeLoopDown()
