@@ -31,6 +31,11 @@ bool setLogbook(void *){
   mqttClient.print(message);
   mqttClient.endMessage();
 
+  message = getTimerRemaining();
+  mqttClient.beginMessage("timers");
+  mqttClient.print(message);
+  mqttClient.endMessage();
+  
   return true;
 }
 
@@ -51,4 +56,16 @@ JSONVar getFlags(){
   flagObject["kantelenTooLong"] = kantelenTooLong;
 
   return flagObject;
+}
+
+JSONVar getTimerRemaining(){
+  JSONVar timerObject;
+  timerObject["antiPendel_Draaien"] = antiPendel_Draaien_Timer_Remaining;
+  timerObject["antiPendel_Kantelen"] = antiPendel_Kantelen_Timer_Remaining;
+  timerObject["draaien_TimeOut"] = draaien_TimeOut_Remaining;
+  timerObject["kantelen_TimeOut"] = kantelen_TimeOut_Remaining;
+  timerObject["logBook"] = logBook_Timer_Remaining;
+  timerObject["retryTimer"] = retryTimer_Remaining;
+
+  return timerObject;
 }

@@ -17,6 +17,7 @@ bool readBody(WiFiClient client, int contentLength){
   // "{\"hallo\":\"no\"}"
   JSONVar jsonBody = JSON.parse(requestBody);
   Serial.println(jsonBody);
+  setValues(jsonBody);
   return true;
 }
 

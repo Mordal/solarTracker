@@ -36,6 +36,12 @@ JSONVar addRemainingTimeToObject(JSONVar fullObject = undefined){
 
 JSONVar addOtherDataToObject(JSONVar fullObject = undefined){
   fullObject["Reset_Alarms"] = false;
+  RTCTime currentTime = getRTCTime();
+  fullObject["Time"] = currentTime.toString();
+  fullobject["Turn_Time"] = timeNeededToTurn;
+  fullObject["Tilt_Time"] = timeNeededToTilt;
+  fullObject["Turn_Percentage"] = (float)currentTurnPercentage/10000.0;
+  fullObject["Tilt_Percentage"] = (float)currentTiltPercentage/10000.0;
   return fullObject;
 }
 
