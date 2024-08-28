@@ -45,7 +45,7 @@ void rechtsDraaien_activate(){
 }
 
 void deactivate_Draaien(){
-  setCurrentTurnPercentage(0);
+  setCurrentTurnPercentage(nullptr);
   turnStartTime = 0;
   
   linksDraaien = false;
@@ -53,9 +53,6 @@ void deactivate_Draaien(){
   draaien_TimeOut.cancel();
  
 }
-
-
-
 
 //Timer: setTurnPercentageTimer
 bool setCurrentTurnPercentage(void *){
@@ -85,7 +82,8 @@ bool setCurrentTurnPercentage(void *){
 }
 
 float getPercentageTurned(){
-   return ((float)millis() - (float)turnStartTime) /(float)timeNeededToTurn * 1000000.0;
+  const unsigned long timeDifference = millis() - turnStartTime;
+   return ((float)timeDifference / (float)timeNeededToTurn) * 1000000.0;
 }
 
 

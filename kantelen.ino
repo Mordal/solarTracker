@@ -44,7 +44,7 @@ void inschuiven_activate(){
 }
 
 void deactivate_Kantelen(){
-  setCurrentTiltPercentage(void*);
+  setCurrentTiltPercentage(nullptr);
   tiltStartTime = 0;
 
   uitschuiven = false;
@@ -145,4 +145,26 @@ bool kantelenTimeOutAlarm(void *){
   print("ALARM: kantelen TimeOut!");
   kantelenTooLong = true;
   return false;
+}
+
+void goToTopEnd(bool includeInschuiven = true){
+  while (!digitalRead(PIN_Einde_Uitschuiven)){
+    digitalWrite(PIN_Uitschuiven, true);
+    delay(100);
+  }
+  if(includeInschuiven){
+    inschuivenWhenEindeLoopUitschuiven();
+  }
+  digitalWrite(PIN_Uitschuiven, false);
+}
+
+void goToBottomEnd(bool includeUitschuiven = true){
+  while (!digitalRead(PIN_Einde_Inschuiven)){
+    digitalWrite(PIN_Inschuiven, true);
+    delay(100);
+  }
+  if(includeUitschuiven){
+    uitschuivenWhenEindeLoopInschuiven();
+  }
+  digitalWrite(PIN_Inschuiven, false);
 }

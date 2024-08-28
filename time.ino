@@ -13,12 +13,11 @@ void setTimeFromNet(){
   
   // Stel de RTC tijd in
   setRTC(localTime);
-
 }
 
 void setRTC(time_t localTime) {
   // Zet de RTC tijd in
-  // RTCTime now;
+  RTCTime now;
   // now.setYear(year(localTime));
   // now.setMonthOfYear(month(localTime));
   // now.setDayOfMonth(day(localTime));
@@ -26,9 +25,8 @@ void setRTC(time_t localTime) {
   // now.setMinute(minute(localTime));
   // now.setSecond(second(localTime));
 
-  // now.setUnixTime(localTime)
-  RTC.setTime(localTime);
-  
+  now.setUnixTime(localTime);
+  RTC.setTime(now);
 }
 
 time_t calculateLocalTime(unsigned long epochTime) {
@@ -62,7 +60,7 @@ String formatTime(time_t timeVal) {
 
 void printTime() {
 
- time_t  test = RTC.getTime();
+//  time_t  test = RTC.getTime();
 
   // Haal de RTC tijd op
   RTCTime currentTime = getRTCTime();
@@ -81,7 +79,7 @@ void printTime() {
   Serial.print(":");
   Serial.println(currentTime.getSeconds());
 
-  delay(1000); // Wacht een seconde voordat de tijd opnieuw wordt opgehaald
+  // delay(1000); // Wacht een seconde voordat de tijd opnieuw wordt opgehaald
 }
 
 
@@ -91,18 +89,3 @@ RTCTime getRTCTime(){
   return currentTime;
 }
 
-
-void resetMillis() {
-  millis()
-    NVIC_DisableIRQ(agt_timer.get_cfg()->cycle_end_irq); // Interrupts uitschakelen om racecondities te voorkomen
-    agt_time_ms = 0;
-    NVIC_EnableIRQ(agt_timer.get_cfg()->cycle_end_irq);  // Interrupts weer inschakelen
-}
-
-// void setMillis(unsigned long ms)
-// {
-//     extern unsigned long timer0_millis;
-//     ATOMIC_BLOCK (ATOMIC_RESTORESTATE) {
-//         timer0_millis = ms;
-//     }
-// }

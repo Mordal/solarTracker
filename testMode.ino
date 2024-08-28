@@ -2,7 +2,6 @@ void testMode(){
 }
 
 void getTimeDraaien(){
-    resetMillis();
     goToRightEnd();
     const unsigned long startingTime = millis();
     goToLeftEnd(false);
@@ -12,11 +11,10 @@ void getTimeDraaien(){
 }
 
 void getTimeKantelen(){
-    resetMillis();
     goToTopEnd();
     const unsigned long startingTime = millis();
     goToBottomEnd(false);
     const unsigned long endingTime = millis();
     timeNeededToTilt = endingTime - startingTime;
-    tiltUpWhenEindeLoopDown();
+    uitschuivenWhenEindeLoopInschuiven();
 }

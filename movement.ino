@@ -48,10 +48,10 @@ void readEindeloop(){
 }
 
 void readForceSignals(){
-  linksDraaien_FORCE = DigitalRead(PIN_Force_Linksdraaien);
-  rechtsDraaien_FORCE = DigitalRead(PIN_Force_Rechtsdraaien);
-  uitschuiven_FORCE = DigitalRead(PIN_Force_Uitschuiven);
-  inschuiven_FORCE = DigitalRead(PIN_Force_Inschuiven);
+  linksDraaien_FORCE = digitalRead(PIN_Force_Linksdraaien);
+  rechtsDraaien_FORCE = digitalRead(PIN_Force_Rechtsdraaien);
+  uitschuiven_FORCE = digitalRead(PIN_Force_Uitschuiven);
+  inschuiven_FORCE = digitalRead(PIN_Force_Inschuiven);
 }
 
 bool needToTurnLeft(){
