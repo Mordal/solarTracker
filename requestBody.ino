@@ -12,9 +12,11 @@ bool readBody(WiFiClient client, int contentLength){
     bodyRead++;
     }
   Serial.println("Raw: " + requestBody);
-  //voorbeeld string to send as Body:
-  // "{\"hallo\":5}"
-  // "{\"hallo\":\"no\"}"
+ // Voorbeeld curl commando:
+    //curl -X POST -d "{\"hallo\":5}" http://192.48.56.2/
+ //voorbeeld string to send as Body:
+    // "{\"hallo\":5}"
+    // "{\"hallo\":\"no\"}"
   JSONVar jsonBody = JSON.parse(requestBody);
   Serial.println(jsonBody);
   setValues(jsonBody);
@@ -28,8 +30,8 @@ void setValues(JSONVar jsonBody){
     if (jsonBody.hasOwnProperty("SAFE_MODE")) {
         SAFE_MODE = jsonBody["SAFE_MODE"];
     }
-    if (jsonBody.hasOwnProperty("Force_LEFT")){
-        linksDraaien_FORCE = jsonBody["Force_LEFT"];
+    if (jsonBody.hasOwnProperty("LEFT_Force")){
+        linksDraaien_FORCE = jsonBody["LEFT_Force"];
     }
     if (jsonBody.hasOwnProperty("Force_RIGHT")){
         rechtsDraaien_FORCE = jsonBody["Force_RIGHT"];

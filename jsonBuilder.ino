@@ -9,7 +9,7 @@ JSONVar addAllFlagsToObject(JSONVar fullObject = undefined){
 }
 
 JSONVar addAllForcedMovementsToObject(JSONVar fullObject = undefined){
-  fullObject["ForceMovement"]["Force_LEFT"] = linksDraaien_FORCE;
+  fullObject["ForceMovement"]["LEFT_Force"] = linksDraaien_FORCE;
   fullObject["ForceMovement"]["Force_RIGHT"] = rechtsDraaien_FORCE;
   fullObject["ForceMovement"]["Force_OUT"] = uitschuiven_FORCE;
   fullObject["ForceMovement"]["Force_IN"] = inschuiven_FORCE;

@@ -7,17 +7,57 @@
       }
       h2 {
         padding-left: 350px;
+        margin-bottom: 10px;
+      }
+      h3 {
+        margin-top: 0px;
+        padding-left: 10px;
+        font-size: 22px;
+      }
+      .green {
+        background-color: green;
+      }
+      .red {
+        background-color: red;
       }
       .grid-container {
-        grid-template-columns: 150px 150px 150px;
+        grid-template-columns: 150px 150px 150px 150px;
         display: grid;
       }
       .grid-item {
         background-color: rgba(255, 255, 255, 0.8);
         border: 0px solid rgba(0, 0, 0, 0.8);
-        padding: 10px;
+        padding: 5px;
         font-size: 30px;
         text-align: center;
+      }
+      .status {
+        width: 35px;
+      }
+      .button {
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 20px;
+        transition-duration: 0.2s;
+        cursor: pointer;
+        box-shadow: 0 7px #999;
+      }
+      .button1 {
+        background-color: white;
+        color: black;
+        border: 2px solid #ba1600;
+      }
+      .button1:hover {
+        background-color: #ff0000;
+        color: white;
+      }
+      .button:active {
+        background-color: #35ba0092;
+        border: 2px solid #50ff4e;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
       }
       table {
         border: 1px solid black;
@@ -29,6 +69,7 @@
         border-radius: 10px;
         padding: 10px;
       }
+
       header {
         background-color: #666;
         padding: 10px;
@@ -80,22 +121,22 @@
                 <td>
                   <strong>LB</strong>
                   <br />
-                  1000
+                  <span id="lb">1000</span>
                 </td>
                 <td>
                   <strong>RB</strong> <br />
-                  2000
+                  <span id="rb">2000</span>
                 </td>
               </tr>
 
               <tr>
                 <td>
                   <strong>LO</strong> <br />
-                  300
+                  <span id="lo">300</span>
                 </td>
                 <td>
                   <strong>RO</strong> <br />
-                  444
+                  <span id="ro">444</span>
                 </td>
               </tr>
             </table>
@@ -106,11 +147,11 @@
                 <td>
                   <strong>L</strong>
                   <br />
-                  1300
+                  <span id="l">1300</span>
                 </td>
                 <td>
                   <strong>R</strong> <br />
-                  2444
+                  <span id="r">2444</span>
                 </td>
               </tr>
             </table>
@@ -121,13 +162,13 @@
                 <td>
                   <strong>B</strong>
                   <br />
-                  3000
+                  <span id="b">3000</span>
                 </td>
               </tr>
               <tr>
                 <td>
                   <strong>O</strong> <br />
-                  744
+                  <span id="o">744</span>
                 </td>
               </tr>
             </table>
@@ -139,20 +180,177 @@
         <div class="grid-container">
           <div class="grid-item">
             <h3>Links</h3>
-            <table>
+            <table style="width: 150px">
               <tr>
-                <th>
-                  Links draaien: 
-                </th>
-                <td>
-                  true
+                <th>Active</th>
+                <td id="LEFT_Active" class="green status">true</td>
+              </tr>
+              <tr>
+                <th>Sensors</th>
+                <td id="LEFT_Sensors" class="green status">true</td>
+              </tr>
+              <tr>
+                <th>End</th>
+                <td id="LEFT_End" class="green status">false</td>
+              </tr>
+              <tr>
+                <th>Antipendel</th>
+                <td id="LEFT_Antipendel" class="green status">false</td>
+              </tr>
+              <tr>
+                <th>Alarm</th>
+                <td id="LEFT_Alarm" class="green status">false</td>
+              </tr>
+            </table>
+            <table style="margin-top: 10px; width: 150px">
+              <tr>
+                <th>Force</th>
+                <td id="LEFT_Force" class="red status">false</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="border: none">
+                  <button
+                    class="button button1"
+                    onmousedown="forceMovement_changeState('LEFT_Force')"
+                    onmouseup="forceMovement_changeState('LEFT_Force')"
+                  >
+                    FORCE
+                  </button>
                 </td>
               </tr>
             </table>
+          </div>
+          <div class="grid-item" style="margin-left: 40px">
+            <h3>Rechts</h3>
+            <table>
+              <tr>
+                <th>Active:</th>
+                <td class="red">false</td>
+              </tr>
+              <tr>
+                <th>Sensors:</th>
+                <td class="red">false</td>
+              </tr>
+              <tr>
+                <th>Position:</th>
+                <td class="green">true</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </section>
-
     <footer><p>Footer</p></footer>
   </body>
 </html>
+
+<script>
+  setInterval(updateValues, 5000);
+  let forceLeftButton = false;
+
+  async function updateValues() {
+    const data = await getJson();
+    setSensors(data);
+  }
+
+  async function getJson() {
+    const response = await fetch('/json', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
+
+  function setSensors(data) {
+    // myObject["lichtSensors"]["Links_Boven"] = lichtSensor_LB;
+    // myObject["lichtSensors"]["Rechts_Boven"] = lichtSensor_RB;
+    // myObject["lichtSensors"]["Links_Onder"] = lichtSensor_LO;
+    // myObject["lichtSensors"]["Rechts_Onder"] = lichtSensor_RO;
+
+    document.getElementById('lb').innerHTML = data.lichtSensors.Links_Boven;
+    document.getElementById('rb').innerHTML = data.lichtSensors.Rechts_Boven;
+    document.getElementById('lo').innerHTML = data.lichtSensors.Links_Onder;
+    document.getElementById('ro').innerHTML = data.lichtSensors.Rechts_Onder;
+    const l = data.lichtSensors.Links_Boven + data.lichtSensors.Links_Onder;
+    const r = data.lichtSensors.Rechts_Boven + data.lichtSensors.Rechts_Onder;
+    document.getElementById('l').innerHTML = l;
+    document.getElementById('r').innerHTML = r;
+    const b = data.lichtSensors.Links_Boven + data.lichtSensors.Rechts_Boven;
+    const o = data.lichtSensors.Links_Onder + data.lichtSensors.Rechts_Onder;
+    document.getElementById('b').innerHTML = b;
+    document.getElementById('o').innerHTML = o;
+  }
+
+  function setFlags_Left(data) {
+    // myObject["TURN_LEFT"]["Moving"] = false;
+    // myObject["TURN_LEFT"]["Sensors"] = true;
+    // myObject["TURN_LEFT"]["Einde_Loop"] = false;
+    // myObject["TURN_LEFT"]["AntiPendel"] = false;
+    // myObject["Flags"]["Draaien_too_long"] = false;
+    // myObject["ForceMovement"]["LEFT_Force"]
+    // ---> DEZE HEB IK NOG NIET OP MEN PAGINA --->
+    // myObject["TURN_LEFT"]["licht_links"] = lichtLinks;
+    // myObject["TURN_LEFT"]["licht_rechts"] = lichtRechts + licht_marge;
+
+    document.getElementById('LEFT_Active').innerHTML = data.TURN_LEFT.Moving;
+    document.getElementById('LEFT_Sensors').innerHTML = data.TURN_LEFT.Sensors;
+    document.getElementById('LEFT_End').innerHTML = data.TURN_LEFT.Einde_Loop;
+    document.getElementById('LEFT_Antipendel').innerHTML = data.TURN_LEFT.AntiPendel;
+    document.getElementById('LEFT_Alarm').innerHTML = data.Flags.Draaien_too_long;
+    if (!forceLeftButton) {
+      document.getElementById('LEFT_Force').innerHTML = data.ForceMovement.LEFT_Force;
+    }
+  }
+
+  function forceMovement_changeState(id) {
+    if (id === 'LEFT_Force') {
+      forceLeftButton = !forceLeftButton;
+    }
+
+    var statusCell = document.getElementById(id);
+    if (statusCell.innerHTML === 'false') {
+      changeState(statusCell);
+      sendRequest(id, true);
+    } else {
+      changeState(statusCell);
+      sendRequest(id, false);
+    }
+  }
+
+  function changeState(statusCell) {
+    changeStatusColor(statusCell);
+    changeStatusText(statusCell);
+  }
+
+  function changeStatusColor(statusCell) {
+    if (statusCell.className == 'green status') {
+      statusCell.className = 'red status';
+    } else {
+      statusCell.className = 'green status';
+    }
+  }
+
+  function changeStatusText(statusCell) {
+    if (statusCell.innerHTML == 'false') {
+      statusCell.innerHTML = 'true';
+    } else {
+      statusCell.innerHTML = 'false';
+    }
+  }
+
+  function sendRequest(id, state) {
+    fetch('/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ [id]: state }),
+    }).then((response) => {
+      console.log(response);
+    });
+  }
+</script>

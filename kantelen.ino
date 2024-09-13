@@ -79,7 +79,8 @@ bool setCurrentTiltPercentage(void *){
 }
 
 float getPercentageTilted(){
-  return ((float)millis() - (float)tiltStartTime) /(float)timeNeededToTilt * 1000000.0;
+  const unsigned long timeDifference = millis() - tiltStartTime;
+  return ((float)timeDifference / (float)timeNeededToTilt) * 1000000.0;
 }
 
 
@@ -104,6 +105,7 @@ void read_EindeLoop_Kantelen(){
   if(!einde_Uitschuiven){
     einde_Uitschuiven = digitalRead(PIN_Einde_Uitschuiven);
     if(einde_Uitschuiven){
+      uitschuiven = false;
       currentTiltPercentage = 100;
       inschuivenWhenEindeLoopUitschuiven();
     };
@@ -112,6 +114,7 @@ void read_EindeLoop_Kantelen(){
   if(!einde_Inschuiven){
     einde_Inschuiven = digitalRead(PIN_Einde_Inschuiven);
     if(einde_Inschuiven){
+      inschuiven = false;
       currentTiltPercentage = 0;
       uitschuivenWhenEindeLoopInschuiven();
     };
@@ -148,23 +151,35 @@ bool kantelenTimeOutAlarm(void *){
 }
 
 void goToTopEnd(bool includeInschuiven = true){
+  tiltStartTime = millis();
   while (!digitalRead(PIN_Einde_Uitschuiven)){
+    uitschuiven = true;
     digitalWrite(PIN_Uitschuiven, true);
     delay(100);
   }
+  uitschuiven = false;
+  digitalWrite(PIN_Uitschuiven, false);
+  einde_Uitschuiven = true;
+  currentTiltPercentage = 100;
+
   if(includeInschuiven){
     inschuivenWhenEindeLoopUitschuiven();
   }
-  digitalWrite(PIN_Uitschuiven, false);
 }
 
 void goToBottomEnd(bool includeUitschuiven = true){
+  tiltStartTime = millis();
   while (!digitalRead(PIN_Einde_Inschuiven)){
+    inschuiven = true;
     digitalWrite(PIN_Inschuiven, true);
     delay(100);
   }
+  inschuiven = false;
+  digitalWrite(PIN_Inschuiven, false);
+  einde_Inschuiven = true;
+  currentTiltPercentage = 0;
+
   if(includeUitschuiven){
     uitschuivenWhenEindeLoopInschuiven();
   }
-  digitalWrite(PIN_Inschuiven, false);
 }

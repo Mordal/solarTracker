@@ -222,7 +222,7 @@ void print(const String text){
   Serial.println(text);
 }
 
-void print (JSONVar json){
+void print(JSONVar json){
   Serial.println(json);
 }
 
