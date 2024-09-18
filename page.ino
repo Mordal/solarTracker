@@ -1,6 +1,7 @@
 
 void printContent_Global(WiFiClient client){
   client.print("<html> <head> ");
+  client.print(" <link rel=\"icon\" href=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"> ");
   client.print(" <style> ");
   client.print("  body {font-family: Arial, Helvetica, sans-serif; margin: 0;} ");
   client.print("  header {background-color: #666; padding: 10px; text-align: center; font-size: 20px; color: white;}") ;

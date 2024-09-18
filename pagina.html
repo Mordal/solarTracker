@@ -6,11 +6,28 @@
         margin: 0;
       }
       h2 {
-        padding-left: 350px;
-        margin-bottom: 10px;
+        font-size: 40px;
+        padding: 20px;
+        border: 3px solid #0437c492;
+      }
+      .container {
+        display: flex;
+        align-items: center; /* Verticaal uitlijnen */
+      }
+      .container h2 {
+        display: flex;
+        align-items: center;
+        margin-top: 20; /* Verwijder standaard marges */
+        /* Voeg 30rem padding aan de linkerkant toe */
+      }
+      .button2 {
+        padding: 5px 50px;
+        font-weight: bold;
+        margin-left: 20px; /* Ruimte tussen de tekst en de knop */
       }
       h3 {
-        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-top: 5px;
         padding-left: 10px;
         font-size: 22px;
       }
@@ -112,8 +129,9 @@
         </ul>
       </nav>
 
-      <div>
+      <div class="container">
         <h2>Sensors</h2>
+
         <div class="grid-container">
           <div class="grid-item">
             <table width="120px" ; height="120px">
@@ -175,9 +193,14 @@
           </div>
         </div>
       </div>
+      <div style="margin-bottom: -40px" class="container">
+        <h2>
+          Movement
+          <button class="button button1 button2">STOP ALL</button>
+        </h2>
+      </div>
       <div>
-        <h2>Movement</h2>
-        <div class="grid-container">
+        <div style="padding: 20px" class="grid-container">
           <div class="grid-item">
             <h3>Links</h3>
             <table style="width: 150px">
@@ -202,7 +225,7 @@
                 <td id="LEFT_Alarm" class="green status">false</td>
               </tr>
             </table>
-            <table style="margin-top: 10px; width: 150px">
+            <table style="margin-top: 5px; width: 150px">
               <tr>
                 <th>Force</th>
                 <td id="LEFT_Force" class="red status">false</td>

@@ -119,6 +119,7 @@ void mqtt_Setup(){
     Serial.println(mqttClient.connectError());
   } else {
     Serial.println("You're connected to the MQTT broker!");
+    mqttConnected = true;
   };
   Serial.println();
 };

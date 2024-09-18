@@ -210,7 +210,6 @@ bool set_Outputs(){
   myObject["TURN_RIGHT"]["Moving"] = rechtsDraaien;
   myObject["EXTEND"]["Moving"] = uitschuiven;
   myObject["RETRACT"]["Moving"] = inschuiven;
-
 }
 
 
