@@ -70,9 +70,6 @@ bool setCurrentTiltPercentage(void *){
   Serial.print("Current Tilt Percentage: ");
   Serial.println(floatPercentage, 4);
 
-  myObject["EXTEND"]["Percentage"] = String(floatPercentage);
-  myObject["RETRACT"]["Percentage"] = String(floatPercentage);
-
   // start from current time again
   tiltStartTime = millis();
   return true;
@@ -87,17 +84,12 @@ float getPercentageTilted(){
 
 void set_antiPendel_Kantelen(){
   antiPendel_Kantelen = true;
-  myObject["EXTEND"]["AntiPendel"] = antiPendel_Kantelen;
-  myObject["RETRACT"]["AntiPendel"] = antiPendel_Kantelen;
-
   antiPendel_Kantelen_Timer.in(antiPendelTime, reset_antiPendel_Kantelen); //5 min. = 300000 ms
   kantelen_TimeOut.in(maxMovementTime, kantelenTimeOutAlarm);
 }
 
 bool reset_antiPendel_Kantelen(void *){
    antiPendel_Kantelen = false;
-   myObject["EXTEND"]["AntiPendel"] = antiPendel_Kantelen;
-   myObject["RETRACT"]["AntiPendel"] = antiPendel_Kantelen;
    return false;
 }
 
@@ -119,9 +111,6 @@ void read_EindeLoop_Kantelen(){
       uitschuivenWhenEindeLoopInschuiven();
     };
   }
-
-  myObject["EXTEND"]["Einde_Loop"] = einde_Uitschuiven;
-  myObject["RETRACT"]["Einde_Loop"] = einde_Inschuiven;
 }
 
 void uitschuivenWhenEindeLoopInschuiven(){

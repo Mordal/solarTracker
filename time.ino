@@ -16,15 +16,7 @@ void setTimeFromNet(){
 }
 
 void setRTC(time_t localTime) {
-  // Zet de RTC tijd in
   RTCTime now;
-  // now.setYear(year(localTime));
-  // now.setMonthOfYear(month(localTime));
-  // now.setDayOfMonth(day(localTime));
-  // now.setHour(hour(localTime));
-  // now.setMinute(minute(localTime));
-  // now.setSecond(second(localTime));
-
   now.setUnixTime(localTime);
   RTC.setTime(now);
 }
@@ -52,16 +44,8 @@ bool summertime(int year, byte month, byte day, byte hour, byte tzHours) {
   return false; // Deze regel zou nooit moeten worden bereikt
 }
 
-String formatTime(time_t timeVal) {
-  char buf[20];
-  sprintf(buf, "%02d:%02d:%02d", hour(timeVal), minute(timeVal), second(timeVal));
-  return String(buf);
-}
 
 void printTime() {
-
-//  time_t  test = RTC.getTime();
-
   // Haal de RTC tijd op
   RTCTime currentTime = getRTCTime();
   String timeString = currentTime.toString();
@@ -78,10 +62,12 @@ void printTime() {
   Serial.print(currentTime.getMinutes());
   Serial.print(":");
   Serial.println(currentTime.getSeconds());
-
-  // delay(1000); // Wacht een seconde voordat de tijd opnieuw wordt opgehaald
 }
 
+unsigned long getEpochTime() {
+  const RTCTime = getRTCTime();
+  return RTCTime.getUnixTime();
+}
 
 RTCTime getRTCTime(){
   RTCTime currentTime;

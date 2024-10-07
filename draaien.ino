@@ -73,9 +73,6 @@ bool setCurrentTurnPercentage(void *){
   Serial.print("Current Turn Percentage: ");
   Serial.println(floatPercentage, 4);
 
-  myObject["TURN_LEFT"]["Percentage"] = String(floatPercentage);
-  myObject["TURN_RIGHT"]["Percentage"] = String(floatPercentage);
-
   // start from current time again
   turnStartTime = millis();
   return true;
@@ -89,17 +86,12 @@ float getPercentageTurned(){
 
 void set_antiPendel_Draaien(){
   antiPendel_Draaien = true;
-  myObject["TURN_LEFT"]["AntiPendel"] = antiPendel_Draaien;
-  myObject["TURN_RIGHT"]["AntiPendel"] = antiPendel_Draaien;
-
   antiPendel_Draaien_Timer.in(antiPendelTime, reset_antiPendel_Draaien); 
   draaien_TimeOut.in(maxMovementTime, draaienTimeOutAlarm);
 }
 
 bool reset_antiPendel_Draaien(void *){
    antiPendel_Draaien = false;
-   myObject["TURN_LEFT"]["AntiPendel"] = antiPendel_Draaien;
-   myObject["TURN_RIGHT"]["AntiPendel"] = antiPendel_Draaien;
    return false;
 }
 
@@ -120,9 +112,6 @@ void read_EindeLoop_Draaien(){
       turnLeftWhenEindeLoopRight();
     }
   }
-
-  myObject["TURN_LEFT"]["Einde_Loop"] = einde_Linksdraaien;
-  myObject["TURN_RIGHT"]["Einde_Loop"] = einde_Rechtsdraaien;
 }
 
 void turnRightWhenEindeLoopLeft(){

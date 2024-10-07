@@ -1,4 +1,9 @@
 void set_MoveDirection(){
+  setDraaien();
+  setKantelen();
+}
+
+void setDraaien(){
  // DRAAIEN //
   if(needToTurnLeft() || linksDraaien_FORCE){
     if(rechtsDraaien == true){
@@ -19,8 +24,10 @@ void set_MoveDirection(){
   else{
     deactivate_Draaien();
   }
+}
 
- // KANTELEN //
+void setKantelen(){
+  // KANTELEN //
   if(needToExtend() || uitschuiven_FORCE){
     if(inschuiven == true){
       inschuiven_FORCE = false;
@@ -55,28 +62,16 @@ void readForceSignals(){
 }
 
 bool needToTurnLeft(){
-  int lichtLinks = lichtSensor_LB + lichtSensor_LO;
-  int lichtRechts = lichtSensor_RB + lichtSensor_RO;
-
-  myObject["TURN_LEFT"]["licht_links"] = lichtLinks;
-  myObject["TURN_LEFT"]["licht_rechts"] = lichtRechts + licht_marge;
-
-  if(lichtLinks > lichtRechts + licht_marge){
-    myObject["TURN_LEFT"]["Sensors"] = true;
+  if(lichtSensors_Links > lichtSensors_Rechts + licht_marge){
+    linksDraaien_Sensors = true;
     return true;
   }
-  myObject["TURN_LEFT"]["Sensors"] = false;
+  linksDraaien_Sensors = false;
   return false;
 }
 
 bool needToTurnRight(){
-  int lichtLinks = lichtSensor_LB + lichtSensor_LO;
-  int lichtRechts = lichtSensor_RB + lichtSensor_RO;
-
-  myObject["TURN_RIGH"]["licht_rechts"] = lichtRechts;
-  myObject["TURN_RIGHT"]["licht_links"] = lichtLinks + licht_marge;
-
-  if(lichtRechts > lichtLinks + licht_marge){
+  if(lichtSensors_Rechts > lichtSensors_Links + licht_marge){
     rechtsDraaien_Sensors = true;
     return true;
   }
@@ -85,32 +80,21 @@ bool needToTurnRight(){
 }
 
 bool needToExtend(){
-  int lichtBoven = lichtSensor_LB + lichtSensor_RB;
-  int lichtOnder = lichtSensor_LO + lichtSensor_RO;
-
-  myObject["EXTEND"]["licht_boven"] = lichtBoven;
-  myObject["EXTEND"]["licht_onder"] = lichtOnder + licht_marge;
- 
-  if(lichtBoven > lichtOnder + licht_marge){
-    myObject["EXTEND"]["Sensors"] = true;
+  if(lichtSensors_Boven > lichtSensors_Onder + licht_marge){
+    uitschuiven_Sensors = true;
     return true;
   }
-  myObject["EXTEND"]["Sensors"] = false;
+  uitschuiven_Sensors = false;
   return false;
 }
 
 bool needToRetract(){
-  int lichtBoven = lichtSensor_LB + lichtSensor_RB;
-  int lichtOnder = lichtSensor_LO + lichtSensor_RO;
 
-  myObject["RETRACT"]["licht_onder"] = lichtOnder;
-  myObject["RETRACT"]["licht_boven"] = lichtBoven + licht_marge;
-
-  if(lichtOnder > lichtBoven + licht_marge){
-    myObject["RETRACT"]["Sensors"] = true;
+  if(lichtSensors_Onder > lichtSensors_Boven + licht_marge){
+    inschuiven_Sensors = true;
     return true;
   }
-  myObject["RETRACT"]["Sensors"] = false;
+  inschuiven_Sensors = false;
   return false;
 }
 
