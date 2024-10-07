@@ -77,10 +77,10 @@ bool needToTurnRight(){
   myObject["TURN_RIGHT"]["licht_links"] = lichtLinks + licht_marge;
 
   if(lichtRechts > lichtLinks + licht_marge){
-    myObject["TURN_RIGHT"]["Sensors"] = true;
+    rechtsDraaien_Sensors = true;
     return true;
   }
-  myObject["TURN_RIGHT"]["Sensors"] = false;
+  rechtsDraaien_Sensors = false;
   return false;
 }
 

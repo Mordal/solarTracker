@@ -3,11 +3,9 @@
 
 //Functie die een schatting maakt van verwachte positie obv de tijd
 //vergelijk met effectieve positie en corrigeer indien nodig
+//delete MYOBJECT
 
 
-
-
-//#include "Arduino_LED_Matrix.h" // Include the LED_Matrix library
 #include "WiFiS3.h"
 #include "wifi_secrets.h"
 #include "arduino-timer.h"
@@ -20,19 +18,9 @@
 #include <RTC.h>
 
 
-//Alle variabelen
-  // ArduinoLEDMatrix matrix;
-  // byte ledMatrix[8][12]{
-  //   { 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 },
-  //   { 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0 },
-  //   { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0 },
-  //   { 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-  //   { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
-  //   { 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
-  //   { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-  //   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-  // };
-//Lichtsensors
+// Alle variabelen //
+  
+// LICHTSENSOREN //
   const int PIN_lichtSensor_LB = A0; //INPUT
   const int PIN_lichtSensor_RB = A1; //INPUT
   const int PIN_lichtSensor_LO = A2; //INPUT
@@ -43,23 +31,52 @@
   int lichtSensor_RO = 0;  //from 0 - 1023
   int licht_marge = 10;
 
-//Draaien
+  //offsets
+  int lichtSensor_LB_offset = 0;
+  int lichtSensor_RB_offset = 0;
+  int lichtSensor_LO_offset = 0;
+  int lichtSensor_RO_offset = 0;
+
+  //calculated values
+  int lichtSensors_Links = 0;
+  int lichtSensors_Rechts = 0;
+  int lichtSensors_Boven = 0;
+  int lichtSensors_Onder = 0;
+
+
+// MOVEMENT //
+  // DRAAIEN //
+  //pins
   const int PIN_LinksDraaien = 2; //OUTPUT
   const int PIN_RechtsDraaien = 3; //OUTPUT
   const int PIN_Einde_Linksdraaien = 4; //INPUT
   const int PIN_Einde_Rechtsdraaien = 5; //INPUT
   const int PIN_Force_Linksdraaien = 10; //INPUT
   const int PIN_Force_Rechtsdraaien = 11; //INPUT
+
+  //turning activated
   bool linksDraaien = false;
   bool linksDraaien_FORCE = false;
   bool rechtsDraaien = false;
   bool rechtsDraaien_FORCE = false;
+
+  //sensors
+  bool linksDraaien_Sensors = false;
+  bool rechtsDraaien_Sensors = false;
+
   bool einde_Linksdraaien = false;
   bool einde_Rechtsdraaien = false ;
+
+  //antiPendel
   bool antiPendel_Draaien = false;
+
+  //turning percentage
   unsigned long timeNeededToTurn = 0;
   unsigned long currentTurnPercentage = 0 ;//moet nog delen door 10000 = 4 decimalen
   unsigned long turnStartTime = 0;
+
+
+
 
 
 //Kantelen
@@ -70,8 +87,10 @@
   const int PIN_Force_Uitschuiven = 12;//INPUT
   const int PIN_Force_Inschuiven = 13; //INPUT
   bool uitschuiven = false;
+  bool uitschuiven_Sensors = false;
   bool uitschuiven_FORCE = false;
   bool inschuiven = false;
+  bool inschuiven_Sensors = false;
   bool inschuiven_FORCE = false;
   bool einde_Uitschuiven = false;
   bool einde_Inschuiven = false;
