@@ -1,5 +1,4 @@
 
-
  void response_WiFi_BASIC(WiFiClient client){
     client.println("HTTP/1.1 200 OK");
     client.println("Content-type:text/html");

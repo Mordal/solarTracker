@@ -155,8 +155,6 @@
   WiFiClient wifiClient;
   MqttClient mqttClient(wifiClient);  
 
-// JSON
-  // JSONVar myObject;
 
 // INTERNET TIME - NTP client
   WiFiUDP ntpUDP;

@@ -289,11 +289,6 @@
   }
 
   function setSensors(data) {
-    // myObject["lichtSensors"]["Links_Boven"] = lichtSensor_LB;
-    // myObject["lichtSensors"]["Rechts_Boven"] = lichtSensor_RB;
-    // myObject["lichtSensors"]["Links_Onder"] = lichtSensor_LO;
-    // myObject["lichtSensors"]["Rechts_Onder"] = lichtSensor_RO;
-
     document.getElementById('lb').innerHTML = data.lichtSensors.Links_Boven;
     document.getElementById('rb').innerHTML = data.lichtSensors.Rechts_Boven;
     document.getElementById('lo').innerHTML = data.lichtSensors.Links_Onder;
