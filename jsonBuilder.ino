@@ -12,7 +12,7 @@ JSONVar getFlags(){
   return flagsObject;
 }
 
-JSON getLightSensorData(){
+JSONVar getLightSensorData(){
   JSONVar sensorDataObject = undefined;
   sensorDataObject["Sensors"]["lichtSensor_LB"] = lichtSensor_LB;
   sensorDataObject["Sensors"]["lichtSensor_LO"] = lichtSensor_LO;
@@ -28,8 +28,8 @@ JSON getLightSensorData(){
 
 JSONVar getTurnMovementData(){
   JSONVar movementDataObject;
-  movementDataObject["turn"]["percentage"] = (float)currentTurnPercentage/10000.0;
-  movementDataObject["turn"]["antiPendel"] = antiPendel_Draaien;
+  movementDataObject["Turn"]["percentage"] = (float)currentTurnPercentage/10000.0;
+  movementDataObject["Turn"]["antiPendel"] = antiPendel_Draaien;
   
   movementDataObject["Left"]["sensors"] = linksDraaien_Sensors;
   movementDataObject["Left"]["moving"] = linksDraaien;
@@ -45,8 +45,8 @@ JSONVar getTurnMovementData(){
 JSONVar getTiltMovementData(){
   JSONVar movementDataObject = undefined;
 
-  movementDataObject["tilt"]["percentage"] = (float)currentTiltPercentage/10000.0;
-  movementDataObject["tilt"]["antiPendel"] = antiPendel_Kantelen;
+  movementDataObject["Tilt"]["percentage"] = (float)currentTiltPercentage/10000.0;
+  movementDataObject["Tilt"]["antiPendel"] = antiPendel_Kantelen;
   
   movementDataObject["Extend"]["sensors"] = uitschuiven_Sensors;
   movementDataObject["Extend"]["moving"] = uitschuiven;
@@ -69,7 +69,7 @@ JSONVar getOtherData(){
   return otherDataObject;
 }
 
-JSONVar getAllForcedMovements(){
+JSONVar getForcedMovements(){
   JSONVar forceMovementObject = undefined;
   forceMovementObject["ForceMovement"]["LEFT_Force"] = linksDraaien_FORCE;
   forceMovementObject["ForceMovement"]["RIGHT_Force"] = rechtsDraaien_FORCE;
@@ -85,7 +85,7 @@ JSONVar getSettings(){
   settingsObject["sensorOffsets"]["RB"] = lichtSensor_RB_offset;
   settingsObject["sensorOffsets"]["LO"] = lichtSensor_LO_offset;
   settingsObject["sensorOffsets"]["RO"] = lichtSensor_RO_offset;
-  settingsObject["TimeOuts"]["licht_marge"] = licht_marge;
+  settingsObject["Sensors"]["licht_marge"] = licht_marge;
   settingsObject["TimeOuts"]["antiPendelTime"] = antiPendelTime;
   settingsObject["TimeOuts"]["maxMovementTime"] = maxMovementTime;
   settingsObject["TimeOuts"]["retryTime"] = retryTime;
@@ -106,8 +106,9 @@ JSONVar getRemainingTime(){
 
 
 
-void printAllProperties(JSONVar object, WiFiClient client){
+void printJsonData(WiFiClient client, JSONVar object,){
   JSONVar keys = object.keys();
+  client.print("{");
   for (int i = 0; i < keys.length(); i++) {
     client.print(keys[i]);
     client.print(": ");
@@ -116,20 +117,21 @@ void printAllProperties(JSONVar object, WiFiClient client){
       client.print(", ");
     }
   }
+  client.print("}");
 }
 
 
-void clientPrintAllData(WiFiClient client){
-  client.print("{");
 
-  printAllProperties(getAllFlags(), client);
-  client.print(", ");
-  printAllProperties(getAllForcedMovements(), client);
-  client.print(", ");
-  printAllProperties(getTimeOuts(), client);
-  client.print(", ");
-  printAllProperties(getRemainingTime(), client);
-  client.print(", ");
-  printAllProperties(getOtherData(), client);
-  client.print("}"); 
-}
+// void clientPrintAllData(WiFiClient client){
+//   client.print("{");
+//   printAllProperties(getAllFlags(), client);
+//   client.print(", ");
+//   printAllProperties(getAllForcedMovements(), client);
+//   client.print(", ");
+//   printAllProperties(getTimeOuts(), client);
+//   client.print(", ");
+//   printAllProperties(getRemainingTime(), client);
+//   client.print(", ");
+//   printAllProperties(getOtherData(), client);
+//   client.print("}"); 
+// }

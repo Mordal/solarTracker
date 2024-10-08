@@ -1,6 +1,6 @@
 bool setLogbook(void *){
   // print("Sending messages to MQTT...");
-  const long timeStamp = getUnixTime();
+  const long timeStamp = getEpochTime();
 
   JSONVar message = getFlags();
   message["TimeStamp"] = timeStamp;

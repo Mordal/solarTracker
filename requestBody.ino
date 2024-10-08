@@ -1,4 +1,15 @@
-bool readBody(WiFiClient client, int contentLength){
+
+String readBody(WiFiClient client, int contentLength){
+    String body ="";
+    while (client.available() && body.length() < contentLength) {
+        body += (char)client.read();   // lees de body byte voor byte
+    }
+    Serial.print("Body received:");
+    Serial.println(body); 
+    return body;
+}
+
+bool readBody_OLD(WiFiClient client, int contentLength){
   // Example curl http://192.48.56.2/ -d "{\"hallo\":\"no\"}"
   
   if (!contentLength || contentLength < 1 || contentLength > 1024) {
@@ -22,6 +33,18 @@ bool readBody(WiFiClient client, int contentLength){
   setValues(jsonBody);
   return true;
 }
+
+void unlockSettings(){
+    settingsUnlocked = true;
+    settingsUnlockedTimer.in(1200000, lockSettings);  //20min == 1200000
+}
+
+
+bool lockSettings(void *){
+    settingsUnlocked = false;
+    return false;
+}
+
 
 void setValues(JSONVar jsonBody){
     if (jsonBody.hasOwnProperty("TEST_MODE")) {

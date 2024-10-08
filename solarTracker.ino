@@ -127,6 +127,7 @@
   // Other Timers
   auto logBook_Timer = timer_create_default();
   auto retryTimer = timer_create_default();
+  auto settingsUnlockedTimer = timer_create_default();
   
 
   // Time Remaining
@@ -146,6 +147,7 @@
   bool STOP = false;
   bool draaienTooLong = false;
   bool kantelenTooLong = false;
+  bool settingsUnlocked = false;
 
 // WIFI CONFIG
   char ssid[] = SECRET_SSID;   
@@ -221,6 +223,7 @@ void tickTimers(){
   retryTimer_Remaining = retryTimer.tick();
   setTurnPercentageTimer.tick();
   setTiltPercentageTimer.tick();
+  settingsUnlockedTimer.tick();
 }
 
 

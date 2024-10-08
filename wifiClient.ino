@@ -56,6 +56,7 @@ void clientConnection(WiFiClient client){
   Serial.println("new client");           // print a message out the serial port
   String currentLine = "";                // make a String to hold incoming data from the client
   bool contentLengthHeader = false;
+  bool unlockRequest = false;  
   int contentLength;
   while (client.connected()) {            // loop while the client's connected
     if (!client.available())  continue;  // if there's bytes to read from the client,                                         
@@ -65,8 +66,14 @@ void clientConnection(WiFiClient client){
       // if the current line is blank, you got two newline characters in a row.
       // that's the end of the client HTTP request 
       if (currentLine.length() == 0) {
-        if (!readBody(client, contentLength)){ //read the body of the request
-          response_WiFi_BASIC(client);  //send a response:
+        if (contentLength > 1 && contentLength < 1025) { // body lezen als er een Content-Length is
+          String body = readBody(client, contentLength);
+
+         if (unlockRequest) {
+          unlockSettings(client, body);    // Passeer de body naar je unlock functie
+        }
+
+          // response_WiFi_BASIC(client);  //send a response:
         } ;
         break;
       } else {    // if you got a newline, then clear currentLine:
@@ -81,28 +88,26 @@ void clientConnection(WiFiClient client){
       if (currentLine == "Content-Length: ") contentLengthHeader = true;
     }
 
-    // Check to see if the client request was "GET /H" or "GET /L":
-    //HIER MOET MIJN CODE VOOR SPECIFIEKE INFO OP TE VRAGEN
-    //OF VOOR COMMANDO'S TE GEVEN (example: Go TO Safe-mode)
-    // SET FLAGS? Print shit wanneer einde van request
-    if (currentLine.endsWith("GET /H")) {
-      digitalWrite(LED_BUILTIN, HIGH);               // GET /H turns the LED on
-    }
-    // Andere opties...
-    //----
-    //----
-    if (currentLine.endsWith("GET /L")) {
-      digitalWrite(LED_BUILTIN, LOW);                // GET /L turns the LED off
+
+    if (currentLine.indexOf()("GET /API") == 0){
+      response_API_Request(client, currentLine)
+      break // dont check for body
     }
 
-    if (currentLine.endsWith("GET /JSON")){
-      response_WiFi_JSON(client);
-      break;
+    if (currentLine.endsWith("GET /UNLOCK")){
+      unlockRequest = true;
+      // Dont break, check for body
     }
-    if(currentLine.endsWith("GET /TIMERS")){
-      response_WiFi_Timers(client);
-      break;
-    }
+
+    // if (currentLine.endsWith("GET /API/")){
+    //   response_WiFi_JSON(client);
+    //   break;
+    // }
+
+    // if(currentLine.endsWith("GET /TIMERS")){
+    //   response_WiFi_Timers(client);
+    //   break;
+    // }
   }
   // close the connection:
   client.stop();
