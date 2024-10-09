@@ -1,15 +1,14 @@
 
 void linksDraaien_activate(){
-
-  if(antiPendel_Draaien && !linksDraaien_FORCE){
+  if (draaienTooLong && !linksDraaien_FORCE){
+    print("Draaien in ALARM - RETURN");
     return;
   }
 
-  // if(draaienTimeOutAlarm && !linksDraaien_FORCE){
-  //   print("Draaien TimeOut Alarm activated");
-  //   linksDraaien = false;
-  //   return;
-  // }
+  if(antiPendel_Draaien && !linksDraaien_FORCE){
+    print("ANTI-PENDEL Draaien ACTIVE - RETURN");
+    return;
+  }
 
   if(einde_Linksdraaien){
     print("Eindeloop LINKS activated");
@@ -26,7 +25,8 @@ void linksDraaien_activate(){
   print("TURN LEFT");
   linksDraaien = true;
   einde_Rechtsdraaien = false;
-  set_antiPendel_Draaien();
+  set_draaienTimeOut();
+  // set_antiPendel_Draaien();
 
   if (turnStartTime = 0){
     turnStartTime = millis();
@@ -35,8 +35,13 @@ void linksDraaien_activate(){
 }
 
 void rechtsDraaien_activate(){
+  if (draaienTooLong && !rechtsDraaien_FORCE){
+    print("Draaien in ALARM - RETURN");
+    return;
+  }
 
   if(antiPendel_Draaien && !rechtsDraaien_FORCE){
+    print("ANTI-PENDEL Draaien ACTIVE - RETURN");
     return;
   }
 
@@ -55,7 +60,8 @@ void rechtsDraaien_activate(){
   print("TURN RIGHT");
   rechtsDraaien = true;
   einde_Linksdraaien = false;
-  set_antiPendel_Draaien();
+  set_draaienTimeOut();
+  // set_antiPendel_Draaien();
   
   if (turnStartTime = 0){
     turnStartTime = millis();
@@ -63,18 +69,26 @@ void rechtsDraaien_activate(){
 }
 
 void deactivate_Draaien(){
+  bool setAntipendel = false;
+
   setCurrentTurnPercentage(nullptr);
   turnStartTime = 0;
-  
+
+  if(linksDraaien || rechtsDraaien){
+    setAntipendel = true;
+  }
+
   linksDraaien = false;
   rechtsDraaien = false;
-  print("Draaien deactivated");
+
+  if (setAntipendel){
+    set_antiPendel_Draaien();
+  }
   draaien_TimeOut.cancel();
 }
 
 //Timer: setTurnPercentageTimer
 bool setCurrentTurnPercentage(void *){
-
   const unsigned long percentageTurned = getPercentageTurned(); //moet nog delen door 10000 = 4 decimalen
   if (linksDraaien){
     currentTurnPercentage = currentTurnPercentage - percentageTurned ;
@@ -101,13 +115,13 @@ float getPercentageTurned(){
    return ((float)timeDifference / (float)timeNeededToTurn) * 1000000.0;
 }
 
+void set_draaienTimeOut(){
+  draaien_TimeOut.in(maxMovementTime, draaienTimeOutAlarm);
+}
 
 void set_antiPendel_Draaien(){
   antiPendel_Draaien = true;
-  Serial.print("Aantal draaien_TimeOut: ");
-  Serial.println(draaien_TimeOut.size());
   antiPendel_Draaien_Timer.in(antiPendelTime, reset_antiPendel_Draaien); 
-  draaien_TimeOut.in(maxMovementTime, draaienTimeOutAlarm);
 }
 
 bool reset_antiPendel_Draaien(void *){
@@ -157,6 +171,7 @@ void turnLeftWhenEindeLoopRight(){
 bool draaienTimeOutAlarm(void *){
   print("ALARM: draaien TimeOut!");
   draaienTooLong = true;
+  deactivate_Draaien();
   return false;
 }
 

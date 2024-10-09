@@ -1,8 +1,12 @@
 
 void uitschuiven_activate(){
+  if(kantelenTooLong && !uitschuiven_FORCE){
+    print("Kantelen in ALARM - RETURN");
+    return;
+  }
 
   if(antiPendel_Kantelen && !uitschuiven_FORCE){
-    print("1- ANTI-PENDEL kantelen ACTIVE - RETURN");
+    print("ANTI-PENDEL kantelen ACTIVE - RETURN");
     return;
   }
 
@@ -21,7 +25,7 @@ void uitschuiven_activate(){
   print("EXTEND");
   uitschuiven = true;
   einde_Inschuiven = false;
-  set_antiPendel_Kantelen();
+  set_kantelenTimeOut();
 
   if(tiltStartTime = 0){
     tiltStartTime = millis();
@@ -29,6 +33,11 @@ void uitschuiven_activate(){
 }
 
 void inschuiven_activate(){
+  if(kantelenTooLong && !inschuiven_FORCE){
+    print("Kantelen in ALARM - RETURN");
+    return;
+  }
+
   if(antiPendel_Kantelen && !inschuiven_FORCE){
     print("2- ANTI-PENDEL kantelen ACTIVE - RETURN");
     return;
@@ -50,7 +59,7 @@ void inschuiven_activate(){
   print("RETRACT");
   inschuiven = true;
   einde_Uitschuiven = false;
-  set_antiPendel_Kantelen();
+  set_kantelenTimeOut();
 
   if(tiltStartTime = 0){
     tiltStartTime = millis();
@@ -58,12 +67,21 @@ void inschuiven_activate(){
 }
 
 void deactivate_Kantelen(){
+  bool setAntipendel = false;
+
   setCurrentTiltPercentage(nullptr);
   tiltStartTime = 0;
 
-  uitschuiven = false;
+  if(uitschuiven || inschuiven){
+    setAntipendel = true;
+  }
+
+  uitschuiven = false; 
   inschuiven = false;
-  // print("KANTELEN deactivated");
+  
+  if(setAntipendel){
+    set_antiPendel_Kantelen();
+  }
   kantelen_TimeOut.cancel();
 }
 
@@ -95,21 +113,16 @@ float getPercentageTilted(){
   return ((float)timeDifference / (float)timeNeededToTilt) * 1000000.0;
 }
 
-
+void set_kantelenTimeOut(){
+  kantelen_TimeOut.in(maxMovementTime, kantelenTimeOutAlarm);
+}
 
 void set_antiPendel_Kantelen(){
   antiPendel_Kantelen = true;
-  Serial.print("Aantal kantelen_TimeOut: ");
-  Serial.println(kantelen_TimeOut.size());
-  antiPendel_Kantelen_Timer.cancel();
   antiPendel_Kantelen_Timer.in(antiPendelTime, reset_antiPendel_Kantelen); //5 min. = 300000 ms
-  kantelen_TimeOut.in(maxMovementTime, kantelenTimeOutAlarm);
-  Serial.print("Aantal kantelen_TimeOut: ");
-  Serial.println(kantelen_TimeOut.size());
 }
 
 bool reset_antiPendel_Kantelen(void *){
-  print("RESET ANTIPENDEL KANTELEN");
    antiPendel_Kantelen = false;
    return false;
 }
@@ -157,6 +170,7 @@ void inschuivenWhenEindeLoopUitschuiven(){
 bool kantelenTimeOutAlarm(void *){
   print("ALARM: kantelen TimeOut!");
   kantelenTooLong = true;
+  deactivate_Kantelen();
   return false;
 }
 

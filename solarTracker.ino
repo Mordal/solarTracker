@@ -122,8 +122,10 @@
   auto setTurnPercentageTimer = timer_create_default();
 
   // Kantelen
-  auto antiPendel_Kantelen_Timer = timer_create_default();
-  auto kantelen_TimeOut = timer_create_default();
+  // auto antiPendel_Kantelen_Timer = timer_create_default();
+  // auto kantelen_TimeOut = timer_create_default();
+  Timer<1, millis> antiPendel_Kantelen_Timer ;
+  Timer<1, millis> kantelen_TimeOut ;
   auto setTiltPercentageTimer = timer_create_default();
 
   // Other Timers
