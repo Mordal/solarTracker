@@ -49,40 +49,43 @@ void sendEndpoints(WiFiClient client){
 
 void response_API_Request(WiFiClient client, String currentLine){
 
-  if(currentLine.endsWith("GET /API")){
-    sendEndpoints(client);
+
+  if (requestHasString(currentLine, "GET /API/FLAGS")){
+    sendJsonData(client, getFlags()); 
   }
-  else if(currentLine.endsWith("GET /API/FLAGS")){
-    sendJsonData(client, getAllFlags());
-  }
-  else if(currentLine.endsWith("GET /API/LIGHTSENSORS")){
+  else if (requestHasString(currentLine, "GET /API/LIGHTSENSORS")){
     sendJsonData(client, getLightSensorData());
   }
-  else if(currentLine.endsWith("GET /API/TURNMOVEMENT")){
+  else if (requestHasString(currentLine, "GET /API/TURNMOVEMENT")){
     sendJsonData(client, getTurnMovementData());
   }
-  else if(currentLine.endsWith("GET /API/TILTMOVEMENT")){
+  else if (requestHasString(currentLine, "GET /API/TILTMOVEMENT")){
     sendJsonData(client, getTiltMovementData());
   }
-  else if(currentLine.endsWith("GET /API/OTHERDATA")){
+  else if (requestHasString(currentLine, "GET /API/OTHERDATA")){
     sendJsonData(client, getOtherData());
   }
-  else if(currentLine.endsWith("GET /API/FORCEDMOVEMENTS")){
+  else if (requestHasString(currentLine, "GET /API/FORCEDMOVEMENTS")){
     sendJsonData(client, getForcedMovements());
   }
-  else if(currentLine.endsWith("GET /API/SETTINGS")){
+  else if (requestHasString(currentLine, "GET /API/SETTINGS")){
     sendJsonData(client, getSettings());
   }
-  else if(currentLine.endsWith("GET /API/TIMERS")){
+  else if (requestHasString(currentLine, "GET /API/TIMERS")){
     sendJsonData(client, getRemainingTime());
   }
-
-
+  else if (requestHasString(currentLine, "GET /API")){
+    sendEndpoints(client);
+  }
   else{
     sendInvalidRequest(client);
   }
-
 }
+
+bool requestHasString(String request, String search){
+  return request.indexOf(search) != -1;
+}
+
 
 void unlockSettings(WiFiClient client, String body){
   if(body == "reteipreteip"){

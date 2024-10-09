@@ -65,7 +65,7 @@ void printTime() {
 }
 
 unsigned long getEpochTime() {
-  const RTCTime = getRTCTime();
+  RTCTime RTCTime = getRTCTime();
   return RTCTime.getUnixTime();
 }
 

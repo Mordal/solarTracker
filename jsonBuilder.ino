@@ -27,7 +27,7 @@ JSONVar getLightSensorData(){
 }
 
 JSONVar getTurnMovementData(){
-  JSONVar movementDataObject;
+  JSONVar movementDataObject = undefined;
   movementDataObject["Turn"]["percentage"] = (float)currentTurnPercentage/10000.0;
   movementDataObject["Turn"]["antiPendel"] = antiPendel_Draaien;
   
@@ -61,11 +61,12 @@ JSONVar getTiltMovementData(){
 
 JSONVar getOtherData(){
   JSONVar otherDataObject = undefined;
-  otherDataObject["Reset_Alarms"] = false;
   RTCTime currentTime = getRTCTime();
   otherDataObject["Time"] = currentTime.toString();
+  otherDataObject["unixTime"] = getEpochTime();
   otherDataObject["Turn_Time"] = timeNeededToTurn;
   otherDataObject["Tilt_Time"] = timeNeededToTilt;
+  otherDataObject["settingsUnlocked"] = settingsUnlocked;
   return otherDataObject;
 }
 
@@ -101,12 +102,13 @@ JSONVar getRemainingTime(){
   remainingTimeObject["TimeRemaining"]["kantelen_TimeOut"] = kantelen_TimeOut_Remaining;
   remainingTimeObject["TimeRemaining"]["logBook_Timer"] = logBook_Timer_Remaining;
   remainingTimeObject["TimeRemaining"]["retryTimer"] = retryTimer_Remaining;
+  remainingTimeObject["TimeRemaining"]["settingsUnlockedTimer"] = settingsUnlockedTimer_Remaining;
   return remainingTimeObject;
 }
 
 
 
-void printJsonData(WiFiClient client, JSONVar object,){
+void printJsonData(WiFiClient client, JSONVar object){
   JSONVar keys = object.keys();
   client.print("{");
   for (int i = 0; i < keys.length(); i++) {

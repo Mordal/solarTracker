@@ -49,7 +49,6 @@ void print_WifiData() {
   Serial.print("signal strength (RSSI):");
   Serial.println(rssi);
   Serial.println();
-
 }
 
 void clientConnection(WiFiClient client){
@@ -57,11 +56,12 @@ void clientConnection(WiFiClient client){
   String currentLine = "";                // make a String to hold incoming data from the client
   bool contentLengthHeader = false;
   bool unlockRequest = false;  
+  bool settingsRequest = false;
   int contentLength;
   while (client.connected()) {            // loop while the client's connected
     if (!client.available())  continue;  // if there's bytes to read from the client,                                         
     char c = client.read();             // read a byte, then
-    Serial.write(c);                    // print it out to the serial monitor
+    // Serial.write(c);                    // print it out to the serial monitor
     if (c == '\n') {                    // if the byte is a newline character
       // if the current line is blank, you got two newline characters in a row.
       // that's the end of the client HTTP request 
@@ -73,6 +73,10 @@ void clientConnection(WiFiClient client){
           unlockSettings(client, body);    // Passeer de body naar je unlock functie
         }
 
+        if (settingsRequest) {
+          setValues(client, body); 
+        }
+
           // response_WiFi_BASIC(client);  //send a response:
         } ;
         break;
@@ -81,6 +85,7 @@ void clientConnection(WiFiClient client){
           contentLength = currentLine.substring(16).toInt();
           contentLengthHeader = false;
         }
+        // print(currentLine);
         currentLine = "";
       }
     } else if (c != '\r') {  // if you got anything else but a carriage return character,
@@ -89,14 +94,23 @@ void clientConnection(WiFiClient client){
     }
 
 
-    if (currentLine.indexOf()("GET /API") == 0){
-      response_API_Request(client, currentLine)
-      break // dont check for body
+    if (currentLine.indexOf("GET /API") == 0){
+      while (client.available() && (c = client.read()) != '\n') {
+        currentLine += c;
+      }
+      
+      print(currentLine);
+      response_API_Request(client, currentLine);
+      break; // don't check for body
     }
 
-    if (currentLine.endsWith("GET /UNLOCK")){
-      unlockRequest = true;
-      // Dont break, check for body
+    if (currentLine.endsWith("POST /SETTINGS")){
+      settingsRequest = true; // Don't break, check for body
+    }
+
+
+    if (currentLine.endsWith("POST /UNLOCK")){
+      unlockRequest = true;  // Don't break, check for body
     }
 
     // if (currentLine.endsWith("GET /API/")){

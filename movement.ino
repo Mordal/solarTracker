@@ -41,10 +41,13 @@ void setKantelen(){
       uitschuiven_FORCE = false;
       deactivate_Kantelen();
     }
+    print("Inschuiven ACTIVATE");
     inschuiven_activate();
   }
 
   else{
+    // WAAROM HIER??
+    print("3- Deactivate Kantelen");
     deactivate_Kantelen();
   }
 }
@@ -92,9 +95,11 @@ bool needToRetract(){
 
   if(lichtSensors_Onder > lichtSensors_Boven + licht_marge){
     inschuiven_Sensors = true;
+    print("NEED TO RETRACT");
     return true;
   }
   inschuiven_Sensors = false;
+  print("NO NEED TO RETRACT");
   return false;
 }
 

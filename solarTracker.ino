@@ -110,13 +110,15 @@
 // TIME-OUTS
   // Settings
   unsigned int antiPendelTime = 5000; //= 5 sec. = 5000 ms  ;  //5 min. = 300000 ms
-  unsigned int maxMovementTime = 30000; //30 sec. = 30000 ms
+  unsigned int maxMovementTime = 45000; //45 sec. = 45000 ms
   unsigned int retryTime = 300000; //5 min. = 300000 ms
   unsigned int logBook_Timer_delay = 10000; //10 sec. = 10000 ms
 
   // Draaien
-  auto antiPendel_Draaien_Timer = timer_create_default();
-  auto draaien_TimeOut = timer_create_default();
+  // auto antiPendel_Draaien_Timer = timer_create_default();
+  // auto draaien_TimeOut = timer_create_default();
+  Timer<1, millis> antiPendel_Draaien_Timer ;
+  Timer<1, millis> draaien_TimeOut ;
   auto setTurnPercentageTimer = timer_create_default();
 
   // Kantelen
@@ -137,6 +139,7 @@
   unsigned int kantelen_TimeOut_Remaining = 0;
   unsigned int logBook_Timer_Remaining = 0;
   unsigned int retryTimer_Remaining = 0;
+  unsigned int settingsUnlockedTimer_Remaining = 0;
 
 
 // FLAGS 
@@ -223,7 +226,7 @@ void tickTimers(){
   retryTimer_Remaining = retryTimer.tick();
   setTurnPercentageTimer.tick();
   setTiltPercentageTimer.tick();
-  settingsUnlockedTimer.tick();
+  settingsUnlockedTimer_Remaining = settingsUnlockedTimer.tick();
 }
 
 

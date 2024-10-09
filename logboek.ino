@@ -8,18 +8,24 @@ bool setLogbook(void *){
   mqttClient.print(message);
   mqttClient.endMessage();
 
-  message = getSensorData();
+  message = getLightSensorData();
   message["TimeStamp"] = timeStamp;
   mqttClient.beginMessage("sensorData");
   mqttClient.print(message);
   mqttClient.endMessage();
 
-  message = getMovementData();
+  message = getTurnMovementData();
   message["TimeStamp"] = timeStamp;
-  mqttClient.beginMessage("movementData");
+  mqttClient.beginMessage("turnMovementData");
   mqttClient.print(message);
   mqttClient.endMessage();
 
+  message = getTiltMovementData();
+  message["TimeStamp"] = timeStamp;
+  mqttClient.beginMessage("tiltMovementData");
+  mqttClient.print(message);
+  mqttClient.endMessage();
+  
 
   message = getOtherData();
   message["TimeStamp"] = timeStamp;

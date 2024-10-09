@@ -2,14 +2,21 @@
 void uitschuiven_activate(){
 
   if(antiPendel_Kantelen && !uitschuiven_FORCE){
+    print("1- ANTI-PENDEL kantelen ACTIVE - RETURN");
     return;
   }
 
   if(einde_Uitschuiven){
-    print("Trying to EXTEND but allready on the end");
+    print("Eindeloop UITSCHUIVEN activated");
     uitschuiven = false;
     return;
   };
+
+  if(STOP && !uitschuiven_FORCE){
+    print("STOP activated");
+    uitschuiven = false;
+    return;
+  }
 
   print("EXTEND");
   uitschuiven = true;
@@ -19,19 +26,26 @@ void uitschuiven_activate(){
   if(tiltStartTime = 0){
     tiltStartTime = millis();
   }
-
 }
 
 void inschuiven_activate(){
   if(antiPendel_Kantelen && !inschuiven_FORCE){
+    print("2- ANTI-PENDEL kantelen ACTIVE - RETURN");
     return;
   }
 
   if(einde_Inschuiven){
-    print("Trying to RETRACT but allready on the end");
+    print("EindeLoop INSCHUIVEN activated");
     inschuiven = false;
     return;
   };
+
+  if(STOP && !inschuiven_FORCE){
+    print("STOP activated");
+    inschuiven = false;
+    return;
+  }
+
 
   print("RETRACT");
   inschuiven = true;
@@ -49,6 +63,7 @@ void deactivate_Kantelen(){
 
   uitschuiven = false;
   inschuiven = false;
+  // print("KANTELEN deactivated");
   kantelen_TimeOut.cancel();
 }
 
@@ -84,11 +99,17 @@ float getPercentageTilted(){
 
 void set_antiPendel_Kantelen(){
   antiPendel_Kantelen = true;
+  Serial.print("Aantal kantelen_TimeOut: ");
+  Serial.println(kantelen_TimeOut.size());
+  antiPendel_Kantelen_Timer.cancel();
   antiPendel_Kantelen_Timer.in(antiPendelTime, reset_antiPendel_Kantelen); //5 min. = 300000 ms
   kantelen_TimeOut.in(maxMovementTime, kantelenTimeOutAlarm);
+  Serial.print("Aantal kantelen_TimeOut: ");
+  Serial.println(kantelen_TimeOut.size());
 }
 
 bool reset_antiPendel_Kantelen(void *){
+  print("RESET ANTIPENDEL KANTELEN");
    antiPendel_Kantelen = false;
    return false;
 }
