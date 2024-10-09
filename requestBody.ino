@@ -34,8 +34,9 @@ bool readBody_OLD(WiFiClient client, int contentLength){
   return true;
 }
 
-void unlockSettings(){
+void unlock(){
     settingsUnlocked = true;
+    settingsUnlockedTimer.cancel();
     settingsUnlockedTimer.in(1200000, lockSettings);  //20min == 1200000
 }
 

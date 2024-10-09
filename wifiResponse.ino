@@ -31,7 +31,8 @@ void sendEndpoints(WiFiClient client){
   client.println("/API/SETTINGS");
   client.println("/API/TIMERS");
   client.println();
-  
+}
+
 //  void response_WiFi_BASIC(WiFiClient client){
 //     client.println("HTTP/1.1 200 OK");
 //     client.println("Content-type:text/html");
@@ -48,7 +49,6 @@ void sendEndpoints(WiFiClient client){
 
 void response_API_Request(WiFiClient client, String currentLine){
 
-  // the content of the HTTP response follows the header:
   if(currentLine.endsWith("GET /API")){
     sendEndpoints(client);
   }
