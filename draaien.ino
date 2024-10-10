@@ -69,21 +69,13 @@ void rechtsDraaien_activate(){
 }
 
 void deactivate_Draaien(){
-  bool setAntipendel = false;
-
   setCurrentTurnPercentage(nullptr);
   turnStartTime = 0;
-
   if(linksDraaien || rechtsDraaien){
-    setAntipendel = true;
-  }
-
-  linksDraaien = false;
-  rechtsDraaien = false;
-
-  if (setAntipendel){
     set_antiPendel_Draaien();
   }
+  linksDraaien = false;
+  rechtsDraaien = false;
   draaien_TimeOut.cancel();
 }
 

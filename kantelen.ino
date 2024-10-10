@@ -67,21 +67,13 @@ void inschuiven_activate(){
 }
 
 void deactivate_Kantelen(){
-  bool setAntipendel = false;
-
   setCurrentTiltPercentage(nullptr);
   tiltStartTime = 0;
-
   if(uitschuiven || inschuiven){
-    setAntipendel = true;
-  }
-
-  uitschuiven = false; 
-  inschuiven = false;
-  
-  if(setAntipendel){
     set_antiPendel_Kantelen();
   }
+  uitschuiven = false; 
+  inschuiven = false;
   kantelen_TimeOut.cancel();
 }
 
