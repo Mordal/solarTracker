@@ -44,6 +44,20 @@ bool summertime(int year, byte month, byte day, byte hour, byte tzHours) {
   return false; // Deze regel zou nooit moeten worden bereikt
 }
 
+bool isSummerTimeRTC() {
+  RTCTime currentTime = getRTCTime();
+  return summertime(currentTime.getYear(), currentTime.getMonth(), currentTime.getDayOfMonth(), currentTime.getHour(), 1);
+}
+
+ byte getHour() {
+  RTCTime currentTime = getRTCTime();
+  return currentTime.getHour();
+}
+
+byte getMonth() {
+  RTCTime currentTime = getRTCTime();
+  return currentTime.getMonth();
+}
 
 void printTime() {
   // Haal de RTC tijd op

@@ -1,8 +1,13 @@
 void testMode(){
 }
 
+void initializeNeededTime(){
+    getTimeDraaien()
+    getTimeKantelen()
+}
+
 void getTimeDraaien(){
-    goToRightEnd();
+    goToRigh tEnd();
     const unsigned long startingTime = millis();
     goToLeftEnd(false);
     const unsigned long endingTime = millis();
