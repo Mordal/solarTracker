@@ -23,7 +23,7 @@ void stopMomevement() {
 
 void gotoNightPosition() {
    if (isNight()) {
-      gotoLeftEnd();
+      goToLeftEnd();
       gotoTiltPercentage(20);
       stopMomevement();
       return;

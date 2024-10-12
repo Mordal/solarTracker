@@ -1,4 +1,21 @@
 
+
+void gotoTurnPercentage(int percentage = -1) {
+   if (percentage != -1) {
+      gotoTurnPosition = true;
+      wantedTurnPercentage = percentage;
+   }
+   if ((wantedTurnPercentage * 100) > currentTurnPercentage + 200) {
+      rechtsDraaien_FORCE = true;
+   } else if ((wantedTurnPercentage * 100) < currentTurnPercentage - 200) {
+      linksDraaien_FORCE = true;
+   } else {
+      linksDraaien_FORCE = false;
+      rechtsDraaien_FORCE = false;
+      gotoTurnPosition = false;
+   }
+}
+
 void setDraaien() {
    // DRAAIEN //
    if (gotoTurnPosition) {
@@ -7,7 +24,7 @@ void setDraaien() {
    if (draaienForceMode()) {
       return;
    }
-   draaienNormalMode()
+   draaienNormalMode();
 }
 
 void draaienNormalMode() {
@@ -47,22 +64,6 @@ void deactivate_Draaien() {
    linksDraaien = false;
    rechtsDraaien = false;
    draaien_TimeOut.cancel();
-}
-
-void gotoTurnPercentage(int percentage = -1) {
-   if (percentage != -1) {
-      gotoTurnPosition = true;
-      wantedTurnPercentage = percentage;
-   }
-   if ((wantedTurnPercentage * 100) > currentTurnPercentage + 200) {
-      rechtsDraaien_FORCE = true;
-   } else if ((wantedTurnPercentage * 100) < currentTurnPercentage - 200) {
-      linksDraaien_FORCE = true;
-   } else {
-      linksDraaien_FORCE = false;
-      rechtsDraaien_FORCE = false;
-      gotoTurnPosition = false;
-   }
 }
 
 // Timer: setTurnPercentageTimer

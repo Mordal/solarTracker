@@ -6,18 +6,6 @@
 // Wintertijd: Van de laatste zondag van oktober tot de laatste zondag van maart
 // (het daaropvolgende jaar).
 
-bool gotoPresetPosition(void *) {
-   if (isNight()) {
-      return true;
-   }
-   byte expectedTurnPosition = getExpectedTurnPosition(getHour());
-   gotoTurnPercentage(expectedTurnPosition);
-
-   byte expectedTiltPosition = getExpectedTiltPosition(getHour(), getMonth());
-   gotoTiltPercentage(expectedTiltPosition);
-   return true;
-}
-
 // preset turn percentages from 6h to 19h
 byte turnPercentage_Presets[] = {0,  5,  10, 19, 28, 35, 42,
                                  52, 61, 70, 75, 80, 88, 100};
@@ -176,6 +164,19 @@ byte getExpectedTiltPosition(byte hour, byte month) {
    }
 
    // Retourneer het bijbehorende percentage
-   return tiltPercentagePresets[month]
-                               [hour - 6];  // Indexering voor uur 6 tot 19
+   return tiltPercentage_Presets[month]
+                                [hour - 6];  // Indexering voor uur 6 tot 19
+}
+
+bool gotoPresetPosition(void *) {
+   if (isNight()) {
+      return true;
+   }
+   byte expectedTurnPosition = getExpectedTurnPosition(getHourNumber());
+   gotoTurnPercentage(expectedTurnPosition);
+
+   byte expectedTiltPosition =
+       getExpectedTiltPosition(getHourNumber(), getMonthNumber());
+   gotoTiltPercentage(expectedTiltPosition);
+   return true;
 }

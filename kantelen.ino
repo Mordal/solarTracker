@@ -1,4 +1,20 @@
 
+void gotoTiltPercentage(int percentage = -1) {
+   if (percentage != -1) {
+      gotoTiltPosition = true;
+      wantedTiltPercentage = percentage;
+   }
+   if ((wantedTiltPercentage * 100) > currentTiltPercentage + 200) {
+      uitschuiven_FORCE = true;
+   } else if ((wantedTiltPercentage * 100) < currentTiltPercentage - 200) {
+      inschuiven_FORCE = true;
+   } else {
+      uitschuiven_FORCE = false;
+      inschuiven_FORCE = false;
+      gotoTiltPosition = false;
+   }
+}
+
 void setKantelen() {
    if (gotoTiltPosition) {
       gotoTiltPercentage();
@@ -6,7 +22,7 @@ void setKantelen() {
    if (kantelenForceMode()) {
       return;
    }
-   kantelenNormalMode()
+   kantelenNormalMode();
 }
 
 void kantelenNormalMode() {
@@ -46,22 +62,6 @@ void deactivate_Kantelen() {
    uitschuiven = false;
    inschuiven = false;
    kantelen_TimeOut.cancel();
-}
-
-void gotoTiltPercentage(int percentage = -1) {
-   if (percentage != -1) {
-      gotoTiltPosition = true;
-      wantedTiltPercentage = percentage;
-   }
-   if ((wantedTiltPercentage * 100) > currentTiltPercentage + 200) {
-      uitschuiven_FORCE = true;
-   } else if ((wantedTiltPercentage * 100) < currentTiltPercentage - 200) {
-      inschuiven_FORCE = true;
-   } else {
-      uitschuiven_FORCE = false;
-      inschuiven_FORCE = false;
-      gotoTiltPosition = false;
-   }
 }
 
 // Timer: setTiltPercentageTimer

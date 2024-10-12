@@ -4,7 +4,7 @@ void sendJsonData(WiFiClient client, JSONVar jsonData) {
    client.println("HTTP/1.1 200 OK");
    client.println("Content-type:application/json");
    client.println();
-   sendJsonData(client, jsonData);
+   sendJson(client, jsonData);
    client.println();
 }
 

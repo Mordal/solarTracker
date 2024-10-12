@@ -122,7 +122,7 @@ JSONVar getRemainingTime() {
    return remainingTimeObject;
 }
 
-void sendJsonData(WiFiClient client, JSONVar object) {
+void sendJson(WiFiClient client, JSONVar object) {
    JSONVar keys = object.keys();
    client.print("{");
    for (int i = 0; i < keys.length(); i++) {

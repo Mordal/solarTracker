@@ -9,6 +9,10 @@
     "type_traits": "cpp",
     "vector": "cpp",
     "xhash": "cpp",
-    "xutility": "cpp"
-  }
+    "xutility": "cpp",
+    "cstddef": "cpp"
+  },
+  "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+    "clang-diagnostic-pointer-bool-conversion"
+  ]
 }

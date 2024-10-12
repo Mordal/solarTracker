@@ -42,7 +42,6 @@ void linksDraaien_activate() {
    linksDraaien = true;
    einde_Rechtsdraaien = false;
    set_draaienTimeOut();
-   // set_antiPendel_Draaien();
 
    if (turnStartTime = 0) {
       turnStartTime = millis();
