@@ -76,6 +76,13 @@
         box-shadow: 0 5px #666;
         transform: translateY(4px);
       }
+      /* Klasse voor de actieve knop */
+      .button1.active {
+        background-color: #35ba0092; /* De kleur wanneer actief */
+        border: 2px solid #50ff4e; /* De randkleur wanneer actief */
+        box-shadow: 0 5px #666;
+        transform: translateY(4px); /* Blijft ingedrukt */
+      }
       table {
         border: 1px solid black;
         border-radius: 10px;
@@ -127,6 +134,45 @@
           <li><a href="./TIMERS\">Timers </a></li>
           <li><a href="./JSON\">Full Json </a></li>
         </ul>
+        <h3 style="padding-left: 35px">Flags</h3>
+        <table style="width: 270px; padding-left: 15px">
+          <tr>
+            <th>Wifi Connected</th>
+            <td id="Wifi_connected" class="green status"></td>
+          </tr>
+          <tr>
+            <th>Mqtt Connected</th>
+            <td id="Mqtt_connected" class="green status"></td>
+          </tr>
+          <tr>
+            <th>Test Mode</th>
+            <td id="TEST_MODE" class="green status"></td>
+          </tr>
+          <tr>
+            <th>Safe Mode</th>
+            <td id="SAFE_MODE" class="green status"></td>
+          </tr>
+          <tr>
+            <th>STOP</th>
+            <td id="STOP" class="green status"></td>
+          </tr>
+          <tr>
+            <th>isNight</th>
+            <td id="isNight" class="green status"></td>
+          </tr>
+          <tr>
+            <th>Alarm - Draaien te lang</th>
+            <td id="Draaien_too_long" class="green status"></td>
+          </tr>
+          <tr>
+            <th>Alarm - Kantelen te lang</th>
+            <td id="Kantelen_too_long" class="green status"></td>
+          </tr>
+          <tr>
+            <th>Alarm - Reset</th>
+            <td id="reset" class="green status"></td>
+          </tr>
+        </table>
       </nav>
 
       <div class="container">
@@ -196,7 +242,7 @@
       <div style="margin-bottom: -40px" class="container">
         <h2>
           Movement
-          <button class="button button1 button2">STOP ALL</button>
+          <button id="StopButton" class="button button1 button2">STOP</button>
         </h2>
       </div>
       <div>
@@ -323,6 +369,19 @@
       document.getElementById('LEFT_Force').innerHTML = data.ForceMovement.LEFT_Force;
     }
   }
+
+  // Selecteer de knop
+  const button = document.getElementById('StopButton');
+  // Voeg een click-eventlistener toe om de actieve klasse te toggelen
+  button.addEventListener('click', function () {
+    // Toggle de klasse 'active' + de tekst van de knop
+    if (button.innerHTML === 'STOP') {
+      button.innerHTML = 'START';
+    } else {
+      button.innerHTML = 'STOP';
+    }
+    button.classList.toggle('active');
+  });
 
   function forceMovement_changeState(id) {
     if (id === 'LEFT_Force') {

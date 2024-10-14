@@ -4,8 +4,6 @@
 // isNight() -> als het donker is
 // --> ga naar begin positie -> stop met draaien en kantelen
 
-// maak timer om elke maand de tijd te updaten
-
 #include <NTPClient.h>
 #include <RTC.h>
 #include <TimeLib.h>
@@ -145,6 +143,7 @@ unsigned long gotoPositionTimer_Remaining = 0;
 // FLAGS
 bool wifiConnected = false;
 bool mqttConnected = false;
+bool resetHappend = false;
 bool TEST_MODE = false;
 bool SAFE_MODE = false;
 bool STOP = false;
@@ -165,8 +164,10 @@ WiFiUDP ntpUDP;
 NTPClient timeClient(
     ntpUDP, "pool.ntp.org", 0,
     60000);  // 0 offset initially, we will calculate it dynamically
+byte previousMonth = 0;
 
 void setup() {
+   resetHappend = true;
    // declare OUTPUT PINS
    pinMode(PIN_LinksDraaien, OUTPUT);
    pinMode(PIN_RechtsDraaien, OUTPUT);

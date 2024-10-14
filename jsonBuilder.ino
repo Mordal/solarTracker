@@ -9,6 +9,7 @@ JSONVar getFlags() {
    flagsObject["Flags"]["Kantelen_too_long"] = kantelenTooLong;
    flagsObject["Flags"]["Wifi_connected"] = wifiConnected;
    flagsObject["Flags"]["Mqtt_connected"] = mqttConnected;
+   flagsObject["Flags"]["Reset"] = resetHappend;
 
    return flagsObject;
 }

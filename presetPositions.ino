@@ -172,6 +172,12 @@ bool gotoPresetPosition(void *) {
    if (isNight()) {
       return true;
    }
+
+   if (previousMonth != getMonth()) {
+      previousMonth = getMonth();
+      setTimeFromNet();
+   }
+
    byte expectedTurnPosition = getExpectedTurnPosition(getHourNumber());
    gotoTurnPercentage(expectedTurnPosition);
 

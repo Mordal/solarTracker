@@ -1,4 +1,9 @@
 void setTimeFromNet() {
+   if (wifiConnected == false) {
+      Serial.println("No internet connection, can't set time");
+      return;
+   }
+
    // Start de NTP client
    timeClient.begin();
    // Update de tijd
