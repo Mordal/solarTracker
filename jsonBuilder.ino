@@ -3,13 +3,14 @@ JSONVar getFlags() {
    JSONVar flagsObject = undefined;
    flagsObject["Flags"]["TEST_MODE"] = TEST_MODE;
    flagsObject["Flags"]["SAFE_MODE"] = SAFE_MODE;
-   flagsObject["Flags"]["STOP"] = STOP;
+   flagsObject["Flags"]["STOP_MODE"] = STOP_MODE;
    flagsObject["Flags"]["isNight"] = isNight();
    flagsObject["Flags"]["Draaien_too_long"] = draaienTooLong;
    flagsObject["Flags"]["Kantelen_too_long"] = kantelenTooLong;
    flagsObject["Flags"]["Wifi_connected"] = wifiConnected;
    flagsObject["Flags"]["Mqtt_connected"] = mqttConnected;
    flagsObject["Flags"]["Reset"] = resetHappend;
+   flagsObject["Flags"]["SettingsUnlocked"] = settingsUnlocked;
 
    return flagsObject;
 }

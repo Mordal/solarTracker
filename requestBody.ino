@@ -47,7 +47,7 @@ bool lockSettings(void *) {
    return false;
 }
 
-void setValues(WiFiClient client, String body) {
+void control(WiFiClient client, String body) {
    if (!settingsUnlocked) {
       print("Settings are locked");
       sendInvalidRequest(client);
@@ -55,18 +55,8 @@ void setValues(WiFiClient client, String body) {
    }
 
    JSONVar jsonBody = JSON.parse(body);
-   Serial.println(jsonBody);
 
-   if (jsonBody.hasOwnProperty("TEST_MODE")) {
-      TEST_MODE = jsonBody["TEST_MODE"];
-   }
-   if (jsonBody.hasOwnProperty("SAFE_MODE")) {
-      SAFE_MODE = jsonBody["SAFE_MODE"];
-   }
-   if (jsonBody.hasOwnProperty("STOP")) {
-      STOP = jsonBody["STOP"];
-   }
-
+   // FORCED MOVEMENTS //
    if (jsonBody.hasOwnProperty("LEFT_Force")) {
       linksDraaien_FORCE = jsonBody["LEFT_Force"];
    }
@@ -79,12 +69,29 @@ void setValues(WiFiClient client, String body) {
    if (jsonBody.hasOwnProperty("IN_Force")) {
       inschuiven_FORCE = jsonBody["IN_Force"];
    }
-   if (jsonBody.hasOwnProperty("Reset_Alarms")) {
-      if (jsonBody["Reset_Alarms"]) {
-         draaienTooLong = false;
-         kantelenTooLong = false;
-      }
+
+   // MODES //
+   if (jsonBody.hasOwnProperty("TEST_MODE")) {
+      TEST_MODE = jsonBody["TEST_MODE"];
    }
+   if (jsonBody.hasOwnProperty("SAFE_MODE")) {
+      SAFE_MODE = jsonBody["SAFE_MODE"];
+   }
+   if (jsonBody.hasOwnProperty("STOP_MODE")) {
+      STOP_MODE = jsonBody["STOP_MODE"];
+   }
+   sendJsonData(client, jsonBody);
+}
+
+void setValues(WiFiClient client, String body) {
+   if (!settingsUnlocked) {
+      print("Settings are locked");
+      sendInvalidRequest(client);
+      return;
+   }
+
+   JSONVar jsonBody = JSON.parse(body);
+   Serial.println(jsonBody);
 
    if (jsonBody.hasOwnProperty("LB_Offset")) {
       lichtSensor_LB_offset = jsonBody["LB_Offset"];
@@ -116,4 +123,5 @@ void setValues(WiFiClient client, String body) {
       logBook_Timer_delay = jsonBody["logBook_Timer_delay"];
       setTimers();
    }
+   sendJsonData(client, jsonBody);
 }

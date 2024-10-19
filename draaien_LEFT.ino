@@ -32,8 +32,8 @@ void linksDraaien_activate() {
       return;
    };
 
-   if (STOP && !linksDraaien_FORCE) {
-      print("STOP activated");
+   if (STOP_MODE && !linksDraaien_FORCE) {
+      print("STOP_MODE activated");
       linksDraaien = false;
       return;
    }

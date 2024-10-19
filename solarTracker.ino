@@ -146,7 +146,7 @@ bool mqttConnected = false;
 bool resetHappend = false;
 bool TEST_MODE = false;
 bool SAFE_MODE = false;
-bool STOP = false;
+bool STOP_MODE = false;
 bool draaienTooLong = false;
 bool kantelenTooLong = false;
 bool settingsUnlocked = false;
@@ -199,7 +199,7 @@ void setup() {
    setTimeFromNet();
 
    // Initialize needed time
-   initializeNeededTime();
+   // initializeNeededTime();
 
    // setup Timers
    setTimers();
@@ -212,7 +212,7 @@ void loop() {
    readLichtSensors();
    readEindeloop();
    readForceSignals();
-   set_MoveDirection();
+   // set_MoveDirection();
    set_Outputs();
    wiFiLoop();
 }
@@ -252,4 +252,10 @@ void setTimers() {
    setTurnPercentageTimer.every(1000, setCurrentTurnPercentage);  // 1 sec
    setTiltPercentageTimer.every(1000, setCurrentTiltPercentage);  // 1 sec
    gotoPositionTimer.every(3600000, gotoPresetPosition);          // 1 uur
+}
+
+void resetAlarms() {
+   draaienTooLong = false;
+   kantelenTooLong = false;
+   resetHappend = false;
 }

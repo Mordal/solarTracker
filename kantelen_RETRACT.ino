@@ -33,8 +33,8 @@ void inschuiven_activate() {
       return;
    };
 
-   if (STOP && !inschuiven_FORCE) {
-      print("STOP activated");
+   if (STOP_MODE && !inschuiven_FORCE) {
+      print("STOP_MODE activated");
       inschuiven = false;
       return;
    }

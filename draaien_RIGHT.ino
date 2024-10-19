@@ -32,8 +32,8 @@ void rechtsDraaien_activate() {
       return;
    };
 
-   if (STOP && !rechtsDraaien_FORCE) {
-      print("STOP activated");
+   if (STOP_MODE && !rechtsDraaien_FORCE) {
+      print("STOP_MODE activated");
       rechtsDraaien = false;
       return;
    }

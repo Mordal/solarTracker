@@ -1,8 +1,10 @@
 void testMode() {}
 
 void initializeNeededTime() {
+   print("Initialiseer benodigde tijd");
    getTimeDraaien();
    getTimeKantelen();
+   print("Benodigde tijd geinitialiseerd");
 }
 
 void getTimeDraaien() {

@@ -33,8 +33,8 @@ void uitschuiven_activate() {
       return;
    };
 
-   if (STOP && !uitschuiven_FORCE) {
-      print("STOP activated");
+   if (STOP_MODE && !uitschuiven_FORCE) {
+      print("STOP_MODE activated");
       uitschuiven = false;
       return;
    }

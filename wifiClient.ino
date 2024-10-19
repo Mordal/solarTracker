@@ -53,12 +53,15 @@ void print_WifiData() {
 
 void clientConnection(WiFiClient client) {
    Serial.println("new client");  // print a message out the serial port
-   String currentLine =
-       "";  // make a String to hold incoming data from the client
+
+   // String to hold incoming data from the client
+   String currentLine = "";
    bool contentLengthHeader = false;
    bool unlockRequest = false;
    bool settingsRequest = false;
+   bool controlRequest = false;
    int contentLength;
+
    while (client.connected()) {  // loop while the client's connected
       if (!client.available())
          continue;             // if there's bytes to read from the client,
@@ -81,6 +84,10 @@ void clientConnection(WiFiClient client) {
 
                if (settingsRequest) {
                   setValues(client, body);
+               }
+
+               if (controlRequest) {
+                  control(client, body);
                }
 
                // response_WiFi_BASIC(client);  //send a response:
@@ -110,6 +117,9 @@ void clientConnection(WiFiClient client) {
          break;  // don't check for body
       }
 
+      if (currentLine.endsWith("POST /CONTROL")) {
+         controlRequest = true;  // Don't break, check for body
+      }
       if (currentLine.endsWith("POST /SETTINGS")) {
          settingsRequest = true;  // Don't break, check for body
       }

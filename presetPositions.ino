@@ -173,8 +173,8 @@ bool gotoPresetPosition(void *) {
       return true;
    }
 
-   if (previousMonth != getMonth()) {
-      previousMonth = getMonth();
+   if (previousMonth != getMonthNumber()) {
+      previousMonth = getMonthNumber();
       setTimeFromNet();
    }
 

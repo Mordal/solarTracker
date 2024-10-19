@@ -17,6 +17,8 @@ void setTimeFromNet() {
 
    // Stel de RTC tijd in
    setRTC(localTime);
+   print("RTC time set from internet");
+   printTime();
 }
 
 void setRTC(time_t localTime) {

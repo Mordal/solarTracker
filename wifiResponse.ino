@@ -1,7 +1,13 @@
 
+void sendStartData(WiFiClient client) {
+   client.println("HTTP/1.1 200 OK");
+   client.println("Access-Control-Allow-Origin: *");
+   client.println("Access-Control-Allow-Methods: GET, POST");
+   // client.println("Access-Control-Allow-Headers: Content-Type");
+}
 
 void sendJsonData(WiFiClient client, JSONVar jsonData) {
-   client.println("HTTP/1.1 200 OK");
+   sendStartData(client);
    client.println("Content-type:application/json");
    client.println();
    sendJson(client, jsonData);
@@ -10,6 +16,9 @@ void sendJsonData(WiFiClient client, JSONVar jsonData) {
 
 void sendInvalidRequest(WiFiClient client) {
    client.println("HTTP/1.1 400 BAD REQUEST");
+   client.println("Access-Control-Allow-Origin: *");
+   client.println("Access-Control-Allow-Methods: GET, POST");
+   // client.println("Access-Control-Allow-Headers: Content-Type");
    client.println("Content-type:text/plain");
    client.println();
    client.println("Invalid request");
@@ -17,7 +26,7 @@ void sendInvalidRequest(WiFiClient client) {
 }
 
 void sendEndpoints(WiFiClient client) {
-   client.println("HTTP/1.1 200 OK");
+   sendStartData(client);
    client.println("Content-type:text/html");
    client.println();
    client.println("Available endpoints:");
@@ -30,6 +39,7 @@ void sendEndpoints(WiFiClient client) {
    client.println("/API/FORCEDMOVEMENTS");
    client.println("/API/SETTINGS");
    client.println("/API/TIMERS");
+   client.println("/API/RESETALARM");
    client.println();
 }
 
@@ -68,6 +78,10 @@ void response_API_Request(WiFiClient client, String currentLine) {
       sendJsonData(client, getRemainingTime());
    } else if (requestHasString(currentLine, "GET /API")) {
       sendEndpoints(client);
+   } else if (requestHasString(currentLine, "GET /API/RESETALARM") &&
+              settingsUnlocked) {
+      apiResetAlarms(client);
+
    } else {
       sendInvalidRequest(client);
    }
@@ -78,9 +92,10 @@ bool requestHasString(String request, String search) {
 }
 
 void unlockSettings(WiFiClient client, String body) {
+   print(body);
    if (body == "reteipreteip") {
       unlock();
-      client.println("HTTP/1.1 200 OK");
+      sendStartData(client);
       client.println("Content-type:text/plain");
       client.println();
       client.println("Settings unlocked");
@@ -88,6 +103,15 @@ void unlockSettings(WiFiClient client, String body) {
    } else {
       sendInvalidRequest(client);
    }
+}
+
+void apiResetAlarms(WiFiClient client) {
+   resetAlarms();
+   sendStartData(client);
+   client.println("Content-type:text/plain");
+   client.println();
+   client.println("Alarms reset");
+   client.println();
 }
 
 // void response_WiFi_JSON(WiFiClient client){
