@@ -33,19 +33,16 @@ h3 {
   padding-left: 10px;
   font-size: 22px;
 }
-.green {
-  background-color: rgb(2, 170, 2);
-}
-.red {
-  background-color: red;
-}
+
 .grid-container {
   grid-template-columns: 150px 150px 150px 150px;
   display: grid;
+  
 }
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
-  border: 0px solid rgba(0, 0, 0, 0.8);
+  /* border: 0px solid rgba(0, 0, 0, 0.8); */
+  margin-left: 20px;
   padding: 5px;
   font-size: 30px;
   text-align: center;
@@ -120,7 +117,7 @@ footer {
   max-width: 200px; /* Kleinere breedte voor de form-container */
   margin: 0; /* Verwijdert de auto-marge die de form naar het midden plaatste */
   padding: 10px; /* Verkleint de padding binnen de form-container */
-  background-color: hsl(182, 79%, 49%);
+  background-color: hsla(231, 76%, 65%, 0.705);
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center; /* Zorgt ervoor dat de tekst links wordt uitgelijnd */
@@ -179,54 +176,67 @@ footer {
   margin-bottom: 5px;
 }
 
-.status-table {
-  width: 100%; /* Maakt de tabel breedte responsief */
-  max-width: 200px; /* Behoud een maximale breedte voor de tabel */
-  margin-left: 5px;
-  margin-bottom: 20px; /* Voeg wat ruimte toe onder de tabel */
-  border-collapse: collapse; /* Verwijdert de ruimte tussen cellen */
-  border: 2px solid #0e0c0c; /* Voegt een subtiele rand toe aan de tabel */
-}
-
-.status-table th,
-.status-table td {
-  padding: 5px; /* Geeft iets meer ruimte binnen de cellen */
-  text-align: left; /* Zorgt dat tekst links wordt uitgelijnd */
-  border: 1px solid #dddddd9f; /*Voeg rand om elke cel toe */
-}
-
-.status-table th {
-  width: 80%; /* Maakt de kopjes 50% breedte van de tabel */
-  font-weight: bold; /* Maakt de tekst in de kopjes vet */
-  color: #555; /* Donkere kleur voor de kopjes */
-}
-
-.status-table td {
-  text-align: center; /* Statusindicatoren netjes in het midden van de cellen */
-  padding: 10px; /* Verkleint padding om de ondergrens van de status goed uit te lijnen */
-}
-
-
-/* Consistente stijl voor status indicatoren */
-.status {
-  width: 20px;
-  height: 8px;
-  display: inline-block;
-  border-radius: 30%; /* Maakt de statusindicatoren cirkelvormig */
-  margin: 0 auto; /* Zorgt dat de status gecentreerd is */
-}
-
-
 table {
   border: 1px solid black;
   border-radius: 10px;
   text-align: center;
 }
 
+.status-table {
+  width: 100%; /* Maakt de tabel breedte responsief */
+  max-width: 200px; /* Behoud een maximale breedte voor de tabel */
+  margin-left: 5px;
+  margin-bottom: 20px; /* Voeg wat ruimte toe onder de tabel */
+  border-collapse: collapse; /* Verwijdert de ruimte tussen cellen */
+  /* border: 2px solid #0e0c0c; Voegt een subtiele rand toe aan de tabel */
+ /* border-radius: 10px; /*Maakt de randen van de tabel afgerond*/
+}
+
+
+/* .status-table td {
+  text-align: center; 
+  padding: 10px; 
+  justify-content: center;
+  
+} */
+
+th {
+  padding: 5px; /* Geeft iets meer ruimte binnen de cellen */
+  text-align: left; /* Zorgt dat tekst links wordt uitgelijnd */
+  width: 80%; /* Maakt de kopjes 50% breedte van de tabel */
+  color: #555; /* Donkere kleur voor de kopjes */
+  font-weight: bold; /* Maakt de tekst in de kopjes vet */
+}
 
 td {
-  border: 1px solid black;
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px;
+  justify-content: center;
 }
+
+
+
+
+
+/* Consistente stijl voor status indicatoren */
+.status {
+
+
+  margin-top: 5px;
+  height: 8px;
+  display:flex; /* Zorgt dat de status in het midden van de cel staat */
+  justify-content: center;
+  align-items: center;
+  }
+
+
+
+
+.green {
+  background-color: rgb(2, 170, 2);
+}
+.red {
+  background-color: red;
+}
+
 /* Groene kleur voor verbonden status *

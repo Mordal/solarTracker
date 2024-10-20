@@ -78,7 +78,7 @@
 
         <div class="grid-container">
           <div class="grid-item">
-            <table width="120px" ; height="120px">
+            <table style="border-width: 2px; width: 120px; height: 120px">
               <tr>
                 <td>
                   <strong>LB</strong>
@@ -144,35 +144,35 @@
         </h2>
       </div>
       <div>
-        <div style="padding: 20px" class="grid-container">
-          <div class="grid-item">
+        <div style="margin: 20px" class="grid-container">
+          <div style="margin-left: 20px" class="grid-item">
             <h3>Links</h3>
-            <table style="width: 150px">
+            <table class="status-table">
               <tr>
                 <th>Active</th>
-                <td id="LEFT_Active" class="green status">true</td>
+                <td id="LEFT_Active" class="green status">T</td>
               </tr>
               <tr>
                 <th>Sensors</th>
-                <td id="LEFT_Sensors" class="green status">true</td>
+                <td id="LEFT_Sensors" class="green status">T</td>
               </tr>
               <tr>
                 <th>End</th>
-                <td id="LEFT_End" class="green status">false</td>
+                <td id="LEFT_End" class="green status">F</td>
               </tr>
               <tr>
                 <th>Antipendel</th>
-                <td id="LEFT_Antipendel" class="green status">false</td>
+                <td id="LEFT_Antipendel" class="green status">F</td>
               </tr>
               <tr>
                 <th>Alarm</th>
-                <td id="LEFT_Alarm" class="green status">false</td>
+                <td id="LEFT_Alarm" class="green status">F</td>
               </tr>
             </table>
-            <table style="margin-top: 5px; width: 150px">
+            <table class="status-table">
               <tr>
                 <th>Force</th>
-                <td id="LEFT_Force" class="red status">false</td>
+                <td id="LEFT_Force" class="red status">F</td>
               </tr>
               <tr>
                 <td colspan="2" style="border: none">
@@ -187,20 +187,21 @@
               </tr>
             </table>
           </div>
-          <div class="grid-item" style="margin-left: 40px">
+          <!-- style="margin-left: 40px" -->
+          <div class="grid-item">
             <h3>Rechts</h3>
             <table>
               <tr>
                 <th>Active:</th>
-                <td class="red">false</td>
+                <td class="red">F</td>
               </tr>
               <tr>
                 <th>Sensors:</th>
-                <td class="red">false</td>
+                <td class="red">F</td>
               </tr>
               <tr>
                 <th>Position:</th>
-                <td class="green">true</td>
+                <td class="green">T</td>
               </tr>
             </table>
           </div>

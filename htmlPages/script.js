@@ -101,7 +101,7 @@ function forceMovement_changeState(id) {
   }
 
   var statusCell = document.getElementById(id);
-  if (statusCell.innerHTML === 'false') {
+  if (statusCell.innerHTML === 'F') {
     changeState(statusCell);
     sendRequest(id, true);
   } else {
@@ -124,10 +124,10 @@ function changeStatusColor(statusCell) {
 }
 
 function changeStatusText(statusCell) {
-  if (statusCell.innerHTML == 'false') {
-    statusCell.innerHTML = 'true';
+  if (statusCell.innerHTML == 'F') {
+    statusCell.innerHTML = 'T';
   } else {
-    statusCell.innerHTML = 'false';
+    statusCell.innerHTML = 'F';
   }
 }
 
