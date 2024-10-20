@@ -3,7 +3,20 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header><h1>Solar Tracker</h1></header>
+    <header>
+      <div class="form-container">
+        <div class="title-container">
+          <h3>Settings</h3>
+          <div id="colorSquare" class="square"></div>
+        </div>
+        <form id="unlockForm">
+          <input type="text" class="input-field" name="unlock" required />
+          <button type="submit" class="submit-btn">UNLOCK</button>
+        </form>
+        <p id="responseMessage"></p>
+      </div>
+      <h1 style="margin-left: 200px">Solar Tracker</h1>
+    </header>
     <section>
       <nav>
         <ul>
@@ -11,8 +24,8 @@
           <li><a href="./TIMERS\">Timers </a></li>
           <li><a href="./JSON\">Full Json </a></li>
         </ul>
-        <h3 style="padding-left: 35px">Flags</h3>
-        <table style="width: 270px; padding-left: 15px">
+        <h3 class="section-title">Flags</h3>
+        <table class="status-table">
           <tr>
             <th>Wifi Connected</th>
             <td id="Wifi_connected" class="green status"></td>
@@ -21,6 +34,30 @@
             <th>Mqtt Connected</th>
             <td id="Mqtt_connected" class="green status"></td>
           </tr>
+          <tr>
+            <th>isNight</th>
+            <td id="isNight" class="green status"></td>
+          </tr>
+        </table>
+
+        <h3 class="section-title">Alarms</h3>
+        <table class="status-table">
+          <tr>
+            <th>Draaien te lang</th>
+            <td id="Draaien_too_long" class="green status"></td>
+          </tr>
+          <tr>
+            <th>Kantelen te lang</th>
+            <td id="Kantelen_too_long" class="green status"></td>
+          </tr>
+          <tr>
+            <th>Reset happened</th>
+            <td id="reset" class="green status"></td>
+          </tr>
+        </table>
+
+        <h3 class="section-title">Modes</h3>
+        <table class="status-table">
           <tr>
             <th>Test Mode</th>
             <td id="TEST_MODE" class="green status"></td>
@@ -33,35 +70,7 @@
             <th>Stop Mode</th>
             <td id="STOP_MODE" class="green status"></td>
           </tr>
-          <tr>
-            <th>isNight</th>
-            <td id="isNight" class="green status"></td>
-          </tr>
-          <tr>
-            <th>Alarm - Draaien te lang</th>
-            <td id="Draaien_too_long" class="green status"></td>
-          </tr>
-          <tr>
-            <th>Alarm - Kantelen te lang</th>
-            <td id="Kantelen_too_long" class="green status"></td>
-          </tr>
-          <tr>
-            <th>Alarm - Reset</th>
-            <td id="reset" class="green status"></td>
-          </tr>
         </table>
-
-        <div class="form-container">
-          <div class="title-container">
-            <h3>Settings</h3>
-            <div id="colorSquare" class="square"></div>
-          </div>
-          <form id="unlockForm">
-            <input type="text" class="input-field" name="unlock" required />
-            <button type="submit" class="submit-btn">UNLOCK</button>
-          </form>
-          <p id="responseMessage"></p>
-        </div>
       </nav>
 
       <div class="container">

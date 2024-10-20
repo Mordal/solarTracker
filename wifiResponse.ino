@@ -76,12 +76,13 @@ void response_API_Request(WiFiClient client, String currentLine) {
       sendJsonData(client, getSettings());
    } else if (requestHasString(currentLine, "GET /API/TIMERS")) {
       sendJsonData(client, getRemainingTime());
-   } else if (requestHasString(currentLine, "GET /API")) {
-      sendEndpoints(client);
    } else if (requestHasString(currentLine, "GET /API/RESETALARM") &&
               settingsUnlocked) {
       apiResetAlarms(client);
 
+      // deze moet als laatste
+   } else if (requestHasString(currentLine, "GET /API")) {
+      sendEndpoints(client);
    } else {
       sendInvalidRequest(client);
    }

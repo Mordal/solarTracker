@@ -35,9 +35,9 @@ async function getSensors() {
 
 function setFlags(data) {
   if (data.Flags.SettingsUnlocked) {
-    document.getElementById('colorSquare').classList.add('green');
+    document.getElementById('colorSquare').classList.add('green-square');
   } else {
-    document.getElementById('colorSquare').classList.remove('green');
+    document.getElementById('colorSquare').classList.remove('green-square');
   }
 }
 
@@ -147,6 +147,7 @@ document.getElementById('unlockForm').addEventListener('submit', async function 
 
   // Verkrijg de waarde van het inputveld
   const unlockCode = document.querySelector('input[name="unlock"]').value;
+  document.querySelector('input[name="unlock"]').value = '';
 
   // Gebruik Fetch API om een POST-verzoek te sturen naar /UNLOCK
   fetch(`${baseUrl}/UNLOCK`, {
@@ -162,7 +163,7 @@ document.getElementById('unlockForm').addEventListener('submit', async function 
     })
     .then((responseText) => {
       console.log(responseText); // Hier krijg je de response body als tekst
-      document.getElementById('responseMessage').textContent = responseText;
+      document.querySelector('input[name="unlock"]').value = responseText;
       getFlags();
     })
     .catch((error) => {
