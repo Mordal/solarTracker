@@ -47,6 +47,9 @@ h3 {
   font-size: 30px;
   text-align: center;
 }
+.grid-item td {
+  border: 1px solid black;
+}
 
 .button {
   border: none;
@@ -220,8 +223,6 @@ td {
 
 /* Consistente stijl voor status indicatoren */
 .status {
-
-
   margin-top: 5px;
   height: 8px;
   display:flex; /* Zorgt dat de status in het midden van de cel staat */
