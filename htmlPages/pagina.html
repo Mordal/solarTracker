@@ -4,7 +4,7 @@
   </head>
   <body>
     <header>
-      <div class="form-container">
+      <div style="max-height: 140px" class="form-group">
         <div class="title-container">
           <h3>Settings</h3>
           <div id="colorSquare" class="square"></div>
@@ -24,59 +24,64 @@
           <li><a href="./TIMERS\">Timers </a></li>
           <li><a href="./JSON\">Full Json </a></li>
         </ul>
-        <h3 class="section-title">Flags</h3>
-        <table class="status-table">
-          <tr>
-            <th>Wifi Connected</th>
-            <td id="Wifi_connected" class="green status"></td>
-          </tr>
-          <tr>
-            <th>Mqtt Connected</th>
-            <td id="Mqtt_connected" class="green status"></td>
-          </tr>
-          <tr>
-            <th>isNight</th>
-            <td id="isNight" class="green status"></td>
-          </tr>
-        </table>
+        <div class="grid-item">
+          <h3 class="section-title">Flags</h3>
+          <table class="status-table">
+            <tr>
+              <th>Wifi Connected</th>
+              <td id="Wifi_connected" class="green status"></td>
+            </tr>
+            <tr>
+              <th>Mqtt Connected</th>
+              <td id="Mqtt_connected" class="green status"></td>
+            </tr>
+            <tr>
+              <th>isNight</th>
+              <td id="isNight" class="green status"></td>
+            </tr>
+          </table>
+        </div>
+        <div class="grid-item">
+          <h3 class="section-title">Alarms</h3>
+          <table class="status-table">
+            <tr>
+              <th>Draaien te lang</th>
+              <td id="Draaien_too_long" class="green status"></td>
+            </tr>
+            <tr>
+              <th>Kantelen te lang</th>
+              <td id="Kantelen_too_long" class="green status"></td>
+            </tr>
+            <tr>
+              <th>Reset happened</th>
+              <td id="reset" class="green status"></td>
+            </tr>
+          </table>
+        </div>
 
-        <h3 class="section-title">Alarms</h3>
-        <table class="status-table">
-          <tr>
-            <th>Draaien te lang</th>
-            <td id="Draaien_too_long" class="green status"></td>
-          </tr>
-          <tr>
-            <th>Kantelen te lang</th>
-            <td id="Kantelen_too_long" class="green status"></td>
-          </tr>
-          <tr>
-            <th>Reset happened</th>
-            <td id="reset" class="green status"></td>
-          </tr>
-        </table>
-
-        <h3 class="section-title">Modes</h3>
-        <table class="status-table">
-          <tr>
-            <th>Test Mode</th>
-            <td id="TEST_MODE" class="green status"></td>
-          </tr>
-          <tr>
-            <th>Safe Mode</th>
-            <td id="SAFE_MODE" class="green status"></td>
-          </tr>
-          <tr>
-            <th>Stop Mode</th>
-            <td id="STOP_MODE" class="green status"></td>
-          </tr>
-        </table>
+        <div class="grid-item">
+          <h3 class="section-title">Modes</h3>
+          <table class="status-table">
+            <tr>
+              <th>Test Mode</th>
+              <td id="TEST_MODE" class="green status"></td>
+            </tr>
+            <tr>
+              <th>Safe Mode</th>
+              <td id="SAFE_MODE" class="green status"></td>
+            </tr>
+            <tr>
+              <th>Stop Mode</th>
+              <td id="STOP_MODE" class="green status"></td>
+            </tr>
+          </table>
+        </div>
       </nav>
 
       <div class="container">
         <h2>Sensors</h2>
 
-        <div class="grid-container">
+        <div class="grid-container" style="margin-left: 20px">
           <div class="grid-item">
             <table style="border-width: 2px; width: 120px; height: 120px">
               <tr>
@@ -104,7 +109,7 @@
             </table>
           </div>
           <div class="grid-item">
-            <table width="120px" ; height="120px">
+            <table style="border-width: 2px; width: 120px; height: 120px">
               <tr>
                 <td>
                   <strong>L</strong>
@@ -119,7 +124,7 @@
             </table>
           </div>
           <div class="grid-item">
-            <table width="120px" ; height="120px">
+            <table style="border-width: 2px; width: 120px; height: 120px">
               <tr>
                 <td>
                   <strong>B</strong>
@@ -137,73 +142,235 @@
           </div>
         </div>
       </div>
-      <div style="margin-bottom: -40px" class="container">
+      <div class="container">
         <h2>
-          Movement
           <button id="StopButton" class="button button1 button2">STOP</button>
+          <span style="padding-right: 180" class="center-text">Movement</span>
         </h2>
-      </div>
-      <div>
-        <div style="margin: 20px" class="grid-container">
-          <div style="margin-left: 20px" class="grid-item">
-            <h3>Links</h3>
-            <table class="status-table">
-              <tr>
-                <th>Active</th>
-                <td id="LEFT_Active" class="green status">T</td>
-              </tr>
-              <tr>
-                <th>Sensors</th>
-                <td id="LEFT_Sensors" class="green status">T</td>
-              </tr>
-              <tr>
-                <th>End</th>
-                <td id="LEFT_End" class="green status">F</td>
-              </tr>
-              <tr>
-                <th>Antipendel</th>
-                <td id="LEFT_Antipendel" class="green status">F</td>
-              </tr>
-              <tr>
-                <th>Alarm</th>
-                <td id="LEFT_Alarm" class="green status">F</td>
-              </tr>
-            </table>
-            <table class="status-table">
-              <tr>
-                <th>Force</th>
-                <td id="LEFT_Force" class="red status">F</td>
-              </tr>
-              <tr>
-                <td colspan="2" style="border: none">
-                  <button
-                    class="button button1"
-                    onmousedown="forceMovement_changeState('LEFT_Force')"
-                    onmouseup="forceMovement_changeState('LEFT_Force')"
-                  >
-                    FORCE
-                  </button>
-                </td>
-              </tr>
-            </table>
+
+        <div>
+          <div class="grid-container">
+            <div style="margin-left: 20px" class="grid-item">
+              <h3>Links</h3>
+              <table class="status-table">
+                <tr>
+                  <th>Active</th>
+                  <td id="LEFT_Active" class="green status">T</td>
+                </tr>
+                <tr>
+                  <th>Sensors</th>
+                  <td id="LEFT_Sensors" class="green status">T</td>
+                </tr>
+                <tr>
+                  <th>End</th>
+                  <td id="LEFT_End" class="green status">F</td>
+                </tr>
+                <tr>
+                  <th>Antipendel</th>
+                  <td id="LEFT_Antipendel" class="green status">F</td>
+                </tr>
+                <tr>
+                  <th>Alarm</th>
+                  <td id="LEFT_Alarm" class="green status">F</td>
+                </tr>
+              </table>
+              <table class="status-table">
+                <tr>
+                  <th>Force L</th>
+                  <td id="LEFT_Force" class="red status">F</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="border: none">
+                    <button
+                      class="button button1"
+                      onmousedown="forceMovement_changeState('LEFT_Force')"
+                      onmouseup="forceMovement_changeState('LEFT_Force')"
+                    >
+                      FORCE
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- style="margin-left: 40px" -->
+            <div style="margin-left: 20px" class="grid-item">
+              <h3>Rechts</h3>
+              <table class="status-table">
+                <tr>
+                  <th>Active</th>
+                  <td id="LEFT_Active" class="green status">T</td>
+                </tr>
+                <tr>
+                  <th>Sensors</th>
+                  <td id="LEFT_Sensors" class="green status">T</td>
+                </tr>
+                <tr>
+                  <th>End</th>
+                  <td id="LEFT_End" class="green status">F</td>
+                </tr>
+                <tr>
+                  <th>Antipendel</th>
+                  <td id="LEFT_Antipendel" class="green status">F</td>
+                </tr>
+                <tr>
+                  <th>Alarm</th>
+                  <td id="LEFT_Alarm" class="green status">F</td>
+                </tr>
+              </table>
+              <table class="status-table">
+                <tr>
+                  <th>Force R</th>
+                  <td id="LEFT_Force" class="red status">F</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="border: none">
+                    <button
+                      class="button button1"
+                      onmousedown="forceMovement_changeState('LEFT_Force')"
+                      onmouseup="forceMovement_changeState('LEFT_Force')"
+                    >
+                      FORCE
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div style="margin-left: 20px" class="grid-item">
+              <h3>Boven</h3>
+              <table class="status-table">
+                <tr>
+                  <th>Active</th>
+                  <td id="LEFT_Active" class="green status">T</td>
+                </tr>
+                <tr>
+                  <th>Sensors</th>
+                  <td id="LEFT_Sensors" class="green status">T</td>
+                </tr>
+                <tr>
+                  <th>End</th>
+                  <td id="LEFT_End" class="green status">F</td>
+                </tr>
+                <tr>
+                  <th>Antipendel</th>
+                  <td id="LEFT_Antipendel" class="green status">F</td>
+                </tr>
+                <tr>
+                  <th>Alarm</th>
+                  <td id="LEFT_Alarm" class="green status">F</td>
+                </tr>
+              </table>
+              <table class="status-table">
+                <tr>
+                  <th>Force B</th>
+                  <td id="LEFT_Force" class="red status">F</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="border: none">
+                    <button
+                      class="button button1"
+                      onmousedown="forceMovement_changeState('LEFT_Force')"
+                      onmouseup="forceMovement_changeState('LEFT_Force')"
+                    >
+                      FORCE
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div style="margin-left: 20px" class="grid-item">
+              <h3>Onder</h3>
+              <table class="status-table">
+                <tr>
+                  <th>Active</th>
+                  <td id="LEFT_Active" class="green status">T</td>
+                </tr>
+                <tr>
+                  <th>Sensors</th>
+                  <td id="LEFT_Sensors" class="green status">T</td>
+                </tr>
+                <tr>
+                  <th>End</th>
+                  <td id="LEFT_End" class="green status">F</td>
+                </tr>
+                <tr>
+                  <th>Antipendel</th>
+                  <td id="LEFT_Antipendel" class="green status">F</td>
+                </tr>
+                <tr>
+                  <th>Alarm</th>
+                  <td id="LEFT_Alarm" class="green status">F</td>
+                </tr>
+              </table>
+              <table class="status-table">
+                <tr>
+                  <th>Force O</th>
+                  <td id="LEFT_Force" class="red status">F</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="border: none">
+                    <button
+                      class="button button1"
+                      onmousedown="forceMovement_changeState('LEFT_Force')"
+                      onmouseup="forceMovement_changeState('LEFT_Force')"
+                    >
+                      FORCE
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
           </div>
-          <!-- style="margin-left: 40px" -->
-          <div class="grid-item">
-            <h3>Rechts</h3>
-            <table>
-              <tr>
-                <th>Active:</th>
-                <td class="red">F</td>
-              </tr>
-              <tr>
-                <th>Sensors:</th>
-                <td class="red">F</td>
-              </tr>
-              <tr>
-                <th>Position:</th>
-                <td class="green">T</td>
-              </tr>
-            </table>
+        </div>
+      </div>
+      <div class="container"></div>
+
+      <div class="setting-container">
+        <h2>Instellingen</h2>
+        <div>
+          <div class="input-grid">
+            <div class="form-group">
+              <label for="LB_Offset">LB Offset</label>
+              <input
+                type="number"
+                id="LB_Offset"
+                name="LB_Offset"
+                placeholder="LB Offset"
+              />
+              <button type="submit" class="save-btn">Opslaan</button>
+            </div>
+            <div class="form-group">
+              <label for="RB_Offset">RB Offset</label>
+              <input
+                type="number"
+                id="RB_Offset"
+                name="RB_Offset"
+                placeholder="RB Offset"
+              />
+              <button type="submit" class="save-btn">Opslaan</button>
+            </div>
+            <div class="form-group">
+              <label for="LO_Offset">LO Offset</label>
+              <input
+                type="number"
+                id="LO_Offset"
+                name="LO_Offset"
+                placeholder="LO Offset"
+              />
+              <button type="submit" class="save-btn">Opslaan</button>
+            </div>
+            <div class="form-group">
+              <label for="RO_Offset">RO Offset</label>
+              <input
+                type="number"
+                id="RO_Offset"
+                name="RO_Offset"
+                placeholder="RO Offset"
+              />
+              <button type="submit" class="save-btn">Opslaan</button>
+            </div>
           </div>
         </div>
       </div>
