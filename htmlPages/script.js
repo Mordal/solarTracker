@@ -141,13 +141,15 @@ function sendRequest(id, state) {
   //   });
 }
 
-document.getElementById('unlockForm').addEventListener('submit', async function (event) {
+// UNLOCK FORM //
+document.getElementById('unlockBtn').addEventListener('click', async function (event) {
+  console.log('unlockForm UNLOCK Pressed');
   // Voorkom dat de pagina herlaadt
   event.preventDefault();
 
   // Verkrijg de waarde van het inputveld
-  const unlockCode = document.querySelector('input[name="unlock"]').value;
-  document.querySelector('input[name="unlock"]').value = '';
+  const unlockCode = document.querySelector('input[name="Unlock"]').value;
+  document.querySelector('input[name="Unlock"]').value = '';
 
   // Gebruik Fetch API om een POST-verzoek te sturen naar /UNLOCK
   fetch(`${baseUrl}/UNLOCK`, {

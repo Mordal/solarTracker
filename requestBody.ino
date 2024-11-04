@@ -70,6 +70,14 @@ void control(WiFiClient client, String body) {
       inschuiven_FORCE = jsonBody["IN_Force"];
    }
 
+   // GOTO POSITION //
+   if (jsonBody.hasOwnProperty("TURN_Position")) {
+      gotoTurnPosition(jsonBody["TURN_Position"]);
+   }
+   if (jsonBody.hasOwnProperty("TILT_Position")) {
+      gotoTiltPercentage(jsonBody["TILT_Position"]);
+   }
+
    // MODES //
    if (jsonBody.hasOwnProperty("TEST_MODE")) {
       TEST_MODE = jsonBody["TEST_MODE"];
