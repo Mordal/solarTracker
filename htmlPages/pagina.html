@@ -403,81 +403,165 @@
         <div class="input-grid">
           <!-- Timer 1 -->
           <div class="form-group">
-            <label for="Timer1">Timer 1</label>
+            <label for="AP_Draaien">AP Draaien</label>
 
             <div class="progress-bar">
-              <div class="progress" id="Timer1Progress">
-                <span class="progress-text" id="Timer1ProgressText"></span>
+              <div class="progress" id="AP_DraaienProgress">
+                <span class="progress-text" id="AP_DraaienProgressText"></span>
               </div>
             </div>
             <input
               type="number"
-              id="Timer1Timeout"
-              name="Timer1Timeout"
+              id="AP_DraaienTimeout"
+              name="AP_DraaienTimeout"
               placeholder="Timeout (seconden)"
               aria-label="Timeout tijd voor Timer 1"
             />
-            <button type="button" class="save-btn" onclick="startTimer('Timer1')">
+            <button type="button" class="save-btn" onclick="startTimer('AP_Draaien')">
               Start
             </button>
           </div>
 
           <!-- Timer 2 -->
           <div class="form-group">
-            <label for="Timer2">Timer 2</label>
+            <label for="AP_Kantelen">AP Kantelen</label>
             <div class="progress-bar">
-              <div class="progress" id="Timer2Progress">
-                <span class="progress-text" id="Timer2ProgressText"></span>
+              <div class="progress" id="AP_KantelenProgress">
+                <span class="progress-text" id="AP_KantelenProgressText"></span>
               </div>
             </div>
             <input
               type="number"
-              id="Timer2Timeout"
-              name="Timer2Timeout"
+              id="AP_KantelenTimeout"
+              name="AP_KantelenTimeout"
               placeholder="Timeout (seconden)"
               aria-label="Timeout tijd voor Timer 2"
             />
-            <button type="button" class="save-btn" onclick="startTimer('Timer2')">
+            <button type="button" class="save-btn" onclick="startTimer('AP_Kantelen')">
               Start
             </button>
           </div>
 
           <!-- Timer 3 -->
           <div class="form-group">
-            <label for="Timer3">Timer 3</label>
+            <label for="Draaien_TO">Draaien Timeout</label>
             <div class="progress-bar">
-              <div class="progress" id="Timer3Progress">
-                <span class="progress-text" id="Timer3ProgressText"></span>
+              <div class="progress" id="Draaien_TOProgress">
+                <span class="progress-text" id="Draaien_TOProgressText"></span>
               </div>
             </div>
             <input
               type="number"
-              id="Timer3Timeout"
-              name="Timer3Timeout"
+              id="Draaien_TOTimeout"
+              name="Draaien_TOTimeout"
               placeholder="Timeout (seconden)"
               aria-label="Timeout tijd voor Timer 3"
             />
-            <button type="button" class="save-btn" onclick="startTimer('Timer3')">
+            <button type="button" class="save-btn" onclick="startTimer('Draaien_TO')">
               Start
             </button>
           </div>
 
           <!-- Timer 4 -->
           <div class="form-group">
-            <label for="Timer4">Timer 4</label>
+            <label for="Kantelen_TO">Kantelen Timeout</label>
             <div class="progress-bar">
-              <div class="progress" id="Timer4Progress">
-                <span class="progress-text" id="Timer4ProgressText"></span>
+              <div class="progress" id="Kantelen_TOProgress">
+                <span class="progress-text" id="Kantelen_TOProgressText"></span>
               </div>
             </div>
             <input
               type="number"
-              id="Timer4Timeout"
-              name="Timer4Timeout"
+              id="Kantelen_TOTimeout"
+              name="Kantelen_TOTimeout"
               placeholder="Timeout (seconden)"
               aria-label="Timeout tijd voor Timer 4"
             />
-            <button type="button" class="save-btn" onclick="startTimer('Timer4')">
+            <button type="button" class="save-btn" onclick="startTimer('Kantelen_TO')">
+              Start
+            </button>
+          </div>
+
+          <!-- Timer 5 -->
+          <div class="form-group">
+            <label for="LogbookTimer">Logbook timer</label>
+            <div class="progress-bar">
+              <div class="progress" id="LogbookTimerProgress">
+                <span class="progress-text" id="LogbookTimerProgressText"></span>
+              </div>
+            </div>
+            <input
+              type="number"
+              id="LogbookTimerTimeout"
+              name="LogbookTimerTimeout"
+              placeholder="Timeout (seconden)"
+              aria-label="Timeout tijd voor Timer 4"
+            />
+            <button type="button" class="save-btn" onclick="startTimer('LogbookTimer')">
+              Start
+            </button>
+          </div>
+
+          <!-- Timer 6 -->
+          <div class="form-group">
+            <label for="Retry_Timer">Retry timer</label>
+            <div class="progress-bar">
+              <div class="progress" id="Retry_TimerProgress">
+                <span class="progress-text" id="Retry_TimerProgressText"></span>
+              </div>
+            </div>
+            <input
+              type="number"
+              id="Retry_TimerTimeout"
+              name="Retry_TimerTimeout"
+              placeholder="Timeout (seconden)"
+              aria-label="Timeout tijd voor Timer 4"
+            />
+            <button type="button" class="save-btn" onclick="startTimer('Retry_Timer')">
+              Start
+            </button>
+          </div>
+
+          <!-- Timer 7 -->
+          <div class="form-group">
+            <label for="Settings_Unlock">Settings Unlock</label>
+            <div class="progress-bar">
+              <div class="progress" id="Settings_UnlockProgress">
+                <span class="progress-text" id="Settings_UnlockProgressText"></span>
+              </div>
+            </div>
+            <input
+              type="number"
+              id="Settings_UnlockTimeout"
+              name="Settings_UnlockTimeout"
+              placeholder="Timeout (seconden)"
+              aria-label="Timeout tijd voor Timer 4"
+            />
+            <button
+              type="button"
+              class="save-btn"
+              onclick="startTimer('Settings_Unlock')"
+            >
+              Start
+            </button>
+          </div>
+
+          <!-- Timer 8 -->
+          <div class="form-group">
+            <label for="goToPosition">Go to Position</label>
+            <div class="progress-bar">
+              <div class="progress" id="goToPositionProgress">
+                <span class="progress-text" id="goToPositionProgressText"></span>
+              </div>
+            </div>
+            <input
+              type="number"
+              id="goToPositionTimeout"
+              name="goToPositionTimeout"
+              placeholder="Timeout (seconden)"
+              aria-label="Timeout tijd voor Timer 4"
+            />
+            <button type="button" class="save-btn" onclick="startTimer('goToPosition')">
               Start
             </button>
           </div>
