@@ -4,14 +4,11 @@ body {
 }
 
 h2 {
-
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
 
   margin-bottom: 20px;
   color: #333;
@@ -34,15 +31,14 @@ h3 {
   /* margin: 20px auto; */
   background-color: #fff;
   flex-wrap: wrap;
- 
 }
 
-.setting-container{
+.setting-container {
   display: flex;
   flex-direction: column;
   max-width: 800px;
 }
-.container h2  {
+.container h2 {
   display: flex;
   align-items: center;
   margin-top: 20; /* Verwijder standaard marges */
@@ -73,9 +69,6 @@ h3 {
   transition: background-color 0.3s ease;
 }
 
-
-
-
 .form-group {
   padding: 10px;
   background-color: hsla(231, 76%, 65%, 0.705);
@@ -95,7 +88,6 @@ label {
 .grid-container {
   grid-template-columns: 150px 150px 150px 150px 200px;
   display: grid;
-  
 }
 .grid-item {
   /* background-color: rgba(255, 255, 255, 0.8); */
@@ -105,7 +97,7 @@ label {
   text-align: center;
 }
 .movement-grid {
-  margin-left: 20px
+  margin-left: 20px;
 }
 
 .grid-item td {
@@ -145,7 +137,6 @@ label {
   transform: translateY(4px); /* Blijft ingedrukt */
 }
 
-
 header {
   background-color: #666;
   padding: 10px;
@@ -178,8 +169,6 @@ footer {
   color: white;
 }
 
-
-
 input {
   padding: 8px;
   font-size: 1em;
@@ -202,7 +191,6 @@ input {
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 15px;
 }
-
 
 /* Stijlen voor de submitknop */
 .submit-btn {
@@ -250,7 +238,6 @@ table {
   border: 1px solid black;
   border-radius: 10px;
   text-align: center;
-
 }
 
 .status-table {
@@ -261,9 +248,8 @@ table {
 
   /*border-collapse: collapse;  Verwijdert de ruimte tussen cellen */
   /* border: 2px solid #0e0c0c; Voegt een subtiele rand toe aan de tabel */
- /* border-radius: 10px; /*Maakt de randen van de tabel afgerond*/
+  /* border-radius: 10px; /*Maakt de randen van de tabel afgerond*/
 }
-
 
 /* .status-table td {
   text-align: center; 
@@ -286,25 +272,19 @@ td {
   justify-content: center;
 }
 
-
-
-
-
 /* Consistente stijl voor status indicatoren */
 .status {
   margin-top: 5px;
   height: 8px;
-  display:flex; /* Zorgt dat de status in het midden van de cel staat */
+  display: flex; /* Zorgt dat de status in het midden van de cel staat */
   justify-content: center;
   align-items: center;
-  }
+}
 
-  .center-text {
-    flex-grow: 1;
-    text-align: center;
-  }
-
-
+.center-text {
+  flex-grow: 1;
+  text-align: center;
+}
 
 .green {
   background-color: rgb(2, 170, 2);
@@ -313,5 +293,36 @@ td {
   background-color: red;
 }
 
+/* Groene kleur voor verbonden status */
 
-/* Groene kleur voor verbonden status *
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  background-color: #de6257;
+  transition: width 0.1s linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-text {
+  color: #000;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+  line-height: 20px; /* Zorgt ervoor dat de tekst verticaal gecentreerd is */
+  pointer-events: none; /* Maakt de tekst niet klikbaar */
+}

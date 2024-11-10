@@ -325,30 +325,30 @@
             </div>
             <div class="input-grid movement-grid">
               <div class="form-group">
-                <label for="LB_Offset">Draai Pos. 40,73%</label>
+                <label for="Draaien-Positie">Draaien - 40,73%</label>
                 <input
                   type="number"
-                  id="LB_Offset"
-                  name="LB_Offset"
-                  placeholder="LB Offset"
+                  id="Draaien-Positie"
+                  name="Draaien-Positie"
+                  placeholder="Ga naar positie"
                 />
-                <button type="submit" class="save-btn">Opslaan</button>
+                <button type="submit" class="save-btn">GO</button>
               </div>
               <div style="margin-bottom: 20px" class="form-group">
-                <label for="RB_Offset">Kantel Pos. 20,45%</label>
+                <label for="Kantelen-Positie">Kantelen - 20,45%</label>
                 <input
                   type="number"
-                  id="RB_Offset"
-                  name="RB_Offset"
-                  placeholder="RB Offset"
+                  id="Kantelen-Positie"
+                  name="Kantelen-Positie"
+                  placeholder="Ga naar positie"
                 />
-                <button type="submit" class="save-btn">Opslaan</button>
+                <button type="submit" class="save-btn">GO</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="container"></div>
+      <!-- <div class="container"></div> -->
 
       <div class="setting-container">
         <h2>Instellingen</h2>
@@ -394,6 +394,92 @@
               />
               <button type="submit" class="save-btn">Opslaan</button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="setting-container">
+        <h2>Timers</h2>
+        <div class="input-grid">
+          <!-- Timer 1 -->
+          <div class="form-group">
+            <label for="Timer1">Timer 1</label>
+
+            <div class="progress-bar">
+              <div class="progress" id="Timer1Progress">
+                <span class="progress-text" id="Timer1ProgressText"></span>
+              </div>
+            </div>
+            <input
+              type="number"
+              id="Timer1Timeout"
+              name="Timer1Timeout"
+              placeholder="Timeout (seconden)"
+              aria-label="Timeout tijd voor Timer 1"
+            />
+            <button type="button" class="save-btn" onclick="startTimer('Timer1')">
+              Start
+            </button>
+          </div>
+
+          <!-- Timer 2 -->
+          <div class="form-group">
+            <label for="Timer2">Timer 2</label>
+            <div class="progress-bar">
+              <div class="progress" id="Timer2Progress">
+                <span class="progress-text" id="Timer2ProgressText"></span>
+              </div>
+            </div>
+            <input
+              type="number"
+              id="Timer2Timeout"
+              name="Timer2Timeout"
+              placeholder="Timeout (seconden)"
+              aria-label="Timeout tijd voor Timer 2"
+            />
+            <button type="button" class="save-btn" onclick="startTimer('Timer2')">
+              Start
+            </button>
+          </div>
+
+          <!-- Timer 3 -->
+          <div class="form-group">
+            <label for="Timer3">Timer 3</label>
+            <div class="progress-bar">
+              <div class="progress" id="Timer3Progress">
+                <span class="progress-text" id="Timer3ProgressText"></span>
+              </div>
+            </div>
+            <input
+              type="number"
+              id="Timer3Timeout"
+              name="Timer3Timeout"
+              placeholder="Timeout (seconden)"
+              aria-label="Timeout tijd voor Timer 3"
+            />
+            <button type="button" class="save-btn" onclick="startTimer('Timer3')">
+              Start
+            </button>
+          </div>
+
+          <!-- Timer 4 -->
+          <div class="form-group">
+            <label for="Timer4">Timer 4</label>
+            <div class="progress-bar">
+              <div class="progress" id="Timer4Progress">
+                <span class="progress-text" id="Timer4ProgressText"></span>
+              </div>
+            </div>
+            <input
+              type="number"
+              id="Timer4Timeout"
+              name="Timer4Timeout"
+              placeholder="Timeout (seconden)"
+              aria-label="Timeout tijd voor Timer 4"
+            />
+            <button type="button" class="save-btn" onclick="startTimer('Timer4')">
+              Start
+            </button>
           </div>
         </div>
       </div>

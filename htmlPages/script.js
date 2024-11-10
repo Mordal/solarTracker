@@ -172,3 +172,27 @@ document.getElementById('unlockBtn').addEventListener('click', async function (e
       console.error('Fout:', error);
     });
 });
+
+function startTimer(timerId) {
+  const timeoutInput = document.getElementById(`${timerId}Timeout`);
+  const progressElement = document.getElementById(`${timerId}Progress`);
+  const progressText = document.getElementById(`${timerId}ProgressText`);
+  const totalDuration = parseInt(timeoutInput.value) || 0;
+  let remainingTime = totalDuration;
+
+  if (totalDuration > 0) {
+    progressElement.style.width = '100%';
+    progressText.textContent = `${remainingTime}/${totalDuration}`;
+    const interval = setInterval(() => {
+      remainingTime -= 0.1; // update elke 100ms voor vloeiende animatie
+      progressElement.style.width = `${(remainingTime / totalDuration) * 100}%`;
+      progressText.textContent = `${Math.ceil(remainingTime)}/${totalDuration}`; // afronding naar boven
+
+      if (remainingTime <= 0) {
+        clearInterval(interval);
+        progressElement.style.width = '0%';
+        progressText.textContent = `0/${totalDuration}`;
+      }
+    }, 100);
+  }
+}
