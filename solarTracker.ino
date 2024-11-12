@@ -40,6 +40,11 @@ int lichtSensors_Rechts = 0;
 int lichtSensors_Boven = 0;
 int lichtSensors_Onder = 0;
 
+// Presets
+byte turnPercentage_Presets[14];      // preset turn percentages from 6h to 19h
+byte tiltPercentage_Presets[12][14];  // Preset tilt percentages per maand en 6h
+                                      // tot 19h
+
 // MOVEMENT //
 // DRAAIEN //
 // pins

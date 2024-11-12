@@ -28,7 +28,6 @@ h3 {
   display: flex;
   align-items: center; /* Verticaal uitlijnen */
   max-width: 800px;
-  /* margin: 20px auto; */
   background-color: #fff;
   flex-wrap: wrap;
 }
