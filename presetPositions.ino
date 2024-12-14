@@ -6,14 +6,14 @@
 // Wintertijd: Van de laatste zondag van oktober tot de laatste zondag van maart
 // (het daaropvolgende jaar).
 
-turnPercentage_Presets = {0,  5,  10, 19, 28, 35, 42,
+byte turnPercentage_Presets[14] = {0,  5,  10, 19, 28, 35, 42,
                           52, 61, 70, 75, 80, 88, 100};
 
-byte getTurnPercentage_Presets() { return turnPercentage_Presets; };
+// byte[14] getTurnPercentage_Presets() { return turnPercentage_Presets; };
 
-void setTurnPercentage_Presets(byte[14] newTurnPercentagePresets) {
-   turnPercentage_Presets = newTurnPercentagePresets;
-};
+// void setTurnPercentage_Presets(byte[14] ...newTurnPercentagePresets) {
+//    turnPercentage_Presets = ...newTurnPercentagePresets;
+// };
 
 byte getExpectedTurnPosition(byte hour) {
    // Winter:
@@ -48,7 +48,7 @@ byte getExpectedTurnPosition(byte hour) {
    return turnPercentage;
 }
 
-tiltPercentage_Presets = {
+byte tiltPercentage_Presets[12][14] = {
     // Januari  (0)
     {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
     // Februari (1)
@@ -75,10 +75,10 @@ tiltPercentage_Presets = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
 
-byte getTiltPercentage_Presets() { return tiltPercentage_Presets; };
-void setTiltPercentage_Presets(byte[12][14] newTiltPercentagePresets) {
-   tiltPercentage_Presets = newTiltPercentagePresets;
-}
+// byte getTiltPercentage_Presets() { return tiltPercentage_Presets; };
+// void setTiltPercentage_Presets(byte newTiltPercentagePresets[12][14]) {
+//    tiltPercentage_Presets = newTiltPercentagePresets;
+// }
 
 byte getExpectedTiltPosition(byte hour, byte month) {
    // Winter:

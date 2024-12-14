@@ -72,7 +72,7 @@ void control(WiFiClient client, String body) {
 
    // GOTO POSITION //
    if (jsonBody.hasOwnProperty("TURN_Position")) {
-      gotoTurnPosition(jsonBody["TURN_Position"]);
+      gotoTurnPercentage(jsonBody["TURN_Position"]);
    }
    if (jsonBody.hasOwnProperty("TILT_Position")) {
       gotoTiltPercentage(jsonBody["TILT_Position"]);
