@@ -22,6 +22,7 @@ void stopMomevement() {
 }
 
 void gotoNightPosition() {
+  print("IS NIGHT");
    if (isNight()) {
       goToLeftEnd();
       gotoTiltPercentage(20);
