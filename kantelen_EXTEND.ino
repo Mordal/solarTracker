@@ -8,8 +8,9 @@ void forceExtend() {
 }
 
 bool needToExtend() {
-   if (lichtSensors_Boven > lichtSensors_Onder + licht_marge) {
+   if (lichtSensors_Boven > (lichtSensors_Onder + licht_marge)) {
       uitschuiven_Sensors = true;
+      inschuiven_Sensors = false;
       return true;
    }
    uitschuiven_Sensors = false;

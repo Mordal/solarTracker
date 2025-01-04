@@ -18,15 +18,15 @@
 // Alle variabelen //
 
 // LICHTSENSOREN //
-const int PIN_lichtSensor_LB = A0;  // INPUT
-const int PIN_lichtSensor_RB = A1;  // INPUT
-const int PIN_lichtSensor_LO = A2;  // INPUT
-const int PIN_lichtSensor_RO = A3;  // INPUT
+const int PIN_lichtSensor_LB = A1;  // INPUT
+const int PIN_lichtSensor_RB = A0;  // INPUT
+const int PIN_lichtSensor_LO = A3;  // INPUT
+const int PIN_lichtSensor_RO = A2;  // INPUT
 int lichtSensor_LB = 0;             // from 0 - 1023
 int lichtSensor_RB = 0;             // from 0 - 1023
 int lichtSensor_LO = 0;             // from 0 - 1023
 int lichtSensor_RO = 0;             // from 0 - 1023
-int licht_marge = 10;
+int licht_marge = 50;
 
 // offsets
 int lichtSensor_LB_offset = 0;
