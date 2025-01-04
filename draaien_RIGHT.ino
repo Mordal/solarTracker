@@ -49,21 +49,22 @@ void rechtsDraaien_activate() {
 }
 
 void goToRightEnd(bool includeTurnLeft = true) {
-  print("goToRightEnd");
+   print("goToRightEnd");
    turnStartTime = millis();
    print("PIN_Einde_Rechts:");
    print(digitalRead(PIN_Einde_Rechtsdraaien));
    while (!digitalRead(PIN_Einde_Rechtsdraaien)) {
       rechtsDraaien = true;
-      digitalWrite(PIN_RechtsDraaien, true);
+      einde_Linksdraaien = false;
+      digitalWrite(PIN_RechtsDraaien, !true);
       delay(100);
    }
    print("zou helemaal rechts moeten zijn..");
    print(digitalRead(PIN_Einde_Rechtsdraaien));
    rechtsDraaien = false;
-   digitalWrite(PIN_RechtsDraaien, false);
+   digitalWrite(PIN_RechtsDraaien, !false);
    einde_Rechtsdraaien = true;
-   currentTurnPercentage = 100;
+   currentTurnPercentage = 10000;
 
    if (includeTurnLeft) {
       turnLeftWhenEindeLoopRight();
@@ -71,7 +72,7 @@ void goToRightEnd(bool includeTurnLeft = true) {
 }
 
 void turnLeftWhenEindeLoopRight() {
-   digitalWrite(PIN_RechtsDraaien, false);
+   digitalWrite(PIN_RechtsDraaien, !false);
    delay(1000);
    digitalWrite(PIN_LinksDraaien, true);
    while (digitalRead(PIN_Einde_Rechtsdraaien)) {

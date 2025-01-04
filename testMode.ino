@@ -1,44 +1,45 @@
 void testMode() {
+  stopMomevement();
    while (true) {
-      testMode_LichtSensoren();
+      testMode_Output();
       delay(1000);
    }
 }
 
 void testMode_Output() {
-   // linksDraaien = true;
-   // digitalWrite(PIN_LinksDraaien, linksDraaien);
-   // Serial.println("Links draaien");
-   // delay(5000);
-   // linksDraaien = false;
-   // digitalWrite(PIN_LinksDraaien, linksDraaien);
-
-   // delay(1000);
-
-   rechtsDraaien = true;
-   digitalWrite(PIN_RechtsDraaien, rechtsDraaien);
-   Serial.println("Rechts draaien");
+   linksDraaien = true;
+   digitalWrite(PIN_LinksDraaien, linksDraaien);
+   Serial.println("Links draaien");
    delay(5000);
-   rechtsDraaien = false;
-   digitalWrite(PIN_RechtsDraaien, rechtsDraaien);
+   linksDraaien = false;
+   digitalWrite(PIN_LinksDraaien, linksDraaien);
 
    delay(1000);
 
-   // uitschuiven = true;
-   // digitalWrite(PIN_Uitschuiven, uitschuiven);
-   // Serial.println("Uitschuiven");
-   // delay(1000);
-   // uitschuiven = false;
-   // digitalWrite(PIN_Uitschuiven, uitschuiven);
+   rechtsDraaien = true;
+   digitalWrite(PIN_RechtsDraaien, !rechtsDraaien);
+   Serial.println("Rechts draaien");
+   delay(5000);
+   rechtsDraaien = false;
+   digitalWrite(PIN_RechtsDraaien, !rechtsDraaien);
 
-   // delay(200);
+   delay(1000);
 
-   // inschuiven = true;
-   // digitalWrite(PIN_Inschuiven, inschuiven);
-   // Serial.println("Inschuiven");
-   // delay(1000);
-   // inschuiven = false;
-   // digitalWrite(PIN_Inschuiven, inschuiven);
+   uitschuiven = true;
+   digitalWrite(PIN_Uitschuiven, !uitschuiven);
+   Serial.println("Uitschuiven");
+   delay(5000);
+   uitschuiven = false;
+   digitalWrite(PIN_Uitschuiven, !uitschuiven);
+
+   delay(1000);
+
+   inschuiven = true;
+   digitalWrite(PIN_Inschuiven, !inschuiven);
+   Serial.println("Inschuiven");
+   delay(5000);
+   inschuiven = false;
+   digitalWrite(PIN_Inschuiven, !inschuiven);
 }
 
 void testMode_LichtSensoren() {
@@ -102,6 +103,7 @@ void testMode_ForceSignals() {
 }
 
 void initializeNeededTime() {
+  stopMomevement();
    print("Initialiseer benodigde tijd");
    getTimeDraaien();
    getTimeKantelen();
@@ -114,6 +116,8 @@ void getTimeDraaien() {
    goToLeftEnd(false);
    const unsigned long endingTime = millis();
    timeNeededToTurn = endingTime - startingTime;
+   Serial.print("Tijd om te draaien: ");
+   Serial.println(timeNeededToTurn);
    turnRightWhenEindeLoopLeft();
 }
 
@@ -123,5 +127,7 @@ void getTimeKantelen() {
    goToBottomEnd(false);
    const unsigned long endingTime = millis();
    timeNeededToTilt = endingTime - startingTime;
+    Serial.print("Tijd om te kantelen: ");
+   Serial.println(timeNeededToTilt);
    uitschuivenWhenEindeLoopInschuiven();
 }

@@ -29,12 +29,12 @@ void setDraaien() {
 
 void draaienNormalMode() {
    if (needToTurnLeft()) {
-      if (rechtsDraaien == true) {
+      if (rechtsDraaien) {
          deactivate_Draaien();
       }
       linksDraaien_activate();
    } else if (needToTurnRight()) {
-      if (linksDraaien == true) {
+      if (linksDraaien) {
          deactivate_Draaien();
       }
       rechtsDraaien_activate();
@@ -64,6 +64,11 @@ void deactivate_Draaien() {
    linksDraaien = false;
    rechtsDraaien = false;
    draaien_TimeOut.cancel();
+   Serial.println("Draaien deactivated");
+   Serial.print("Current timeOutDraaien:");
+   Serial.println(draaien_TimeOut_Remaining);
+   Serial.print("Aantal Active Tasks timeOutKantelen: ");
+   Serial.println(draaien_TimeOut.size());
 }
 
 // Timer: setTurnPercentageTimer
@@ -108,24 +113,24 @@ bool reset_antiPendel_Draaien(void *) {
 }
 
 void read_EindeLoop_Draaien() {
-  print("read eindeloop Draaien");
+   // print("read eindeloop Draaien");
    if (!einde_Linksdraaien) {
-    print("NOT einde LINKS");
+      // print("NOT einde LINKS");
       einde_Linksdraaien = digitalRead(PIN_Einde_Linksdraaien);
       if (einde_Linksdraaien) {
-        print("IS einde LINKS");
+         // print("IS einde LINKS");
          linksDraaien = false;
          currentTurnPercentage = 0;
          turnRightWhenEindeLoopLeft();
       }
    }
    if (!einde_Rechtsdraaien) {
-    print("NOT einde RECHTS");
+      // print("NOT einde RECHTS");
       einde_Rechtsdraaien = digitalRead(PIN_Einde_Rechtsdraaien);
       if (einde_Rechtsdraaien) {
-        print("IS einde RECHTS");
+         // print("IS einde RECHTS");
          rechtsDraaien = false;
-         currentTurnPercentage = 100;
+         currentTurnPercentage = 10000;
          turnLeftWhenEindeLoopRight();
       }
    }

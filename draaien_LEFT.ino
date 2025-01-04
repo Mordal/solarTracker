@@ -1,6 +1,6 @@
 void forceLinksDraaien() {
    rechtsDraaien_FORCE = false;
-   if (rechtsDraaien == true) {
+   if (rechtsDraaien) {
       deactivate_Draaien();
    }
    linksDraaien_activate();
@@ -43,7 +43,7 @@ void linksDraaien_activate() {
    einde_Rechtsdraaien = false;
    set_draaienTimeOut();
 
-   if (turnStartTime = 0) {
+   if (turnStartTime == 0) {
       turnStartTime = millis();
    }
 }
@@ -52,6 +52,7 @@ void goToLeftEnd(bool includeTurnRight = true) {
    turnStartTime = millis();
    while (!digitalRead(PIN_Einde_Linksdraaien)) {
       linksDraaien = true;
+      einde_Rechtsdraaien = false;
       digitalWrite(PIN_LinksDraaien, true);
       delay(100);
    }
@@ -68,9 +69,9 @@ void goToLeftEnd(bool includeTurnRight = true) {
 void turnRightWhenEindeLoopLeft() {
    digitalWrite(PIN_LinksDraaien, false);
    delay(1000);
-   digitalWrite(PIN_RechtsDraaien, true);
+   digitalWrite(PIN_RechtsDraaien, !true);
    while (digitalRead(PIN_Einde_Linksdraaien)) {
       delay(100);
    }
-   digitalWrite(PIN_RechtsDraaien, false);
+   digitalWrite(PIN_RechtsDraaien, !false);
 }

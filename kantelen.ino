@@ -32,7 +32,7 @@ void kantelenNormalMode() {
       }
       uitschuiven_activate();
    } else if (needToRetract()) {
-      if (uitschuiven == true) {
+      if (uitschuiven) {
          deactivate_Kantelen();
       }
       inschuiven_activate();
@@ -86,7 +86,7 @@ bool setCurrentTiltPercentage(void *) {
    return true;
 }
 
-float getPercentageTilted() {
+unsigned int getPercentageTilted() {
    const unsigned long timeDifference = millis() - tiltStartTime;
    return ((float)timeDifference / (float)timeNeededToTilt) *
           10000.0;  // percentage (*100) met 2 decimalen (*100)
@@ -112,7 +112,7 @@ void read_EindeLoop_Kantelen() {
       einde_Uitschuiven = digitalRead(PIN_Einde_Uitschuiven);
       if (einde_Uitschuiven) {
          uitschuiven = false;
-         currentTiltPercentage = 100;
+         currentTiltPercentage = 10000;
          inschuivenWhenEindeLoopUitschuiven();
       };
    }

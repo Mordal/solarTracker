@@ -73,7 +73,7 @@ bool einde_Rechtsdraaien = false;
 bool antiPendel_Draaien = false;
 
 // turning percentage
-unsigned long timeNeededToTurn = 0;
+unsigned long timeNeededToTurn = 42400;
 unsigned int currentTurnPercentage =
     0;  // moet nog delen door 100 = 2 decimalen
 unsigned long turnStartTime = 0;
@@ -83,8 +83,8 @@ byte wantedTurnPercentage = 0;
 // pins
 const int PIN_Uitschuiven = 6;         // OUTPUT
 const int PIN_Inschuiven = 7;          // OUTPUT
-const int PIN_Einde_Uitschuiven = 8;   // INPUT
-const int PIN_Einde_Inschuiven = 9;    // INPUT
+const int PIN_Einde_Uitschuiven = 9;   // INPUT
+const int PIN_Einde_Inschuiven = 8;    // INPUT
 const int PIN_Force_Uitschuiven = 12;  // INPUT
 const int PIN_Force_Inschuiven = 13;   // INPUT
 
@@ -106,7 +106,7 @@ bool einde_Inschuiven = false;
 bool antiPendel_Kantelen = false;
 
 // tilt percentage
-unsigned long timeNeededToTilt = 0;
+unsigned long timeNeededToTilt = 35400;
 unsigned int currentTiltPercentage =
     0;  // moet nog delen door 100 = 2 decimalen
 unsigned long tiltStartTime = 0;
@@ -115,7 +115,7 @@ byte wantedTiltPercentage = 0;
 // TIME-OUTS
 // Settings
 unsigned int antiPendelTime = 5000;        //= 5 sec. = 5000 ms  ;  MAX = 65535
-unsigned int maxMovementTime = 45000;      // 45 sec. = 45000 ms
+unsigned int maxMovementTime = 50000;      // 50 sec. = 50000 ms ;  MAX = 65535
 unsigned long retryTime = 300000;          // 5 min. = 300000 ms
 unsigned int logBook_Timer_delay = 10000;  // 10 sec. = 10000 ms
 
@@ -204,10 +204,10 @@ void setup() {
    setTimeFromNet();
 
    // Initialize needed time
-   // initializeNeededTime();
+   initializeNeededTime();
 
    // TESTMODE
-   testMode();
+   //  testMode();
 
    // setup Timers
    setTimers();
@@ -240,9 +240,9 @@ void tickTimers() {
 
 void set_Outputs() {
    digitalWrite(PIN_LinksDraaien, linksDraaien);
-   digitalWrite(PIN_RechtsDraaien, rechtsDraaien);
-   digitalWrite(PIN_Uitschuiven, uitschuiven);
-   digitalWrite(PIN_Inschuiven, inschuiven);
+   digitalWrite(PIN_RechtsDraaien, !rechtsDraaien);
+   digitalWrite(PIN_Uitschuiven, !uitschuiven);
+   digitalWrite(PIN_Inschuiven, !inschuiven);
 }
 
 void print(const char *text) { Serial.println(text); }
