@@ -119,7 +119,7 @@ void read_EindeLoop_Draaien() {
       einde_Linksdraaien = digitalRead(PIN_Einde_Linksdraaien);
       if (einde_Linksdraaien) {
          // print("IS einde LINKS");
-         linksDraaien = false;
+         deactivate_Draaien();
          currentTurnPercentage = 0;
          turnRightWhenEindeLoopLeft();
       }
@@ -129,7 +129,7 @@ void read_EindeLoop_Draaien() {
       einde_Rechtsdraaien = digitalRead(PIN_Einde_Rechtsdraaien);
       if (einde_Rechtsdraaien) {
          // print("IS einde RECHTS");
-         rechtsDraaien = false;
+         deactivate_Draaien();
          currentTurnPercentage = 10000;
          turnLeftWhenEindeLoopRight();
       }

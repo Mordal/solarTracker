@@ -204,7 +204,7 @@ void setup() {
    setTimeFromNet();
 
    // Initialize needed time
-   initializeNeededTime();
+   // initializeNeededTime();
 
    // TESTMODE
    //  testMode();

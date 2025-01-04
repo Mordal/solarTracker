@@ -111,7 +111,7 @@ void read_EindeLoop_Kantelen() {
    if (!einde_Uitschuiven) {
       einde_Uitschuiven = digitalRead(PIN_Einde_Uitschuiven);
       if (einde_Uitschuiven) {
-         uitschuiven = false;
+         deactivate_Kantelen();
          currentTiltPercentage = 10000;
          inschuivenWhenEindeLoopUitschuiven();
       };
@@ -120,7 +120,7 @@ void read_EindeLoop_Kantelen() {
    if (!einde_Inschuiven) {
       einde_Inschuiven = digitalRead(PIN_Einde_Inschuiven);
       if (einde_Inschuiven) {
-         inschuiven = false;
+         deactivate_Kantelen();
          currentTiltPercentage = 0;
          uitschuivenWhenEindeLoopInschuiven();
       };

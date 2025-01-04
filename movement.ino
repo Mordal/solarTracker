@@ -16,13 +16,13 @@ void readForceSignals() {
 }
 
 void stopMomevement() {
-   deactivate_Kantelen();
    deactivate_Draaien();
+   deactivate_Kantelen();
    set_Outputs();
 }
 
 void gotoNightPosition() {
-  print("IS NIGHT");
+   print("IS NIGHT");
    if (isNight()) {
       goToLeftEnd();
       gotoTiltPercentage(20);
