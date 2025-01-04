@@ -43,7 +43,7 @@ void rechtsDraaien_activate() {
    einde_Linksdraaien = false;
    set_draaienTimeOut();
 
-   if (turnStartTime = 0) {
+   if (turnStartTime == 0) {
       turnStartTime = millis();
    }
 }
