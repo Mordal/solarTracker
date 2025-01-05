@@ -14,6 +14,29 @@ void sendJsonData(WiFiClient client, JSONVar jsonData) {
    client.println();
 }
 
+void sendAllPageData(WiFiClient client) {
+   sendStartData(client);
+   client.println("Content-type:application/json");
+   client.println();
+
+   // Haal de verschillende JSON-gegevens op
+   JSONVar bigData = getFlags();
+   bigData = getTiltMovementData(bigData);
+   JSONVar newBigData = getTurnMovementData(bigData);
+   bigData = undefined;
+   newBigData = getForcedMovements(newBigData);
+   JSONVar bigDataFinal = getRemainingTime(newBigData);
+   newBigData = undefined;
+   bigDataFinal = getLightSensorData(bigDataFinal);
+
+   // Verstuur de gegevens
+   sendJson(client, bigDataFinal);
+   // client.print(JSON.stringify(bigDataFinal));
+
+   client.println();
+   return;
+}
+
 void sendInvalidRequest(WiFiClient client) {
    client.println("HTTP/1.1 400 BAD REQUEST");
    client.println("Access-Control-Allow-Origin: *");
@@ -31,6 +54,7 @@ void sendEndpoints(WiFiClient client) {
    client.println();
    client.println("Available endpoints:");
    client.println("/API");
+   client.println("/API/PAGEDATA");
    client.println("/API/FLAGS");
    client.println("/API/LIGHTSENSORS");
    client.println("/API/TURNMOVEMENT");
@@ -43,24 +67,10 @@ void sendEndpoints(WiFiClient client) {
    client.println();
 }
 
-//  void response_WiFi_BASIC(WiFiClient client){
-//     client.println("HTTP/1.1 200 OK");
-//     client.println("Content-type:text/html");
-//     client.println();
-
-//     printContent_Global(client);
-//     // the content of the HTTP response follows the header:
-//     // client.print("<p style=\"font-size:7vw;\">Click <a
-//     href=\"/H\">here</a> turn the LED on<br></p>");
-//     // client.print("<p style=\"font-size:7vw;\">Click <a
-//     href=\"/L\">here</a> turn the LED off<br></p>");
-
-//     // The HTTP response ends with another blank line:
-//     client.println();
-//  }
-
 void response_API_Request(WiFiClient client, String currentLine) {
-   if (requestHasString(currentLine, "GET /API/FLAGS")) {
+   if (requestHasString(currentLine, "GET /API/PAGEDATA")) {
+      sendAllPageData(client);
+   } else if (requestHasString(currentLine, "GET /API/FLAGS")) {
       sendJsonData(client, getFlags());
    } else if (requestHasString(currentLine, "GET /API/LIGHTSENSORS")) {
       sendJsonData(client, getLightSensorData());
@@ -114,34 +124,3 @@ void apiResetAlarms(WiFiClient client) {
    client.println("Alarms reset");
    client.println();
 }
-
-// void response_WiFi_JSON(WiFiClient client){
-//   print("responding to JSON request..");
-//   // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
-//   // and a content-type so the client knows what's coming, then a blank line:
-//   client.println("HTTP/1.1 200 OK");
-//   client.println("Content-type:application/json");
-//   client.println();
-
-//   // the content of the HTTP response follows the header:
-//   clientPrintAllData(client);
-
-//   // The HTTP response ends with another blank line:
-//   client.println();
-// }
-
-// void response_WiFi_Timers(WiFiClient client){
-//   print("responding to Timers request..");
-//   // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
-//   // and a content-type so the client knows what's coming, then a blank line:
-//   client.println("HTTP/1.1 200 OK");
-//   client.println("Content-type:application/json");
-//   client.println();
-
-//   // the content of the HTTP response follows the header:
-//   JSONVar  timersObject = getRemainingTime();
-//   client.println(timersObject);
-
-//   // The HTTP response ends with another blank line:
-//   client.println();
-// }

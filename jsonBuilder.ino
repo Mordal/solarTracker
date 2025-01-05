@@ -1,6 +1,5 @@
 
-JSONVar getFlags() {
-   JSONVar flagsObject = undefined;
+JSONVar getFlags(JSONVar flagsObject = undefined) {
    flagsObject["Flags"]["TEST_MODE"] = TEST_MODE;
    flagsObject["Flags"]["SAFE_MODE"] = SAFE_MODE;
    flagsObject["Flags"]["STOP_MODE"] = STOP_MODE;
@@ -15,8 +14,7 @@ JSONVar getFlags() {
    return flagsObject;
 }
 
-JSONVar getLightSensorData() {
-   JSONVar sensorDataObject = undefined;
+JSONVar getLightSensorData(JSONVar sensorDataObject = undefined) {
    sensorDataObject["Sensors"]["lichtSensor_LB"] = lichtSensor_LB;
    sensorDataObject["Sensors"]["lichtSensor_LO"] = lichtSensor_LO;
    sensorDataObject["Sensors"]["lichtSensor_RB"] = lichtSensor_RB;
@@ -29,9 +27,7 @@ JSONVar getLightSensorData() {
    return sensorDataObject;
 }
 
-JSONVar getTurnMovementData() {
-   JSONVar movementDataObject = undefined;
-
+JSONVar getTurnMovementData(JSONVar movementDataObject = undefined) {
    movementDataObject["Turn"]["percentage"] =
        (float)currentTurnPercentage / 100.0;
    movementDataObject["Turn"]["antiPendel"] = antiPendel_Draaien;
@@ -50,8 +46,7 @@ JSONVar getTurnMovementData() {
    return movementDataObject;
 }
 
-JSONVar getTiltMovementData() {
-   JSONVar movementDataObject = undefined;
+JSONVar getTiltMovementData(JSONVar movementDataObject = undefined) {
    movementDataObject["Tilt"]["percentage"] =
        (float)currentTiltPercentage / 100.0;
    movementDataObject["Tilt"]["antiPendel"] = antiPendel_Kantelen;
@@ -70,8 +65,7 @@ JSONVar getTiltMovementData() {
    return movementDataObject;
 }
 
-JSONVar getOtherData() {
-   JSONVar otherDataObject = undefined;
+JSONVar getOtherData(JSONVar otherDataObject = undefined) {
    RTCTime currentTime = getRTCTime();
    otherDataObject["Time"] = currentTime.toString();
    otherDataObject["unixTime"] = getEpochTime();
@@ -81,8 +75,7 @@ JSONVar getOtherData() {
    return otherDataObject;
 }
 
-JSONVar getForcedMovements() {
-   JSONVar forceMovementObject = undefined;
+JSONVar getForcedMovements(JSONVar forceMovementObject = undefined) {
    forceMovementObject["ForceMovement"]["LEFT_Force"] = linksDraaien_FORCE;
    forceMovementObject["ForceMovement"]["RIGHT_Force"] = rechtsDraaien_FORCE;
    forceMovementObject["ForceMovement"]["OUT_Force"] = uitschuiven_FORCE;
@@ -90,8 +83,7 @@ JSONVar getForcedMovements() {
    return forceMovementObject;
 }
 
-JSONVar getSettings() {
-   JSONVar settingsObject = undefined;
+JSONVar getSettings(JSONVar settingsObject = undefined) {
    settingsObject["sensorOffsets"]["LB"] = lichtSensor_LB_offset;
    settingsObject["sensorOffsets"]["RB"] = lichtSensor_RB_offset;
    settingsObject["sensorOffsets"]["LO"] = lichtSensor_LO_offset;
@@ -104,8 +96,7 @@ JSONVar getSettings() {
    return settingsObject;
 }
 
-JSONVar getRemainingTime() {
-   JSONVar remainingTimeObject = undefined;
+JSONVar getRemainingTime(JSONVar remainingTimeObject = undefined) {
    remainingTimeObject["TimeRemaining"]["antiPendel_Draaien_Timer"] =
        antiPendel_Draaien_Timer_Remaining;
    remainingTimeObject["TimeRemaining"]["antiPendel_Kantelen_Timer"] =
@@ -125,8 +116,16 @@ JSONVar getRemainingTime() {
 }
 
 void sendJson(WiFiClient client, JSONVar object) {
+   // Verstuur de gegevens
+   client.print(JSON.stringify(object));
+
+   // client.print("{");
+   // sendPartJson(client, object);
+   // client.print("}");
+}
+
+void sendPartJson(WiFiClient client, JSONVar object) {
    JSONVar keys = object.keys();
-   client.print("{");
    for (int i = 0; i < keys.length(); i++) {
       client.print(keys[i]);
       client.print(": ");
@@ -135,19 +134,4 @@ void sendJson(WiFiClient client, JSONVar object) {
          client.print(", ");
       }
    }
-   client.print("}");
 }
-
-// void clientPrintAllData(WiFiClient client){
-//   client.print("{");
-//   printAllProperties(getAllFlags(), client);
-//   client.print(", ");
-//   printAllProperties(getAllForcedMovements(), client);
-//   client.print(", ");
-//   printAllProperties(getTimeOuts(), client);
-//   client.print(", ");
-//   printAllProperties(getRemainingTime(), client);
-//   client.print(", ");
-//   printAllProperties(getOtherData(), client);
-//   client.print("}");
-// }
