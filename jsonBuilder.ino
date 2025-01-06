@@ -116,12 +116,7 @@ JSONVar getRemainingTime(JSONVar remainingTimeObject = undefined) {
 }
 
 void sendJson(WiFiClient client, JSONVar object) {
-   // Verstuur de gegevens
    client.print(JSON.stringify(object));
-
-   // client.print("{");
-   // sendPartJson(client, object);
-   // client.print("}");
 }
 
 void sendPartJson(WiFiClient client, JSONVar object) {
