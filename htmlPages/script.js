@@ -1,27 +1,6 @@
 setInterval(updateValues, 1000); // 5 seconden
 let forceLeftButton = false;
 
-function setFlags_Left(data) {
-  // myObject["TURN_LEFT"]["Moving"] = false;
-  // myObject["TURN_LEFT"]["Sensors"] = true;
-  // myObject["TURN_LEFT"]["Einde_Loop"] = false;
-  // myObject["TURN_LEFT"]["AntiPendel"] = false;
-  // myObject["Flags"]["Draaien_too_long"] = false;
-  // myObject["ForceMovement"]["LEFT_Force"]
-  // ---> DEZE HEB IK NOG NIET OP MEN PAGINA --->
-  // myObject["TURN_LEFT"]["licht_links"] = lichtLinks;
-  // myObject["TURN_LEFT"]["licht_rechts"] = lichtRechts + licht_marge;
-
-  document.getElementById('LEFT_Active').innerHTML = data.TURN_LEFT.Moving;
-  document.getElementById('LEFT_Sensors').innerHTML = data.TURN_LEFT.Sensors;
-  document.getElementById('LEFT_End').innerHTML = data.TURN_LEFT.Einde_Loop;
-  document.getElementById('LEFT_Antipendel').innerHTML = data.TURN_LEFT.AntiPendel;
-  document.getElementById('LEFT_Alarm').innerHTML = data.Flags.Draaien_too_long;
-  if (!forceLeftButton) {
-    document.getElementById('LEFT_Force').innerHTML = data.ForceMovement.LEFT_Force;
-  }
-}
-
 // Selecteer de knop
 const button = document.getElementById('StopButton');
 // Voeg een click-eventlistener toe om de actieve klasse te toggelen

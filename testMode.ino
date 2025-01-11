@@ -1,5 +1,5 @@
 void testMode() {
-  stopMomevement();
+   stopMomevement();
    while (true) {
       testMode_Output();
       delay(1000);
@@ -103,7 +103,7 @@ void testMode_ForceSignals() {
 }
 
 void initializeNeededTime() {
-  stopMomevement();
+   stopMomevement();
    print("Initialiseer benodigde tijd");
    getTimeDraaien();
    getTimeKantelen();
@@ -127,7 +127,7 @@ void getTimeKantelen() {
    goToBottomEnd(false);
    const unsigned long endingTime = millis();
    timeNeededToTilt = endingTime - startingTime;
-    Serial.print("Tijd om te kantelen: ");
+   Serial.print("Tijd om te kantelen: ");
    Serial.println(timeNeededToTilt);
    uitschuivenWhenEindeLoopInschuiven();
 }

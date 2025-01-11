@@ -69,7 +69,12 @@ bool setCurrentTiltPercentage(void *) {
    const unsigned int percentageTilted =
        getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
    if (uitschuiven) {
-      currentTiltPercentage = currentTiltPercentage + percentageTilted;
+      if (percentageTilted > currentTiltPercentage) {
+         currentTiltPercentage = 0;
+      } else {
+         currentTiltPercentage -= percentageTilted;
+      }
+
    } else if (inschuiven) {
       currentTiltPercentage = currentTiltPercentage - percentageTilted;
    } else {

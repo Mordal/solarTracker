@@ -1,5 +1,4 @@
 let pageData = {};
-let responseIsOK = false;
 let baseUrl = 'http://192.168.0.111';
 
 async function updateValues() {
@@ -11,7 +10,7 @@ async function updateValues() {
 
 async function getAllPageData() {
   let response;
-  responseIsOK = false;
+
   try {
     response = await fetch(`${baseUrl}/API/PAGEDATA`, {
       method: 'GET',
@@ -25,9 +24,12 @@ async function getAllPageData() {
     console.log(response);
     return false;
   }
-  responseIsOK = true;
+
   pageData = await response.json();
-  return true;
+  if (pageData.hasOwnProperty('Flags')) {
+    return true;
+  }
+  return false;
 }
 
 function setFlags() {

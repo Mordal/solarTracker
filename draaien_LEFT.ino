@@ -18,28 +18,28 @@ bool needToTurnLeft() {
 
 void linksDraaien_activate() {
    if (draaienTooLong && !linksDraaien_FORCE) {
-      print("Draaien in ALARM - RETURN");
+      // print("Draaien in ALARM - RETURN");
       return;
    }
 
    if (antiPendel_Draaien && !linksDraaien_FORCE) {
-      print("ANTI-PENDEL Draaien ACTIVE - RETURN");
+      // print("ANTI-PENDEL Draaien ACTIVE - RETURN");
       return;
    }
 
    if (einde_Linksdraaien) {
-      print("Eindeloop LINKS activated");
+      // print("Eindeloop LINKS activated");
       linksDraaien = false;
       return;
    };
 
    if (STOP_MODE && !linksDraaien_FORCE) {
-      print("STOP_MODE activated");
+      // print("STOP_MODE activated");
       linksDraaien = false;
       return;
    }
 
-   print("TURN LEFT");
+   // print("TURN LEFT");
    linksDraaien = true;
    einde_Rechtsdraaien = false;
    set_draaienTimeOut();

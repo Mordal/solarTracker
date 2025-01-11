@@ -64,11 +64,11 @@ void deactivate_Draaien() {
    linksDraaien = false;
    rechtsDraaien = false;
    draaien_TimeOut.cancel();
-   Serial.println("Draaien deactivated");
-   Serial.print("Current timeOutDraaien:");
-   Serial.println(draaien_TimeOut_Remaining);
-   Serial.print("Aantal Active Tasks timeOutKantelen: ");
-   Serial.println(draaien_TimeOut.size());
+   // Serial.println("Draaien deactivated");
+   // Serial.print("Current timeOutDraaien:");
+   // Serial.println(draaien_TimeOut_Remaining);
+   // Serial.print("Aantal Active Tasks timeOutKantelen: ");
+   // Serial.println(draaien_TimeOut.size());
 }
 
 // Timer: setTurnPercentageTimer
@@ -76,7 +76,12 @@ bool setCurrentTurnPercentage(void *) {
    const unsigned int percentageTurned =
        getPercentageTurned();  // moet nog delen door 100 = 2 decimalen
    if (linksDraaien) {
-      currentTurnPercentage = currentTurnPercentage - percentageTurned;
+      if (percentageTurned > currentTurnPercentage) {
+         currentTurnPercentage = 0;
+      } else {
+         currentTurnPercentage -= percentageTurned;
+      }
+
    } else if (rechtsDraaien) {
       currentTurnPercentage = currentTurnPercentage + percentageTurned;
    } else {
@@ -85,15 +90,15 @@ bool setCurrentTurnPercentage(void *) {
 
    const float floatPercentage = (float)currentTurnPercentage / 100.0;
 
-   Serial.print("Current Turn Percentage: ");
-   Serial.println(floatPercentage, 4);
+   // Serial.print("Current Turn Percentage: ");
+   // Serial.println(floatPercentage, 4);
 
    // start from current time again
    turnStartTime = millis();
    return true;
 }
 
-float getPercentageTurned() {
+unsigned int getPercentageTurned() {
    const unsigned long timeDifference = millis() - turnStartTime;
    return ((float)timeDifference / (float)timeNeededToTurn) * 10000.0;
 }

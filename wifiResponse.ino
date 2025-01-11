@@ -1,5 +1,6 @@
 
 void sendStartData(WiFiClient client) {
+   print("Sending start data to client...");
    client.println("HTTP/1.1 200 OK");
    client.println("Access-Control-Allow-Origin: *");
    client.println("Access-Control-Allow-Methods: GET, POST");
@@ -19,20 +20,14 @@ void sendAllPageData(WiFiClient client) {
    client.println("Content-type:application/json");
    client.println();
 
-   // Haal de verschillende JSON-gegevens op
-   JSONVar bigData = getFlags();
-   bigData = getTiltMovementData(bigData);
-   JSONVar newBigData = getTurnMovementData(bigData);
-   bigData = undefined;
-   newBigData = getForcedMovements(newBigData);
-   JSONVar bigDataFinal = getRemainingTime(newBigData);
-   newBigData = undefined;
-   bigDataFinal = getLightSensorData(bigDataFinal);
+   print("Getting all page data...");
+   JSONVar pageData = getPageData();
 
+   print("Sending all page data...");
    // Verstuur de gegevens
-   sendJson(client, bigDataFinal);
-   // client.print(JSON.stringify(bigDataFinal));
+   sendJson(client, pageData);
 
+   print("All page data sent");
    client.println();
    return;
 }

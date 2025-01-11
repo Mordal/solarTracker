@@ -18,28 +18,28 @@ bool needToTurnRight() {
 
 void rechtsDraaien_activate() {
    if (draaienTooLong && !rechtsDraaien_FORCE) {
-      print("Draaien in ALARM - RETURN");
+      // print("Draaien in ALARM - RETURN");
       return;
    }
 
    if (antiPendel_Draaien && !rechtsDraaien_FORCE) {
-      print("ANTI-PENDEL Draaien ACTIVE - RETURN");
+      // print("ANTI-PENDEL Draaien ACTIVE - RETURN");
       return;
    }
 
    if (einde_Rechtsdraaien) {
-      print("EindeLoop RECHTS activated");
+      // print("EindeLoop RECHTS activated");
       rechtsDraaien = false;
       return;
    };
 
    if (STOP_MODE && !rechtsDraaien_FORCE) {
-      print("STOP_MODE activated");
+      // print("STOP_MODE activated");
       rechtsDraaien = false;
       return;
    }
 
-   print("TURN RIGHT");
+   // print("TURN RIGHT");
    rechtsDraaien = true;
    einde_Linksdraaien = false;
    set_draaienTimeOut();
@@ -52,16 +52,14 @@ void rechtsDraaien_activate() {
 void goToRightEnd(bool includeTurnLeft = true) {
    print("goToRightEnd");
    turnStartTime = millis();
-   print("PIN_Einde_Rechts:");
-   print(digitalRead(PIN_Einde_Rechtsdraaien));
+
    while (!digitalRead(PIN_Einde_Rechtsdraaien)) {
       rechtsDraaien = true;
       einde_Linksdraaien = false;
       digitalWrite(PIN_RechtsDraaien, !true);
       delay(100);
    }
-   print("zou helemaal rechts moeten zijn..");
-   print(digitalRead(PIN_Einde_Rechtsdraaien));
+
    rechtsDraaien = false;
    digitalWrite(PIN_RechtsDraaien, !false);
    einde_Rechtsdraaien = true;
