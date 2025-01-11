@@ -132,7 +132,7 @@ auto setTiltPercentageTimer = timer_create_default();
 // Other Timers
 auto logBook_Timer = timer_create_default();
 auto retryTimer = timer_create_default();
-auto settingsUnlockedTimer = timer_create_default();
+Timer<1> settingsUnlockedTimer;
 auto gotoPositionTimer = timer_create_default();
 
 // Time Remaining

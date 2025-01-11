@@ -1,65 +1,5 @@
-setInterval(updateValues, 5000);
+setInterval(updateValues, 1000); // 5 seconden
 let forceLeftButton = false;
-let baseUrl = 'http://192.168.0.111';
-
-async function updateValues() {
-  //   const data = await getSensors();
-  //   setSensors(data);
-}
-
-async function getFlags() {
-  console.log('getFlags');
-  const response = await fetch(`${baseUrl}/API/FLAGS`, {
-    method: 'GET',
-  });
-  console.log(response.status);
-  const data = await response.json();
-  console.log(data);
-  setFlags(data);
-}
-
-async function getSensors() {
-  const response = await fetch(`${baseUrl}/API/LIGHTSENSORS`, {
-    method: 'GET',
-  });
-
-  // Controleer of de respons succesvol is
-  if (!response.ok) {
-    throw new Error(`HTTP-fout! Status: ${response.status}`);
-  }
-
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
-function setFlags(data) {
-  if (data.Flags.SettingsUnlocked) {
-    document.getElementById('colorSquare').classList.add('green-square');
-  } else {
-    document.getElementById('colorSquare').classList.remove('green-square');
-  }
-}
-
-function setSensors(data) {
-  document.getElementById('lb').innerHTML = data.Sensors.lichtSensor_LB;
-  document.getElementById('rb').innerHTML = data.Sensors.lichtSensor_RB;
-  document.getElementById('lo').innerHTML = data.Sensors.lichtSensor_LO;
-  document.getElementById('ro').innerHTML = data.Sensors.lichtSensor_RO;
-
-  //   const l = data.lichtSensors.Links_Boven + data.lichtSensors.Links_Onder;
-  //   const r = data.lichtSensors.Rechts_Boven + data.lichtSensors.Rechts_Onder;
-  document.getElementById('l').innerHTML = data.Sensors.links;
-  document.getElementById('r').innerHTML = data.Sensors.rechts;
-  //   document.getElementById('l').innerHTML = l;
-  //   document.getElementById('r').innerHTML = r;
-  //   const b = data.lichtSensors.Links_Boven + data.lichtSensors.Rechts_Boven;
-  //   const o = data.lichtSensors.Links_Onder + data.lichtSensors.Rechts_Onder;
-  document.getElementById('b').innerHTML = data.Sensors.boven;
-  document.getElementById('o').innerHTML = data.Sensors.onder;
-  //   document.getElementById('b').innerHTML = b;
-  //   document.getElementById('o').innerHTML = o;
-}
 
 function setFlags_Left(data) {
   // myObject["TURN_LEFT"]["Moving"] = false;
@@ -143,7 +83,6 @@ function sendRequest(id, state) {
 
 // UNLOCK FORM //
 document.getElementById('unlockBtn').addEventListener('click', async function (event) {
-  console.log('unlockForm UNLOCK Pressed');
   // Voorkom dat de pagina herlaadt
   event.preventDefault();
 
@@ -154,7 +93,6 @@ document.getElementById('unlockBtn').addEventListener('click', async function (e
   // Gebruik Fetch API om een POST-verzoek te sturen naar /UNLOCK
   fetch(`${baseUrl}/UNLOCK`, {
     method: 'POST',
-    // mode: 'cors',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -165,8 +103,7 @@ document.getElementById('unlockBtn').addEventListener('click', async function (e
     })
     .then((responseText) => {
       console.log(responseText); // Hier krijg je de response body als tekst
-      document.querySelector('input[name="unlock"]').value = responseText;
-      getFlags();
+      document.getElementById('unlockForm').value = responseText;
     })
     .catch((error) => {
       console.error('Fout:', error);

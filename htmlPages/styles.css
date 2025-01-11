@@ -286,10 +286,13 @@ td {
 }
 
 .green {
-  background-color: rgb(2, 170, 2);
+  background-color: rgb(2, 170, 2) !important;
 }
 .red {
-  background-color: red;
+  background-color: red !important;
+}
+.grey {
+  background-color: #ddd;
 }
 
 /* Groene kleur voor verbonden status */

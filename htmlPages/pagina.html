@@ -18,15 +18,15 @@
           <table class="status-table">
             <tr>
               <th>Wifi Connected</th>
-              <td id="Wifi_connected" class="green status"></td>
+              <td id="Wifi_connected" class="red status grey"></td>
             </tr>
             <tr>
               <th>Mqtt Connected</th>
-              <td id="Mqtt_connected" class="green status"></td>
+              <td id="Mqtt_connected" class="status grey"></td>
             </tr>
             <tr>
               <th>isNight</th>
-              <td id="isNight" class="green status"></td>
+              <td id="isNight" class="status grey"></td>
             </tr>
           </table>
         </div>
@@ -35,15 +35,15 @@
           <table class="status-table">
             <tr>
               <th>Draaien te lang</th>
-              <td id="Draaien_too_long" class="green status"></td>
+              <td id="Draaien_too_long" class="status grey"></td>
             </tr>
             <tr>
               <th>Kantelen te lang</th>
-              <td id="Kantelen_too_long" class="green status"></td>
+              <td id="Kantelen_too_long" class="status grey"></td>
             </tr>
             <tr>
               <th>Reset happened</th>
-              <td id="reset" class="green status"></td>
+              <td id="reset" class="status grey"></td>
             </tr>
           </table>
         </div>
@@ -53,19 +53,19 @@
           <table class="status-table">
             <tr>
               <th>Test Mode</th>
-              <td id="TEST_MODE" class="green status"></td>
+              <td id="TEST_MODE" class="status grey"></td>
             </tr>
             <tr>
               <th>Safe Mode</th>
-              <td id="SAFE_MODE" class="green status"></td>
+              <td id="SAFE_MODE" class="status grey"></td>
             </tr>
             <tr>
               <th>Stop Mode</th>
-              <td id="STOP_MODE" class="green status"></td>
+              <td id="STOP_MODE" class="status grey"></td>
             </tr>
             <tr>
               <th>Force Mode</th>
-              <td id="FORCE_MODE" class="green status"></td>
+              <td id="FORCE_MODE" class="status grey"></td>
             </tr>
           </table>
         </div>
@@ -157,29 +157,29 @@
               <table class="status-table">
                 <tr>
                   <th>Active</th>
-                  <td id="LEFT_Active" class="green status">T</td>
+                  <td id="LEFT_Active" class="status grey">T</td>
                 </tr>
                 <tr>
                   <th>Sensors</th>
-                  <td id="LEFT_Sensors" class="green status">T</td>
+                  <td id="LEFT_Sensors" class="status grey">T</td>
                 </tr>
                 <tr>
                   <th>End</th>
-                  <td id="LEFT_End" class="green status">F</td>
+                  <td id="LEFT_End" class="status grey">F</td>
                 </tr>
                 <tr>
                   <th>Antipendel</th>
-                  <td id="LEFT_Antipendel" class="green status">F</td>
+                  <td id="LEFT_Antipendel" class="status grey">F</td>
                 </tr>
                 <tr>
                   <th>Alarm</th>
-                  <td id="LEFT_Alarm" class="green status">F</td>
+                  <td id="LEFT_Alarm" class="status grey">F</td>
                 </tr>
               </table>
               <table class="status-table">
                 <tr>
                   <th>Force L</th>
-                  <td id="LEFT_Force" class="red status">F</td>
+                  <td id="LEFT_Force" class="red status grey">F</td>
                 </tr>
                 <tr>
                   <td colspan="2" style="border: none">
@@ -200,36 +200,36 @@
               <table class="status-table">
                 <tr>
                   <th>Active</th>
-                  <td id="LEFT_Active" class="green status">T</td>
+                  <td id="RIGHT_Active" class="status grey">T</td>
                 </tr>
                 <tr>
                   <th>Sensors</th>
-                  <td id="LEFT_Sensors" class="green status">T</td>
+                  <td id="RIGHT_Sensors" class="status grey">T</td>
                 </tr>
                 <tr>
                   <th>End</th>
-                  <td id="LEFT_End" class="green status">F</td>
+                  <td id="RIGHT_End" class="status grey">F</td>
                 </tr>
                 <tr>
                   <th>Antipendel</th>
-                  <td id="LEFT_Antipendel" class="green status">F</td>
+                  <td id="RIGHT_Antipendel" class="status grey">F</td>
                 </tr>
                 <tr>
                   <th>Alarm</th>
-                  <td id="LEFT_Alarm" class="green status">F</td>
+                  <td id="RIGHT_Alarm" class="status grey">F</td>
                 </tr>
               </table>
               <table class="status-table">
                 <tr>
                   <th>Force R</th>
-                  <td id="LEFT_Force" class="red status">F</td>
+                  <td id="RIGHT_Force" class="red status grey">F</td>
                 </tr>
                 <tr>
                   <td colspan="2" style="border: none">
                     <button
                       class="button button1"
-                      onmousedown="forceMovement_changeState('LEFT_Force')"
-                      onmouseup="forceMovement_changeState('LEFT_Force')"
+                      onmousedown="forceMovement_changeState('RIGHT_Force')"
+                      onmouseup="forceMovement_changeState('RIGHT_Force')"
                     >
                       FORCE
                     </button>
@@ -243,36 +243,36 @@
               <table class="status-table">
                 <tr>
                   <th>Active</th>
-                  <td id="LEFT_Active" class="green status">T</td>
+                  <td id="OUT_Active" class="status grey">T</td>
                 </tr>
                 <tr>
                   <th>Sensors</th>
-                  <td id="LEFT_Sensors" class="green status">T</td>
+                  <td id="OUT_Sensors" class="status grey">T</td>
                 </tr>
                 <tr>
                   <th>End</th>
-                  <td id="LEFT_End" class="green status">F</td>
+                  <td id="OUT_End" class="status grey">F</td>
                 </tr>
                 <tr>
                   <th>Antipendel</th>
-                  <td id="LEFT_Antipendel" class="green status">F</td>
+                  <td id="OUT_Antipendel" class="status grey">F</td>
                 </tr>
                 <tr>
                   <th>Alarm</th>
-                  <td id="LEFT_Alarm" class="green status">F</td>
+                  <td id="OUT_Alarm" class="status grey">F</td>
                 </tr>
               </table>
               <table class="status-table">
                 <tr>
                   <th>Force B</th>
-                  <td id="LEFT_Force" class="red status">F</td>
+                  <td id="OUT_Force" class="red status grey">F</td>
                 </tr>
                 <tr>
                   <td colspan="2" style="border: none">
                     <button
                       class="button button1"
-                      onmousedown="forceMovement_changeState('LEFT_Force')"
-                      onmouseup="forceMovement_changeState('LEFT_Force')"
+                      onmousedown="forceMovement_changeState('OUT_Force')"
+                      onmouseup="forceMovement_changeState('OUT_Force')"
                     >
                       FORCE
                     </button>
@@ -286,36 +286,36 @@
               <table class="status-table">
                 <tr>
                   <th>Active</th>
-                  <td id="LEFT_Active" class="green status">T</td>
+                  <td id="IN_Active" class="status grey">T</td>
                 </tr>
                 <tr>
                   <th>Sensors</th>
-                  <td id="LEFT_Sensors" class="green status">T</td>
+                  <td id="IN_Sensors" class="status grey">T</td>
                 </tr>
                 <tr>
                   <th>End</th>
-                  <td id="LEFT_End" class="green status">F</td>
+                  <td id="IN_End" class="status grey">F</td>
                 </tr>
                 <tr>
                   <th>Antipendel</th>
-                  <td id="LEFT_Antipendel" class="green status">F</td>
+                  <td id="IN_Antipendel" class="status grey">F</td>
                 </tr>
                 <tr>
                   <th>Alarm</th>
-                  <td id="LEFT_Alarm" class="green status">F</td>
+                  <td id="IN_Active" class="status grey">F</td>
                 </tr>
               </table>
               <table class="status-table">
                 <tr>
                   <th>Force O</th>
-                  <td id="LEFT_Force" class="red status">F</td>
+                  <td id="IN_Force" class="red status grey">F</td>
                 </tr>
                 <tr>
                   <td colspan="2" style="border: none">
                     <button
                       class="button button1"
-                      onmousedown="forceMovement_changeState('LEFT_Force')"
-                      onmouseup="forceMovement_changeState('LEFT_Force')"
+                      onmousedown="forceMovement_changeState('IN_Force')"
+                      onmouseup="forceMovement_changeState('IN_Force')"
                     >
                       FORCE
                     </button>
@@ -578,6 +578,7 @@
       </div>
     </section>
     <footer><p>Footer</p></footer>
+    <script src="pageData.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

@@ -24,6 +24,7 @@ JSONVar getLightSensorData(JSONVar sensorDataObject = undefined) {
    sensorDataObject["Sensors"]["boven"] = lichtSensors_Boven;
    sensorDataObject["Sensors"]["onder"] = lichtSensors_Onder;
    sensorDataObject["Sensors"]["isNight"] = isNight();
+
    return sensorDataObject;
 }
 
