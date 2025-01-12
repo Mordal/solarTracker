@@ -1,5 +1,8 @@
-setInterval(updateValues, 1000); // 5 seconden
+setInterval(updateValues, 10000); // 5 seconden
 let forceLeftButton = false;
+let forceRightButton = false;
+let forceInButton = false;
+let forceOutButton = false;
 
 // Selecteer de knop
 const button = document.getElementById('StopButton');
@@ -14,40 +17,55 @@ button.addEventListener('click', function () {
   button.classList.toggle('active');
 });
 
-function forceMovement_changeState(id) {
-  if (id === 'LEFT_Force') {
-    forceLeftButton = !forceLeftButton;
-  }
+// General mouseup event - To capture button release
+document.addEventListener('mouseup', () => {
+  const forceButtons = [
+    {
+      id: 'LEFT_Force',
+      button: forceLeftButton,
+    },
+    {
+      id: 'RIGHT_Force',
+      button: forceRightButton,
+    },
+    {
+      id: 'IN_Force',
+      button: forceInButton,
+    },
+    {
+      id: 'OUT_Force',
+      button: forceOutButton,
+    },
+  ];
 
-  var statusCell = document.getElementById(id);
-  if (statusCell.innerHTML === 'F') {
-    changeState(statusCell);
-    sendRequest(id, true);
-  } else {
-    changeState(statusCell);
-    sendRequest(id, false);
+  // Itereer door alle force-buttons
+  forceButtons.forEach(({ id, button }) => {
+    if (button) {
+      button = false;
+      forceMovement_Deactivate(id);
+    }
+  });
+});
+
+function forceMovement_Activate(id) {
+  const statusCell = document.getElementById(id);
+  const actions = {
+    LEFT_Force: () => (forceLeftButton = true),
+    RIGHT_Force: () => (forceRightButton = true),
+    IN_Force: () => (forceInButton = true),
+    OUT_Force: () => (forceOutButton = true),
+  };
+
+  if (actions[id]) {
+    actions[id](); // Voer de bijbehorende actie uit
+    statusCell.classList.add('green'); // Voeg de groene class toe
+    sendRequest(id, true); // Stuur de request
   }
 }
 
-function changeState(statusCell) {
-  changeStatusColor(statusCell);
-  changeStatusText(statusCell);
-}
-
-function changeStatusColor(statusCell) {
-  if (statusCell.className == 'green status') {
-    statusCell.className = 'red status';
-  } else {
-    statusCell.className = 'green status';
-  }
-}
-
-function changeStatusText(statusCell) {
-  if (statusCell.innerHTML == 'F') {
-    statusCell.innerHTML = 'T';
-  } else {
-    statusCell.innerHTML = 'F';
-  }
+function forceMovement_Deactivate(id) {
+  document.getElementById(id).classList.remove('green');
+  sendRequest(id, false);
 }
 
 function sendRequest(id, state) {

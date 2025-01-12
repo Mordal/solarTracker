@@ -6,6 +6,7 @@ async function updateValues() {
 
   setFlags();
   setSensors();
+  setTurnMovement();
 }
 
 async function getAllPageData() {
@@ -119,16 +120,6 @@ function setTurnMovement() {
   // movementDataObject["Turn"]["percentage"] =
   //      (float)currentTurnPercentage / 100.0;
   // movementDataObject["Turn"]["goToPosition"] = gotoTurnPosition;
-
-  // movementDataObject["Left"]["sensors"] = linksDraaien_Sensors;
-  // movementDataObject["Left"]["moving"] = linksDraaien;
-  // movementDataObject["Left"]["eindeloop"] = einde_Linksdraaien;
-  // movementDataObject["Left"]["force"] = linksDraaien_FORCE;
-
-  // movementDataObject["Right"]["sensors"] = rechtsDraaien_Sensors;
-  // movementDataObject["Right"]["moving"] = rechtsDraaien;
-  // movementDataObject["Right"]["eindeloop"] = einde_Rechtsdraaien;
-  // movementDataObject["Right"]["force"] = rechtsDraaien_FORCE;
 
   // LEFT and RIGHT
   if (pageData.Turn.antiPendel) {

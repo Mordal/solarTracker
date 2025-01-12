@@ -91,7 +91,7 @@ bool setCurrentTiltPercentage(void *) {
    return true;
 }
 
-unsigned int getPercentageTilted() {
+float getPercentageTilted() {
    const unsigned long timeDifference = millis() - tiltStartTime;
    return ((float)timeDifference / (float)timeNeededToTilt) *
           10000.0;  // percentage (*100) met 2 decimalen (*100)

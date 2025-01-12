@@ -98,7 +98,7 @@ bool setCurrentTurnPercentage(void *) {
    return true;
 }
 
-unsigned int getPercentageTurned() {
+float getPercentageTurned() {
    const unsigned long timeDifference = millis() - turnStartTime;
    return ((float)timeDifference / (float)timeNeededToTurn) * 10000.0;
 }
