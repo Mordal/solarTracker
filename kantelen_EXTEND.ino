@@ -19,28 +19,28 @@ bool needToExtend() {
 
 void uitschuiven_activate() {
    if (kantelenTooLong && !uitschuiven_FORCE) {
-      print("Kantelen in ALARM - RETURN");
+      // print("Kantelen in ALARM - RETURN");
       return;
    }
 
    if (antiPendel_Kantelen && !uitschuiven_FORCE) {
-      print("ANTI-PENDEL kantelen ACTIVE - RETURN");
+      // print("ANTI-PENDEL kantelen ACTIVE - RETURN");
       return;
    }
 
    if (einde_Uitschuiven) {
-      print("Eindeloop UITSCHUIVEN activated");
+      // print("Eindeloop UITSCHUIVEN activated");
       uitschuiven = false;
       return;
    };
 
    if (STOP_MODE && !uitschuiven_FORCE) {
-      print("STOP_MODE activated");
+      // print("STOP_MODE activated");
       uitschuiven = false;
       return;
    }
 
-   print("EXTEND");
+   // print("EXTEND");
    uitschuiven = true;
    einde_Inschuiven = false;
    set_kantelenTimeOut();
