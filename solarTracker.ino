@@ -149,6 +149,7 @@ unsigned long gotoPositionTimer_Remaining = 0;
 bool wifiConnected = false;
 bool mqttConnected = false;
 bool resetHappend = false;
+RTCTime resetTime;
 bool TEST_MODE = false;
 bool SAFE_MODE = false;
 bool STOP_MODE = false;
@@ -202,7 +203,7 @@ void setup() {
    setTimeFromNet();
    delay(1000);  // Need to do 2 times to get the correct time
    setTimeFromNet();
-
+   resetTime = getRTCTime();
    // Initialize needed time
    // initializeNeededTime();
 

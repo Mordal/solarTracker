@@ -10,7 +10,8 @@
     "vector": "cpp",
     "xhash": "cpp",
     "xutility": "cpp",
-    "cstddef": "cpp"
+    "cstddef": "cpp",
+    "cmath": "cpp"
   },
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
     "clang-diagnostic-pointer-bool-conversion"

@@ -84,7 +84,7 @@ document.getElementById('unlockBtn').addEventListener('click', async function (e
   event.preventDefault();
 
   // Verkrijg de waarde van het inputveld
-  const unlockCode = document.querySelector('input[name="Unlock"]').value;
+  const unlockCode = document.getElementById('unlockInput').value;
   document.querySelector('input[name="Unlock"]').value = '';
 
   // Gebruik Fetch API om een POST-verzoek te sturen naar /UNLOCK
@@ -106,6 +106,23 @@ document.getElementById('unlockBtn').addEventListener('click', async function (e
       console.error('Fout:', error);
     });
 });
+
+// GoToPosition //
+document
+  .getElementById('Draaien-Positie_Btn')
+  .addEventListener('click', async function (event) {
+    event.preventDefault();
+
+    const inputValue = document.getElementById('Draaien-Positie_Input').value;
+  });
+
+document
+  .getElementById('Kantelen-Positie_Btn')
+  .addEventListener('click', async function (event) {
+    event.preventDefault();
+
+    const inputValue = document.getElementById('Kantelen-Positie_Input').value;
+  });
 
 function startTimer(timerId) {
   const timeoutInput = document.getElementById(`${timerId}Timeout`);

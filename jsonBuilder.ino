@@ -138,7 +138,7 @@ JSONVar getPageData() {
    pageData["Flags"]["Reset"] = resetHappend;
    pageData["Flags"]["SettingsUnlocked"] = settingsUnlocked;
 
-   print(" - Flags added");
+   // print(" - Flags added");
 
    pageData["Tilt"]["percentage"] = (float)currentTiltPercentage / 100.0;
    pageData["Tilt"]["antiPendel"] = antiPendel_Kantelen;
@@ -154,7 +154,7 @@ JSONVar getPageData() {
    pageData["Retract"]["eindeloop"] = einde_Inschuiven;
    pageData["Retract"]["force"] = inschuiven_FORCE;
 
-   print(" - Tilt added");
+   // print(" - Tilt added");
 
    pageData["Turn"]["percentage"] = (float)currentTurnPercentage / 100.0;
    pageData["Turn"]["antiPendel"] = antiPendel_Draaien;
@@ -170,14 +170,14 @@ JSONVar getPageData() {
    pageData["Right"]["eindeloop"] = einde_Rechtsdraaien;
    pageData["Right"]["force"] = rechtsDraaien_FORCE;
 
-   print(" - Turn added");
+   // print(" - Turn added");
 
    pageData["ForceMovement"]["LEFT_Force"] = linksDraaien_FORCE;
    pageData["ForceMovement"]["RIGHT_Force"] = rechtsDraaien_FORCE;
    pageData["ForceMovement"]["OUT_Force"] = uitschuiven_FORCE;
    pageData["ForceMovement"]["IN_Force"] = inschuiven_FORCE;
 
-   print(" - ForceMovement added");
+   // print(" - ForceMovement added");
 
    pageData["TimeRemaining"]["antiPendel_Draaien_Timer"] =
        antiPendel_Draaien_Timer_Remaining;
@@ -191,7 +191,7 @@ JSONVar getPageData() {
        settingsUnlockedTimer_Remaining;
    pageData["TimeRemaining"]["gotoPositionTimer"] = gotoPositionTimer_Remaining;
 
-   print(" - TimeRemaining added");
+   // print(" - TimeRemaining added");
 
    pageData["Sensors"]["lichtSensor_LB"] = lichtSensor_LB;
    pageData["Sensors"]["lichtSensor_LO"] = lichtSensor_LO;
@@ -203,7 +203,7 @@ JSONVar getPageData() {
    pageData["Sensors"]["onder"] = lichtSensors_Onder;
    pageData["Sensors"]["isNight"] = isNight();
 
-   print(" - Sensors added");
+   // print(" - Sensors added");
    return pageData;
 }
 

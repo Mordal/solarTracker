@@ -1,6 +1,6 @@
 
 void sendStartData(WiFiClient client) {
-   print("Sending start data to client...");
+   // print("Sending start data to client...");
    client.println("HTTP/1.1 200 OK");
    client.println("Access-Control-Allow-Origin: *");
    client.println("Access-Control-Allow-Methods: GET, POST");
@@ -20,14 +20,14 @@ void sendAllPageData(WiFiClient client) {
    client.println("Content-type:application/json");
    client.println();
 
-   print("Getting all page data...");
+   // print("Getting all page data...");
    JSONVar pageData = getPageData();
 
-   print("Sending all page data...");
+   // print("Sending all page data...");
    // Verstuur de gegevens
    sendJson(client, pageData);
 
-   print("All page data sent");
+   // print("All page data sent");
    client.println();
    return;
 }

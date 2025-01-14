@@ -139,7 +139,7 @@
               <label for="LB_Offset">Settings</label>
               <div id="colorSquare" class="square"></div>
             </div>
-            <input type="text" id="unlockForm" name="Unlock" placeholder="" />
+            <input type="text" id="unlockInput" name="Unlock" placeholder="" />
             <button type="submit" id="unlockBtn" class="save-btn">UNLOCK</button>
           </div>
         </div>
@@ -321,24 +321,32 @@
             </div>
             <div class="input-grid movement-grid">
               <div class="form-group">
-                <label for="Draaien-Positie">Draaien - 40,73%</label>
+                <label id="Draaien-Positie_Percentage" for="Draaien-Positie_Input"
+                  >Draaien - 40,73%</label
+                >
                 <input
                   type="number"
-                  id="Draaien-Positie"
+                  id="Draaien-Positie_Input"
                   name="Draaien-Positie"
                   placeholder="Ga naar positie"
                 />
-                <button type="submit" class="save-btn">GO</button>
+                <button id="Draaien-Positie_Btn" type="submit" class="save-btn">
+                  GO
+                </button>
               </div>
               <div style="margin-bottom: 20px" class="form-group">
-                <label for="Kantelen-Positie">Kantelen - 20,45%</label>
+                <label id="Kantelen-Positie_Percentage" for="Kantelen-Positie"
+                  >Kantelen - 20,45%</label
+                >
                 <input
                   type="number"
-                  id="Kantelen-Positie"
+                  id="Kantelen-Positie_Input"
                   name="Kantelen-Positie"
                   placeholder="Ga naar positie"
                 />
-                <button type="submit" class="save-btn">GO</button>
+                <button id="Kantelen-Positie_Btn" type="submit" class="save-btn">
+                  GO
+                </button>
               </div>
             </div>
           </div>

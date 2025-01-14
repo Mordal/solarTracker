@@ -131,6 +131,10 @@ function setTurnMovement() {
   }
   // TODO
   // - Percentage
+
+  const string = `Draaien - ${pageData.Turn.percentage}%`;
+  document.getElementById('Draaien-Positie_Percentage').innerHTML = string;
+
   // - goToPosition
 
   //LEFT
