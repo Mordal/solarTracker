@@ -1,4 +1,4 @@
-setInterval(updateValues, 10000); // 5 seconden
+setInterval(updateValues, 1000); // 5 seconden
 let forceLeftButton = false;
 let forceRightButton = false;
 let forceInButton = false;
@@ -113,7 +113,15 @@ document
   .addEventListener('click', async function (event) {
     event.preventDefault();
 
-    const inputValue = document.getElementById('Draaien-Positie_Input').value;
+    let inputValue = document.getElementById('Draaien-Positie_Input').value;
+    inputValue = validatePositionInput(inputValue);
+
+    if (inputValue === null) return;
+
+    fetch(`${baseUrl}/CONTROL`, {
+      method: 'POST',
+      body: JSON.stringify({ TURN_Position: inputValue }),
+    });
   });
 
 document
@@ -121,7 +129,15 @@ document
   .addEventListener('click', async function (event) {
     event.preventDefault();
 
-    const inputValue = document.getElementById('Kantelen-Positie_Input').value;
+    let inputValue = document.getElementById('Kantelen-Positie_Input').value;
+    console.log(inputValue);
+    inputValue = validatePositionInput(inputValue);
+    if (inputValue === null) return;
+
+    fetch(`${baseUrl}/CONTROL`, {
+      method: 'POST',
+      body: JSON.stringify({ TILT_Position: inputValue }),
+    });
   });
 
 function startTimer(timerId) {
@@ -147,3 +163,15 @@ function startTimer(timerId) {
     }, 100);
   }
 }
+
+function validatePositionInput(input) {
+  const value = parseFloat(input.replace(',', '.'));
+  if (isNaN(value)) {
+    alert('Ongeldige invoer. Voer een geldig getal in.');
+    return null;
+  }
+  const rangedValue = Math.min(Math.max(value, 0), 100);
+  const roundedValue = Math.round(rangedValue * 100) / 100;
+  return roundedValue * 100;
+}
+s;

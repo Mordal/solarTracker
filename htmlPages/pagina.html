@@ -237,6 +237,48 @@
             </div>
 
             <div class="grid-item movement-grid">
+              <h3>Onder</h3>
+              <table class="status-table">
+                <tr>
+                  <th>Active</th>
+                  <td id="IN_Active" class="status grey"></td>
+                </tr>
+                <tr>
+                  <th>Sensors</th>
+                  <td id="IN_Sensors" class="status grey"></td>
+                </tr>
+                <tr>
+                  <th>End</th>
+                  <td id="IN_End" class="status grey"></td>
+                </tr>
+                <tr>
+                  <th>Antipendel</th>
+                  <td id="IN_Antipendel" class="status grey"></td>
+                </tr>
+                <tr>
+                  <th>Alarm</th>
+                  <td id="IN_Alarm" class="status grey"></td>
+                </tr>
+              </table>
+              <table class="status-table">
+                <tr>
+                  <th>Force O</th>
+                  <td id="IN_Force" class="status grey"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="border: none">
+                    <button
+                      class="button button1"
+                      onmousedown="forceMovement_Activate('IN_Force')"
+                    >
+                      FORCE
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="grid-item movement-grid">
               <h3>Boven</h3>
               <table class="status-table">
                 <tr>
@@ -278,47 +320,6 @@
               </table>
             </div>
 
-            <div class="grid-item movement-grid">
-              <h3>Onder</h3>
-              <table class="status-table">
-                <tr>
-                  <th>Active</th>
-                  <td id="IN_Active" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Sensors</th>
-                  <td id="IN_Sensors" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>End</th>
-                  <td id="IN_End" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Antipendel</th>
-                  <td id="IN_Antipendel" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Alarm</th>
-                  <td id="IN_Active" class="status grey"></td>
-                </tr>
-              </table>
-              <table class="status-table">
-                <tr>
-                  <th>Force O</th>
-                  <td id="IN_Force" class="status grey"></td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="border: none">
-                    <button
-                      class="button button1"
-                      onmousedown="forceMovement_Activate('IN_Force')"
-                    >
-                      FORCE
-                    </button>
-                  </td>
-                </tr>
-              </table>
-            </div>
             <div class="input-grid movement-grid">
               <div class="form-group">
                 <label id="Draaien-Positie_Percentage" for="Draaien-Positie_Input"

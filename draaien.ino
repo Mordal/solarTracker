@@ -2,12 +2,13 @@
 
 void gotoTurnPercentage(int percentage = -1) {
    if (percentage != -1) {
+      print("RECEIVED ORDER - gotoTurnPercentage");
       gotoTurnPosition = true;
       wantedTurnPercentage = percentage;
    }
-   if ((wantedTurnPercentage * 100) > currentTurnPercentage + 200) {
+   if ((wantedTurnPercentage) > currentTurnPercentage + 50) {
       rechtsDraaien_FORCE = true;
-   } else if ((wantedTurnPercentage * 100) < currentTurnPercentage - 200) {
+   } else if ((wantedTurnPercentage) < currentTurnPercentage - 50) {
       linksDraaien_FORCE = true;
    } else {
       linksDraaien_FORCE = false;
@@ -83,13 +84,16 @@ bool setCurrentTurnPercentage(void *) {
       }
 
    } else if (rechtsDraaien) {
-      currentTurnPercentage = currentTurnPercentage + percentageTurned;
+      if (currentTurnPercentage + percentageTurned > 11000) {
+         currentTurnPercentage = 10000;
+      } else {
+         currentTurnPercentage = currentTurnPercentage + percentageTurned;
+      }
    } else {
       return true;
    }
 
-   const float floatPercentage = (float)currentTurnPercentage / 100.0;
-
+   // const float floatPercentage = (float)currentTurnPercentage / 100.0;
    // Serial.print("Current Turn Percentage: ");
    // Serial.println(floatPercentage, 4);
 
@@ -98,9 +102,11 @@ bool setCurrentTurnPercentage(void *) {
    return true;
 }
 
-float getPercentageTurned() {
+unsigned int getPercentageTurned() {
    const unsigned long timeDifference = millis() - turnStartTime;
-   return ((float)timeDifference / (float)timeNeededToTurn) * 10000.0;
+   const float calculatedPercentage =
+       (float)timeDifference / (float)timeNeededToTurn;
+   return calculatedPercentage * 10000.0;
 }
 
 void set_draaienTimeOut() {

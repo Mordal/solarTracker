@@ -7,7 +7,7 @@
 // (het daaropvolgende jaar).
 
 byte turnPercentage_Presets[14] = {0,  5,  10, 19, 28, 35, 42,
-                          52, 61, 70, 75, 80, 88, 100};
+                                   52, 61, 70, 75, 80, 88, 100};
 
 // byte[14] getTurnPercentage_Presets() { return turnPercentage_Presets; };
 
@@ -190,10 +190,10 @@ bool gotoPresetPosition(void *) {
    }
 
    byte expectedTurnPosition = getExpectedTurnPosition(getHourNumber());
-   gotoTurnPercentage(expectedTurnPosition);
+   gotoTurnPercentage(expectedTurnPosition * 100);
 
    byte expectedTiltPosition =
        getExpectedTiltPosition(getHourNumber(), getMonthNumber());
-   gotoTiltPercentage(expectedTiltPosition);
+   gotoTiltPercentage(expectedTiltPosition * 100);
    return true;
 }

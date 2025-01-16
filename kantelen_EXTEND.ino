@@ -61,7 +61,7 @@ void goToTopEnd(bool includeInschuiven = true) {
    uitschuiven = false;
    digitalWrite(PIN_Uitschuiven, !false);
    einde_Uitschuiven = true;
-   currentTiltPercentage = 100;
+   currentTiltPercentage = 10000;
 
    if (includeInschuiven) {
       inschuivenWhenEindeLoopUitschuiven();

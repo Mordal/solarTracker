@@ -72,10 +72,14 @@ void control(WiFiClient client, String body) {
 
    // GOTO POSITION //
    if (jsonBody.hasOwnProperty("TURN_Position")) {
-      gotoTurnPercentage(jsonBody["TURN_Position"]);
+      String input = jsonBody["TURN_Position"];
+      int turnPosition = normalizePosition(input.toInt());
+      gotoTurnPercentage(turnPosition);
    }
    if (jsonBody.hasOwnProperty("TILT_Position")) {
-      gotoTiltPercentage(jsonBody["TILT_Position"]);
+      String input = jsonBody["TILT_Position"];
+      int tiltPosition = normalizePosition(input.toInt());
+      gotoTiltPercentage(tiltPosition);
    }
 
    // MODES //
@@ -89,6 +93,17 @@ void control(WiFiClient client, String body) {
       STOP_MODE = jsonBody["STOP_MODE"];
    }
    sendJsonData(client, jsonBody);
+}
+
+int normalizePosition(int position) {
+   if (position < 0) {
+      return 0;
+   }
+
+   if (position > 10000) {
+      return 10000;
+   }
+   return position;
 }
 
 void setValues(WiFiClient client, String body) {

@@ -1,12 +1,13 @@
 
 void gotoTiltPercentage(int percentage = -1) {
    if (percentage != -1) {
+      print("RECEIVED ORDER - gotoTiltPercentage");
       gotoTiltPosition = true;
       wantedTiltPercentage = percentage;
    }
-   if ((wantedTiltPercentage * 100) > currentTiltPercentage + 200) {
+   if ((wantedTiltPercentage) > currentTiltPercentage + 50) {
       uitschuiven_FORCE = true;
-   } else if ((wantedTiltPercentage * 100) < currentTiltPercentage - 200) {
+   } else if ((wantedTiltPercentage) < currentTiltPercentage - 50) {
       inschuiven_FORCE = true;
    } else {
       uitschuiven_FORCE = false;
@@ -68,15 +69,19 @@ void deactivate_Kantelen() {
 bool setCurrentTiltPercentage(void *) {
    const unsigned int percentageTilted =
        getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
-   if (uitschuiven) {
+   if (inschuiven) {
       if (percentageTilted > currentTiltPercentage) {
          currentTiltPercentage = 0;
       } else {
          currentTiltPercentage -= percentageTilted;
       }
 
-   } else if (inschuiven) {
-      currentTiltPercentage = currentTiltPercentage - percentageTilted;
+   } else if (uitschuiven) {
+      if (percentageTilted + currentTiltPercentage > 12000) {
+         currentTiltPercentage = 10000;
+      } else {
+         currentTiltPercentage = currentTiltPercentage + percentageTilted;
+      }
    } else {
       return true;
    }
@@ -91,9 +96,12 @@ bool setCurrentTiltPercentage(void *) {
    return true;
 }
 
-float getPercentageTilted() {
+unsigned int getPercentageTilted() {
    const unsigned long timeDifference = millis() - tiltStartTime;
-   return ((float)timeDifference / (float)timeNeededToTilt) *
+   const float calculatedPercentage =
+       (float)timeDifference / (float)timeNeededToTilt;
+
+   return calculatedPercentage *
           10000.0;  // percentage (*100) met 2 decimalen (*100)
 }
 

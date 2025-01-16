@@ -74,8 +74,12 @@ function setFlags() {
 
   if (pageData.Flags.Kantelen_too_long) {
     document.getElementById('Kantelen_too_long').classList.add('red');
+    document.getElementById('OUT_Alarm').classList.add('red');
+    document.getElementById('IN_Alarm').classList.add('red');
   } else {
     document.getElementById('Kantelen_too_long').classList.remove('red');
+    document.getElementById('OUT_Alarm').classList.remove('red');
+    document.getElementById('IN_Alarm').classList.remove('red');
   }
 
   if (pageData.Flags.Reset) {
@@ -129,8 +133,6 @@ function setTurnMovement() {
     document.getElementById('LEFT_Antipendel').classList.remove('red');
     document.getElementById('RIGHT_Antipendel').classList.remove('red');
   }
-  // TODO
-  // - Percentage
 
   const string = `Draaien - ${pageData.Turn.percentage}%`;
   document.getElementById('Draaien-Positie_Percentage').innerHTML = string;
@@ -185,5 +187,84 @@ function setTurnMovement() {
     document.getElementById('RIGHT_Force').classList.add('green');
   } else {
     document.getElementById('RIGHT_Force').classList.remove('green');
+  }
+}
+
+function setTiltMovement() {
+  // pageData["Tilt"]["percentage"] = (float)currentTiltPercentage / 100.0;
+  // pageData["Tilt"]["antiPendel"] = antiPendel_Kantelen;
+  // pageData["Tilt"]["goToPosition"] = gotoTiltPosition;
+
+  // pageData["Retract"]["sensors"] = inschuiven_Sensors;
+  // pageData["Retract"]["moving"] = inschuiven;
+  // pageData["Retract"]["eindeloop"] = einde_Inschuiven;
+  // pageData["Retract"]["force"] = inschuiven_FORCE;
+
+  // UP and DOWN
+
+  if (pageData.Tilt.antiPendel) {
+    document.getElementById('OUT_Antipendel').classList.add('red');
+    document.getElementById('IN_Antipendel').classList.add('red');
+  } else {
+    document.getElementById('OUT_Antipendel').classList.remove('red');
+    document.getElementById('IN_Antipendel').classList.remove('red');
+  }
+
+  // TODO
+  // - Percentage
+
+  const string = `Kantelen - ${pageData.Tilt.percentage}%`;
+  document.getElementById('Kantelen-Positie_Percentage').innerHTML = string;
+
+  // - goToPosition
+
+  // EXTEND
+  if (pageData.Extend.moving) {
+    document.getElementById('OUT_Active').classList.add('green');
+  } else {
+    document.getElementById('OUT_Active').classList.remove('green');
+  }
+
+  if (pageData.Extend.sensors) {
+    document.getElementById('OUT_Sensors').classList.add('green');
+  } else {
+    document.getElementById('OUT_Sensors').classList.remove('green');
+  }
+
+  if (pageData.Extend.eindeloop) {
+    document.getElementById('OUT_End').classList.add('red');
+  } else {
+    document.getElementById('OUT_End').classList.remove('red');
+  }
+
+  if (pageData.Extend.force) {
+    document.getElementById('OUT_Force').classList.add('green');
+  } else {
+    document.getElementById('OUT_Force').classList.remove('green');
+  }
+
+  // RETRACT
+  if (pageData.Retract.moving) {
+    document.getElementById('IN_Active').classList.add('green');
+  } else {
+    document.getElementById('IN_Active').classList.remove('green');
+  }
+
+  if (pageData.Retract.sensors) {
+    document.getElementById('IN_Sensors').classList.add('green');
+  } else {
+    document.getElementById('IN_Sensors').classList.remove('green');
+  }
+
+  if (pageData.Retract.eindeloop) {
+    document.getElementById('IN_End').classList.add('red');
+  } else {
+    document.getElementById('IN_End').classList.remove('red');
+  }
+
+  if (pageData.Retract.force) {
+    document.getElementById('IN_Force').classList.add('green');
+  } else {
+    document.getElementById('IN_Force').classList.remove('green');
   }
 }
