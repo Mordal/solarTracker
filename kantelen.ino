@@ -1,19 +1,22 @@
 
 void gotoTiltPercentage(int percentage = -1) {
    if (percentage != -1) {
-      print("RECEIVED ORDER - gotoTiltPercentage");
       gotoTiltPosition = true;
       wantedTiltPercentage = percentage;
    }
-   if ((wantedTiltPercentage) > currentTiltPercentage + 50) {
+
+   if ((wantedTiltPercentage) > currentTiltPercentage + 100) {
       uitschuiven_FORCE = true;
-   } else if ((wantedTiltPercentage) < currentTiltPercentage - 50) {
+      return;
+
+   } else if ((wantedTiltPercentage) < currentTiltPercentage - 100) {
       inschuiven_FORCE = true;
-   } else {
-      uitschuiven_FORCE = false;
-      inschuiven_FORCE = false;
-      gotoTiltPosition = false;
+      return;
    }
+   Serial.println("<<<<< Tilt position reached >>>>>");
+   uitschuiven_FORCE = false;
+   inschuiven_FORCE = false;
+   gotoTiltPosition = false;
 }
 
 void setKantelen() {
@@ -67,9 +70,9 @@ void deactivate_Kantelen() {
 
 // Timer: setTiltPercentageTimer
 bool setCurrentTiltPercentage(void *) {
-   const unsigned int percentageTilted =
-       getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
    if (inschuiven) {
+      const unsigned int percentageTilted =
+          getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
       if (percentageTilted > currentTiltPercentage) {
          currentTiltPercentage = 0;
       } else {
@@ -77,6 +80,8 @@ bool setCurrentTiltPercentage(void *) {
       }
 
    } else if (uitschuiven) {
+      const unsigned int percentageTilted =
+          getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
       if (percentageTilted + currentTiltPercentage > 12000) {
          currentTiltPercentage = 10000;
       } else {
@@ -96,10 +101,24 @@ bool setCurrentTiltPercentage(void *) {
    return true;
 }
 
-unsigned int getPercentageTilted() {
+int getPercentageTilted() {
    const unsigned long timeDifference = millis() - tiltStartTime;
-   const float calculatedPercentage =
-       (float)timeDifference / (float)timeNeededToTilt;
+   const float timeDif = (float)timeDifference;
+   const float timeNeeded = (float)timeNeededToTilt;
+
+   const float calculatedPercentage = timeDif / timeNeeded;
+   const float returnVal = calculatedPercentage * 10000.0;
+   //  (float)timeDifference / (float)timeNeededToTilt;
+
+   int returnValue =
+       (int)returnVal;  // percentage (*100) met 2 decimalen (*100)
+
+   Serial.print("Calculated TILT Percentage: ");
+   Serial.println(calculatedPercentage);
+
+   Serial.print("Return value");
+   Serial.println(returnValue);
+   return returnValue;
 
    return calculatedPercentage *
           10000.0;  // percentage (*100) met 2 decimalen (*100)

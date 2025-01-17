@@ -7,6 +7,7 @@ async function updateValues() {
   setFlags();
   setSensors();
   setTurnMovement();
+  setTiltMovement();
 }
 
 async function getAllPageData() {
@@ -134,7 +135,8 @@ function setTurnMovement() {
     document.getElementById('RIGHT_Antipendel').classList.remove('red');
   }
 
-  const string = `Draaien - ${pageData.Turn.percentage}%`;
+  const percentage = pageData.Turn.percentage / 100;
+  const string = `Draaien - ${percentage}%`;
   document.getElementById('Draaien-Positie_Percentage').innerHTML = string;
 
   // - goToPosition
@@ -212,8 +214,8 @@ function setTiltMovement() {
 
   // TODO
   // - Percentage
-
-  const string = `Kantelen - ${pageData.Tilt.percentage}%`;
+  const percentage = pageData.Tilt.percentage / 100;
+  const string = `Kantelen - ${percentage}%`;
   document.getElementById('Kantelen-Positie_Percentage').innerHTML = string;
 
   // - goToPosition

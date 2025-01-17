@@ -73,11 +73,10 @@ bool einde_Rechtsdraaien = false;
 bool antiPendel_Draaien = false;
 
 // turning percentage
-unsigned long timeNeededToTurn = 42400;
-unsigned int currentTurnPercentage =
-    0;  // moet nog delen door 100 = 2 decimalen
+unsigned int timeNeededToTurn = 42400;
+int currentTurnPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 unsigned long turnStartTime = 0;
-unsigned int wantedTurnPercentage = 0;  // moet nog delen door 100 = 2 decimalen
+int wantedTurnPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 
 // KANTELEN //
 // pins
@@ -106,11 +105,10 @@ bool einde_Inschuiven = false;
 bool antiPendel_Kantelen = false;
 
 // tilt percentage
-unsigned long timeNeededToTilt = 35400;
-unsigned int currentTiltPercentage =
-    0;  // moet nog delen door 100 = 2 decimalen
+unsigned int timeNeededToTilt = 35400;
+int currentTiltPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 unsigned long tiltStartTime = 0;
-byte wantedTiltPercentage = 0;
+int wantedTiltPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 
 // TIME-OUTS
 // Settings

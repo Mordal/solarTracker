@@ -140,7 +140,7 @@ JSONVar getPageData() {
 
    // print(" - Flags added");
 
-   pageData["Tilt"]["percentage"] = (float)currentTiltPercentage / 100.0;
+   pageData["Tilt"]["percentage"] = currentTiltPercentage;
    pageData["Tilt"]["antiPendel"] = antiPendel_Kantelen;
    pageData["Tilt"]["goToPosition"] = gotoTiltPosition;
 
@@ -156,7 +156,7 @@ JSONVar getPageData() {
 
    // print(" - Tilt added");
 
-   pageData["Turn"]["percentage"] = (float)currentTurnPercentage / 100.0;
+   pageData["Turn"]["percentage"] = currentTurnPercentage;
    pageData["Turn"]["antiPendel"] = antiPendel_Draaien;
    pageData["Turn"]["goToPosition"] = gotoTurnPosition;
 

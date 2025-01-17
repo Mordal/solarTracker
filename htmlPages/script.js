@@ -41,7 +41,10 @@ document.addEventListener('mouseup', () => {
   // Itereer door alle force-buttons
   forceButtons.forEach(({ id, button }) => {
     if (button) {
-      button = false;
+      forceLeftButton = false;
+      forceRightButton = false;
+      forceInButton = false;
+      forceOutButton = false;
       forceMovement_Deactivate(id);
     }
   });
@@ -130,7 +133,6 @@ document
     event.preventDefault();
 
     let inputValue = document.getElementById('Kantelen-Positie_Input').value;
-    console.log(inputValue);
     inputValue = validatePositionInput(inputValue);
     if (inputValue === null) return;
 
