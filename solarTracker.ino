@@ -77,7 +77,7 @@ unsigned long timeNeededToTurn = 42400;
 unsigned int currentTurnPercentage =
     0;  // moet nog delen door 100 = 2 decimalen
 unsigned long turnStartTime = 0;
-byte wantedTurnPercentage = 0;
+unsigned int wantedTurnPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 
 // KANTELEN //
 // pins

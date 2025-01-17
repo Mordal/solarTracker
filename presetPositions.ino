@@ -180,6 +180,7 @@ byte getExpectedTiltPosition(byte hour, byte month) {
 }
 
 bool gotoPresetPosition(void *) {
+   print("gotoPresetPosition TRIGGERED");
    if (isNight()) {
       return true;
    }
@@ -190,10 +191,13 @@ bool gotoPresetPosition(void *) {
    }
 
    byte expectedTurnPosition = getExpectedTurnPosition(getHourNumber());
-   gotoTurnPercentage(expectedTurnPosition * 100);
+   print("expectedTurnPosition: " + String(expectedTurnPosition));
+   gotoTurnPercentage((int)expectedTurnPosition * 100);
 
    byte expectedTiltPosition =
        getExpectedTiltPosition(getHourNumber(), getMonthNumber());
-   gotoTiltPercentage(expectedTiltPosition * 100);
+   print("expectedTiltPosition: " + String(expectedTiltPosition));
+   gotoTiltPercentage((int)expectedTiltPosition * 100);
+
    return true;
 }

@@ -1,15 +1,18 @@
 
-
-void gotoTurnPercentage(int percentage = -1) {
+0 void gotoTurnPercentage(unsigned int percentage = -1) {
+   print('Moving to turn percentage: ' + String(percentage));
    if (percentage != -1) {
-      print("RECEIVED ORDER - gotoTurnPercentage");
+      print("RECEIVED NEW ORDER - gotoTurnPercentage");
       gotoTurnPosition = true;
       wantedTurnPercentage = percentage;
    }
-   if ((wantedTurnPercentage) > currentTurnPercentage + 50) {
+
+   if ((wantedTurnPercentage) > currentTurnPercentage + 100) {
       rechtsDraaien_FORCE = true;
-   } else if ((wantedTurnPercentage) < currentTurnPercentage - 50) {
+
+   } else if ((wantedTurnPercentage) < currentTurnPercentage - 100) {
       linksDraaien_FORCE = true;
+
    } else {
       linksDraaien_FORCE = false;
       rechtsDraaien_FORCE = false;
