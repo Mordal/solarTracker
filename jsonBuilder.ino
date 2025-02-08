@@ -32,8 +32,7 @@ JSONVar getLightSensorData() {
 
 JSONVar getTurnMovementData() {
    JSONVar movementDataObject = undefined;
-   movementDataObject["Turn"]["percentage"] =
-       (float)currentTurnPercentage / 100.0;
+   movementDataObject["Turn"]["percentage"] = currentTurnPercentage;
    movementDataObject["Turn"]["antiPendel"] = antiPendel_Draaien;
    movementDataObject["Turn"]["goToPosition"] = gotoTurnPosition;
 
@@ -52,8 +51,7 @@ JSONVar getTurnMovementData() {
 
 JSONVar getTiltMovementData() {
    JSONVar movementDataObject = undefined;
-   movementDataObject["Tilt"]["percentage"] =
-       (float)currentTiltPercentage / 100.0;
+   movementDataObject["Tilt"]["percentage"] = currentTiltPercentage;
    movementDataObject["Tilt"]["antiPendel"] = antiPendel_Kantelen;
    movementDataObject["Tilt"]["goToPosition"] = gotoTiltPosition;
 

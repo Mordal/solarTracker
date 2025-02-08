@@ -112,10 +112,12 @@ int wantedTiltPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 
 // TIME-OUTS
 // Settings
-unsigned int antiPendelTime = 5000;        //= 5 sec. = 5000 ms  ;  MAX = 65535
-unsigned int maxMovementTime = 50000;      // 50 sec. = 50000 ms ;  MAX = 65535
-unsigned long retryTime = 300000;          // 5 min. = 300000 ms
-unsigned int logBook_Timer_delay = 10000;  // 10 sec. = 10000 ms
+unsigned int antiPendelTime = 5000;    //= 5 sec. = 5000 ms  ;  MAX = 65535
+unsigned int maxMovementTime = 50000;  // 50 sec. = 50000 ms ;  MAX = 65535
+unsigned long retryTime = 300000;      // 5 min. = 300000 ms
+unsigned int logBook_Timer_delay =
+    20000;  // 20 sec. = 20000 ms //Original 10 sec
+unsigned int sendAllData_Timer_delay = 1000;  // 1 sec. = 1000 ms
 
 // Draaien
 Timer<1> antiPendel_Draaien_Timer;
@@ -129,6 +131,7 @@ auto setTiltPercentageTimer = timer_create_default();
 
 // Other Timers
 auto logBook_Timer = timer_create_default();
+Timer<1> sendAllData_Timer;
 auto retryTimer = timer_create_default();
 Timer<1> settingsUnlockedTimer;
 auto gotoPositionTimer = timer_create_default();
@@ -229,12 +232,13 @@ void tickTimers() {
    antiPendel_Kantelen_Timer_Remaining = antiPendel_Kantelen_Timer.tick();
    draaien_TimeOut_Remaining = draaien_TimeOut.tick();
    kantelen_TimeOut_Remaining = kantelen_TimeOut.tick();
-   logBook_Timer_Remaining = logBook_Timer.tick();
+   // logBook_Timer_Remaining = logBook_Timer.tick();
    retryTimer_Remaining = retryTimer.tick();
    setTurnPercentageTimer.tick();
    setTiltPercentageTimer.tick();
    settingsUnlockedTimer_Remaining = settingsUnlockedTimer.tick();
    gotoPositionTimer_Remaining = gotoPositionTimer.tick();
+   sendAllData_Timer.tick();
 }
 
 void set_Outputs() {
@@ -256,6 +260,7 @@ void setTimers() {
    logBook_Timer.every(logBook_Timer_delay,
                        setLogbook);  // 10 sec ----- //every minute -> voor een
                                      // week: 6 keer per uur
+   sendAllData_Timer.every(sendAllData_Timer_delay, sendAllPageData);
    setTurnPercentageTimer.every(1000, setCurrentTurnPercentage);  // 1 sec
    setTiltPercentageTimer.every(1000, setCurrentTiltPercentage);  // 1 sec
    gotoPositionTimer.every(3600000, gotoPresetPosition);          // 1 uur
