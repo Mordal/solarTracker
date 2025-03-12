@@ -5,10 +5,6 @@
 bool setLogbook(void *) {
    // print("Sending messages to MQTT...");
 
-   if (!clientConnectedTimer.empty()) {
-      return false;
-   }
-
    const long timeStamp = getEpochTime();
 
    JSONVar message = getFlags();

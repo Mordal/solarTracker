@@ -1,20 +1,4 @@
-// let pageData = {};
-let baseUrl = 'http://192.168.0.111';
-
-async function updateValues() {
-  if (!(await getAllPageData())) return;
-
-  setFlags();
-  setSensors();
-  setTurnMovement();
-  setTiltMovement();
-}
-
-async function getAllPageData() {
-  console.log('Fetching page data - DEPRICATED');
-  return false;
-}
-
+// Description: This file contains the functions that are used to set the data on the page.
 function setFlags(pageData) {
   if (pageData.Flags.SettingsUnlocked) {
     document.getElementById('colorSquare').classList.add('green-square');

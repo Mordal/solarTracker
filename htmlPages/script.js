@@ -1,9 +1,14 @@
-setInterval(updateValues, 20000); // Update de waarden elke 20 seconden
+window.onload = function () {
+  registerClient();
+  setInterval(registerClient, 25000); // 25000 milliseconden = 25 seconden
+};
 
 let forceLeftButton = false;
 let forceRightButton = false;
 let forceInButton = false;
 let forceOutButton = false;
+
+const baseUrl = 'http://pieserver.myds.me:90';
 
 // MQTT //
 const client = mqtt.connect('ws://pieserver.myds.me:9001');
@@ -12,8 +17,8 @@ const topics = {
   TILT: 'tiltMovementData',
   TURN: 'turnMovementData',
   FORCE: 'forceMovement',
-  SENSORS: 'sensorData',
   TIME: 'timeRemaining',
+  SENSORS: 'sensorData',
 };
 
 client.on('connect', () => {
@@ -47,6 +52,10 @@ client.on('message', (topic, message) => {
     //setForceMovement(JSON.parse(message));
   }
 });
+
+async function registerClient() {
+  const response = await fetch(`${baseUrl}/API/CLIENTCONNECTED`);
+}
 
 // Selecteer de knop
 const button = document.getElementById('StopButton');
