@@ -1,8 +1,52 @@
-setInterval(updateValues, 1000); // 5 seconden
+setInterval(updateValues, 20000); // Update de waarden elke 20 seconden
+
 let forceLeftButton = false;
 let forceRightButton = false;
 let forceInButton = false;
 let forceOutButton = false;
+
+// MQTT //
+const client = mqtt.connect('ws://pieserver.myds.me:9001');
+const topics = {
+  FLAGS: 'flags',
+  TILT: 'tiltMovementData',
+  TURN: 'turnMovementData',
+  FORCE: 'forceMovement',
+  SENSORS: 'sensorData',
+  TIME: 'timeRemaining',
+};
+
+client.on('connect', () => {
+  console.log('Verbonden met MQTT broker');
+  // Alle topics tegelijk subscriben
+  client.subscribe(Object.values(topics), (err) => {
+    if (err) {
+      console.error('Fout bij subscriben:', err);
+    } else {
+      console.log('Succesvol geabonneerd op alle topics!');
+    }
+  });
+});
+
+client.on('message', (topic, message) => {
+  if (topic == 'flags') {
+    setFlags(JSON.parse(message));
+  }
+  if (topic == 'tiltMovementData') {
+    setTiltMovement(JSON.parse(message));
+  }
+  if (topic == 'turnMovementData') {
+    setTurnMovement(JSON.parse(message));
+  }
+
+  if (topic == 'sensorData') {
+    setSensors(JSON.parse(message));
+  }
+
+  if (topic == 'forceMovement') {
+    //setForceMovement(JSON.parse(message));
+  }
+});
 
 // Selecteer de knop
 const button = document.getElementById('StopButton');
@@ -176,4 +220,3 @@ function validatePositionInput(input) {
   const roundedValue = Math.round(rangedValue * 100) / 100;
   return roundedValue * 100;
 }
-s;

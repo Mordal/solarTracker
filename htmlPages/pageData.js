@@ -1,4 +1,4 @@
-let pageData = {};
+// let pageData = {};
 let baseUrl = 'http://192.168.0.111';
 
 async function updateValues() {
@@ -11,30 +11,11 @@ async function updateValues() {
 }
 
 async function getAllPageData() {
-  let response;
-
-  try {
-    response = await fetch(`${baseUrl}/API/PAGEDATA`, {
-      method: 'GET',
-    });
-  } catch (error) {
-    console.error('Fout:', error);
-    return false;
-  }
-
-  if (!response.ok) {
-    console.log(response);
-    return false;
-  }
-
-  pageData = await response.json();
-  if (pageData.hasOwnProperty('Flags')) {
-    return true;
-  }
+  console.log('Fetching page data - DEPRICATED');
   return false;
 }
 
-function setFlags() {
+function setFlags(pageData) {
   if (pageData.Flags.SettingsUnlocked) {
     document.getElementById('colorSquare').classList.add('green-square');
   } else {
@@ -108,7 +89,7 @@ function setFlags() {
   }
 }
 
-function setSensors() {
+function setSensors(pageData) {
   document.getElementById('lb').innerHTML = pageData.Sensors.lichtSensor_LB;
   document.getElementById('rb').innerHTML = pageData.Sensors.lichtSensor_RB;
   document.getElementById('lo').innerHTML = pageData.Sensors.lichtSensor_LO;
@@ -121,7 +102,7 @@ function setSensors() {
   document.getElementById('o').innerHTML = pageData.Sensors.onder;
 }
 
-function setTurnMovement() {
+function setTurnMovement(pageData) {
   // movementDataObject["Turn"]["percentage"] =
   //      (float)currentTurnPercentage / 100.0;
   // movementDataObject["Turn"]["goToPosition"] = gotoTurnPosition;
@@ -192,7 +173,7 @@ function setTurnMovement() {
   }
 }
 
-function setTiltMovement() {
+function setTiltMovement(pageData) {
   // pageData["Tilt"]["percentage"] = (float)currentTiltPercentage / 100.0;
   // pageData["Tilt"]["antiPendel"] = antiPendel_Kantelen;
   // pageData["Tilt"]["goToPosition"] = gotoTiltPosition;

@@ -112,29 +112,30 @@ int wantedTiltPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 
 // TIME-OUTS
 // Settings
-unsigned int antiPendelTime = 5000;    //= 5 sec. = 5000 ms  ;  MAX = 65535
-unsigned int maxMovementTime = 50000;  // 50 sec. = 50000 ms ;  MAX = 65535
-unsigned long retryTime = 300000;      // 5 min. = 300000 ms
-unsigned int logBook_Timer_delay =
-    20000;  // 20 sec. = 20000 ms //Original 10 sec
+unsigned int antiPendelTime = 5000;        //= 5 sec. = 5000 ms  ;  MAX = 65535
+unsigned int maxMovementTime = 50000;      // 50 sec. = 50000 ms ;  MAX = 65535
+unsigned long retryTime = 300000;          // 5 min. = 300000 ms
+unsigned int logBook_Timer_delay = 10000;  // 10 sec. = 10000 ms
 unsigned int sendAllData_Timer_delay = 1000;  // 1 sec. = 1000 ms
+unsigned int clientConnectedTimeOut = 30000;  // 30 sec. = 30000 ms
 
 // Draaien
 Timer<1> antiPendel_Draaien_Timer;
 Timer<1> draaien_TimeOut;
-auto setTurnPercentageTimer = timer_create_default();
+Timer<1> setTurnPercentage_Timer;
 
 // Kantelen
 Timer<1> antiPendel_Kantelen_Timer;
 Timer<1> kantelen_TimeOut;
-auto setTiltPercentageTimer = timer_create_default();
+Timer<1> setTiltPercentage_Timer;
 
 // Other Timers
-auto logBook_Timer = timer_create_default();
+Timer<1> logBook_Timer;
 Timer<1> sendAllData_Timer;
-auto retryTimer = timer_create_default();
+Timer<1> clientConnectedTimer;
+Timer<1> retryTimer;
 Timer<1> settingsUnlockedTimer;
-auto gotoPositionTimer = timer_create_default();
+Timer<1> gotoPosition_Timer;
 
 // Time Remaining
 unsigned int antiPendel_Draaien_Timer_Remaining = 0;
@@ -142,9 +143,10 @@ unsigned int antiPendel_Kantelen_Timer_Remaining = 0;
 unsigned int draaien_TimeOut_Remaining = 0;
 unsigned int kantelen_TimeOut_Remaining = 0;
 unsigned int logBook_Timer_Remaining = 0;
+unsigned int clientConnectedTimer_Remaining = 0;
 unsigned long retryTimer_Remaining = 0;
 unsigned long settingsUnlockedTimer_Remaining = 0;
-unsigned long gotoPositionTimer_Remaining = 0;
+unsigned long gotoPosition_Timer_Remaining = 0;
 
 // FLAGS
 bool wifiConnected = false;
@@ -232,12 +234,13 @@ void tickTimers() {
    antiPendel_Kantelen_Timer_Remaining = antiPendel_Kantelen_Timer.tick();
    draaien_TimeOut_Remaining = draaien_TimeOut.tick();
    kantelen_TimeOut_Remaining = kantelen_TimeOut.tick();
-   // logBook_Timer_Remaining = logBook_Timer.tick();
+   logBook_Timer_Remaining = logBook_Timer.tick();
+   clientConnectedTimer_Remaining = clientConnectedTimer.tick();
    retryTimer_Remaining = retryTimer.tick();
-   setTurnPercentageTimer.tick();
-   setTiltPercentageTimer.tick();
+   setTurnPercentage_Timer.tick();
+   setTiltPercentage_Timer.tick();
    settingsUnlockedTimer_Remaining = settingsUnlockedTimer.tick();
-   gotoPositionTimer_Remaining = gotoPositionTimer.tick();
+   gotoPosition_Timer_Remaining = gotoPosition_Timer.tick();
    sendAllData_Timer.tick();
 }
 
@@ -257,13 +260,23 @@ void print(JSONVar json) { Serial.println(json); }
 // set permanent timers
 void setTimers() {
    retryTimer.every(retryTime, retryConnection);
-   logBook_Timer.every(logBook_Timer_delay,
-                       setLogbook);  // 10 sec ----- //every minute -> voor een
-                                     // week: 6 keer per uur
+   start_Logbook_Timer();
+   start_sendAllData_Timer();
+   setTurnPercentage_Timer.every(1000, setCurrentTurnPercentage);  // 1 sec
+   setTiltPercentage_Timer.every(1000, setCurrentTiltPercentage);  // 1 sec
+   gotoPosition_Timer.every(3600000, gotoPresetPosition);          // 1 uur
+}
+
+start_Logbook_Timer() {
+   logBook_Timer.every(logBook_Timer_delay, setLogbook);
+   // 10 sec ----- //every minute -> voor een
+   // week: 6 keer per uur
+}
+
+stop_Logbook_Timer() { logBook_Timer.cancel(); }
+
+start_sendAllData_Timer() {
    sendAllData_Timer.every(sendAllData_Timer_delay, sendAllPageData);
-   setTurnPercentageTimer.every(1000, setCurrentTurnPercentage);  // 1 sec
-   setTiltPercentageTimer.every(1000, setCurrentTiltPercentage);  // 1 sec
-   gotoPositionTimer.every(3600000, gotoPresetPosition);          // 1 uur
 }
 
 void resetAlarms() {

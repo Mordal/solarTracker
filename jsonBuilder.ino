@@ -104,26 +104,29 @@ JSONVar getSettings() {
 
 JSONVar getRemainingTime() {
    JSONVar remainingTimeObject = undefined;
-   remainingTimeObject["TimeRemaining"]["antiPendel_Draaien_Timer"] =
+   remainingTimeObject["TimeRem"]["antiPendel_Draaien_Timer"] =
        antiPendel_Draaien_Timer_Remaining;
-   remainingTimeObject["TimeRemaining"]["antiPendel_Kantelen_Timer"] =
+   remainingTimeObject["TimeRem"]["antiPendel_Kantelen_Timer"] =
        antiPendel_Kantelen_Timer_Remaining;
-   remainingTimeObject["TimeRemaining"]["draaien_TimeOut"] =
+   remainingTimeObject["TimeRem"]["draaien_TimeOut"] =
        draaien_TimeOut_Remaining;
-   remainingTimeObject["TimeRemaining"]["kantelen_TimeOut"] =
+   remainingTimeObject["TimeRem"]["kantelen_TimeOut"] =
        kantelen_TimeOut_Remaining;
-   remainingTimeObject["TimeRemaining"]["logBook_Timer"] =
-       logBook_Timer_Remaining;
-   remainingTimeObject["TimeRemaining"]["retryTimer"] = retryTimer_Remaining;
-   remainingTimeObject["TimeRemaining"]["settingsUnlockedTimer"] =
+   remainingTimeObject["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
+   remainingTimeObject["TimeRem"]["clientConnectedTimer"] =
+       clientConnectedTimer_Remaining;
+   remainingTimeObject["TimeRem"]["retryTimer"] = retryTimer_Remaining;
+   remainingTimeObject["TimeRem"]["settingsUnlockedTimer"] =
        settingsUnlockedTimer_Remaining;
-   remainingTimeObject["TimeRemaining"]["gotoPositionTimer"] =
-       gotoPositionTimer_Remaining;
+   remainingTimeObject["TimeRem"]["gotoPosition_Timer"] =
+       gotoPosition_Timer_Remaining;
    return remainingTimeObject;
 }
 
 // Haal de verschillende JSON-gegevens op
 JSONVar getPageData() {
+   return;
+   // DEPRECATED
    JSONVar pageData = undefined;
    pageData["Flags"]["TEST_MODE"] = TEST_MODE;
    pageData["Flags"]["SAFE_MODE"] = SAFE_MODE;
@@ -177,17 +180,17 @@ JSONVar getPageData() {
 
    // print(" - ForceMovement added");
 
-   pageData["TimeRemaining"]["antiPendel_Draaien_Timer"] =
+   pageData["TimeRem"]["antiPendel_Draaien_Timer"] =
        antiPendel_Draaien_Timer_Remaining;
-   pageData["TimeRemaining"]["antiPendel_Kantelen_Timer"] =
+   pageData["TimeRem"]["antiPendel_Kantelen_Timer"] =
        antiPendel_Kantelen_Timer_Remaining;
-   pageData["TimeRemaining"]["draaien_TimeOut"] = draaien_TimeOut_Remaining;
-   pageData["TimeRemaining"]["kantelen_TimeOut"] = kantelen_TimeOut_Remaining;
-   pageData["TimeRemaining"]["logBook_Timer"] = logBook_Timer_Remaining;
-   pageData["TimeRemaining"]["retryTimer"] = retryTimer_Remaining;
-   pageData["TimeRemaining"]["settingsUnlockedTimer"] =
+   pageData["TimeRem"]["draaien_TimeOut"] = draaien_TimeOut_Remaining;
+   pageData["TimeRem"]["kantelen_TimeOut"] = kantelen_TimeOut_Remaining;
+   pageData["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
+   pageData["TimeRem"]["retryTimer"] = retryTimer_Remaining;
+   pageData["TimeRem"]["settingsUnlockedTimer"] =
        settingsUnlockedTimer_Remaining;
-   pageData["TimeRemaining"]["gotoPositionTimer"] = gotoPositionTimer_Remaining;
+   pageData["TimeRem"]["gotoPosition_Timer"] = gotoPosition_Timer_Remaining;
 
    // print(" - TimeRemaining added");
 

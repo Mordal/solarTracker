@@ -15,19 +15,11 @@ void sendJsonData(WiFiClient client, JSONVar jsonData) {
    client.println();
 }
 
-void sendAllPageData(WiFiClient client) {
+void sendAllPageDataByWifi(WiFiClient client) {
    sendStartData(client);
    client.println("Content-type:application/json");
    client.println();
-
-   // print("Getting all page data...");
-   JSONVar pageData = getPageData();
-
-   // print("Sending all page data...");
-   // Verstuur de gegevens
-   sendJson(client, pageData);
-
-   // print("All page data sent");
+   client.println("GET ALL DATA - DEPRICATED");
    client.println();
    return;
 }
@@ -36,7 +28,6 @@ void sendInvalidRequest(WiFiClient client) {
    client.println("HTTP/1.1 400 BAD REQUEST");
    client.println("Access-Control-Allow-Origin: *");
    client.println("Access-Control-Allow-Methods: GET, POST");
-   // client.println("Access-Control-Allow-Headers: Content-Type");
    client.println("Content-type:text/plain");
    client.println();
    client.println("Invalid request");
@@ -49,7 +40,6 @@ void sendEndpoints(WiFiClient client) {
    client.println();
    client.println("Available endpoints:");
    client.println("/API");
-   client.println("/API/PAGEDATA");
    client.println("/API/FLAGS");
    client.println("/API/LIGHTSENSORS");
    client.println("/API/TURNMOVEMENT");
@@ -59,12 +49,13 @@ void sendEndpoints(WiFiClient client) {
    client.println("/API/SETTINGS");
    client.println("/API/TIMERS");
    client.println("/API/RESETALARM");
+   client.println("/API/CLIENTCONNECTED");
    client.println();
 }
 
 void response_API_Request(WiFiClient client, String currentLine) {
    if (requestHasString(currentLine, "GET /API/PAGEDATA")) {
-      sendAllPageData(client);
+      sendAllPageDataByWifi(client);
    } else if (requestHasString(currentLine, "GET /API/FLAGS")) {
       sendJsonData(client, getFlags());
    } else if (requestHasString(currentLine, "GET /API/LIGHTSENSORS")) {
@@ -84,6 +75,8 @@ void response_API_Request(WiFiClient client, String currentLine) {
    } else if (requestHasString(currentLine, "GET /API/RESETALARM") &&
               settingsUnlocked) {
       apiResetAlarms(client);
+   } else if (requestHasString(currentLine, "GET /API/CLIENTCONNECTED")) {
+      setClientConnectedTimer();
 
       // deze moet als laatste
    } else if (requestHasString(currentLine, "GET /API")) {
@@ -95,6 +88,19 @@ void response_API_Request(WiFiClient client, String currentLine) {
 
 bool requestHasString(String request, String search) {
    return request.indexOf(search) != -1;
+}
+
+void setClientConnectedTimer() {
+   clientConnectedTimer.cancel();
+   clientConnectedTimer.in(clientConnectedTimeOut, clientConnectedDeactivate);
+   stop_Logbook_Timer();
+   start_sendAllData_Timer();
+}
+
+bool clientConnectedDeactivate(void *) {
+   clientConnectedTimer.cancel();
+   start_Logbook_Timer();
+   return false;
 }
 
 void unlockSettings(WiFiClient client, String body) {

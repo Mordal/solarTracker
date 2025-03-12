@@ -66,14 +66,9 @@ void deactivate_Draaien() {
    linksDraaien = false;
    rechtsDraaien = false;
    draaien_TimeOut.cancel();
-   // Serial.println("Draaien deactivated");
-   // Serial.print("Current timeOutDraaien:");
-   // Serial.println(draaien_TimeOut_Remaining);
-   // Serial.print("Aantal Active Tasks timeOutKantelen: ");
-   // Serial.println(draaien_TimeOut.size());
 }
 
-// Timer: setTurnPercentageTimer
+// Timer: setTurnPercentage_Timer
 bool setCurrentTurnPercentage(void *) {
    const unsigned int percentageTurned =
        getPercentageTurned();  // moet nog delen door 100 = 2 decimalen

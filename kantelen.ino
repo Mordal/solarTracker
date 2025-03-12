@@ -68,7 +68,7 @@ void deactivate_Kantelen() {
    kantelen_TimeOut.cancel();
 }
 
-// Timer: setTiltPercentageTimer
+// Timer: setTiltPercentage_Timer
 bool setCurrentTiltPercentage(void *) {
    if (inschuiven) {
       const unsigned int percentageTilted =
