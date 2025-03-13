@@ -55,6 +55,7 @@ client.on('message', (topic, message) => {
 
 async function registerClient() {
   const response = await fetch(`${baseUrl}/API/CLIENTCONNECTED`);
+  console.log(response.status);
 }
 
 // Selecteer de knop
