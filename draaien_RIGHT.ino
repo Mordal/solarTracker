@@ -3,7 +3,9 @@ void forceRechtsDraaien() {
    if (linksDraaien == true) {
       deactivate_Draaien();
    }
-   rechtsDraaien_activate();
+   if (!rechtsDraaien_activate()) {
+      deactivate_Draaien();
+   }
 }
 
 bool needToTurnRight() {
@@ -16,30 +18,32 @@ bool needToTurnRight() {
    return false;
 }
 
-void rechtsDraaien_activate() {
+bool rechtsDraaien_activate() {
+   if (SAFE_MODE) {
+      return false;
+   }
+
    if (draaienTooLong && !rechtsDraaien_FORCE) {
       // print("Draaien in ALARM - RETURN");
-      return;
+      return false;
    }
 
    if (antiPendel_Draaien && !rechtsDraaien_FORCE) {
       // print("ANTI-PENDEL Draaien ACTIVE - RETURN");
-      return;
+      return false;
    }
 
    if (einde_Rechtsdraaien) {
       // print("EindeLoop RECHTS activated");
-      rechtsDraaien = false;
-      return;
+      return false;
    };
 
    if (STOP_MODE && !rechtsDraaien_FORCE) {
       // print("STOP_MODE activated");
-      rechtsDraaien = false;
-      return;
+      return false;
    }
 
-   // print("TURN RIGHT");
+   // print("TURN RIGHT - After checks");
    rechtsDraaien = true;
    einde_Linksdraaien = false;
    set_draaienTimeOut();
@@ -47,6 +51,7 @@ void rechtsDraaien_activate() {
    if (turnStartTime == 0) {
       turnStartTime = millis();
    }
+   return true;
 }
 
 void goToRightEnd(bool includeTurnLeft = true) {

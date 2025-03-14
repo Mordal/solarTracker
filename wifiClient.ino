@@ -1,4 +1,5 @@
 void wifi_Setup() {
+   delay(2000);
    Serial.println("Creating Web Server...");
 
    // check for the WiFi module:
@@ -7,8 +8,7 @@ void wifi_Setup() {
       return;
    }
 
-   WiFi.config(IPAddress(192, 168, 0, 111), IPAddress(192, 168, 0, 1),
-               IPAddress(255, 255, 255, 0));  // set IP
+   WiFi.config(IPAddress(192, 168, 0, 111));  // set IP
 
    WiFi.begin(ssid, pass);
    Serial.println("Connecting to WiFi...");
@@ -161,7 +161,7 @@ void clientConnection(WiFiClient client) {
    }
    // close the connection:
    client.stop();
-   Serial.println("client disconnected");
+   // Serial.println("client disconnected");
 }
 
 void mqtt_Setup() {
@@ -189,6 +189,7 @@ bool retryConnection(void *) {
    if (wifiConnected == false) {
       stopMomevement();
       wifi_Setup();
+      RTC_Setup();
    }
    if (mqttConnected == false) {
       mqtt_Setup();

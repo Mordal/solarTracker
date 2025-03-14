@@ -4,7 +4,10 @@ void forceExtend() {
    if (inschuiven) {
       deactivate_Kantelen();
    }
-   uitschuiven_activate();
+
+   if (!uitschuiven_activate()) {
+      deactivate_Kantelen();
+   };
 }
 
 bool needToExtend() {
@@ -17,27 +20,29 @@ bool needToExtend() {
    return false;
 }
 
-void uitschuiven_activate() {
+bool uitschuiven_activate() {
+   if (SAFE_MODE) {
+      return false;
+   }
+
    if (kantelenTooLong && !uitschuiven_FORCE) {
       // print("Kantelen in ALARM - RETURN");
-      return;
+      return false;
    }
 
    if (antiPendel_Kantelen && !uitschuiven_FORCE) {
       // print("ANTI-PENDEL kantelen ACTIVE - RETURN");
-      return;
+      return false;
    }
 
    if (einde_Uitschuiven) {
       // print("Eindeloop UITSCHUIVEN activated");
-      uitschuiven = false;
-      return;
+      return false;
    };
 
    if (STOP_MODE && !uitschuiven_FORCE) {
       // print("STOP_MODE activated");
-      uitschuiven = false;
-      return;
+      return false;
    }
 
    // print("EXTEND");
@@ -48,6 +53,7 @@ void uitschuiven_activate() {
    if (tiltStartTime == 0) {
       tiltStartTime = millis();
    }
+   return true;
 }
 
 void goToTopEnd(bool includeInschuiven = true) {

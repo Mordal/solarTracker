@@ -1,3 +1,12 @@
+
+void RTC_Setup() {
+   RTC.begin();
+   setTimeFromNet();
+   delay(1000);  // Need to do 2 times to get the correct time
+   setTimeFromNet();
+   checkCorrectTime();
+}
+
 void setTimeFromNet() {
    if (wifiConnected == false) {
       Serial.println("No internet connection, can't set time");
@@ -19,6 +28,19 @@ void setTimeFromNet() {
    setRTC(localTime);
    print("RTC time set from internet");
    printTime();
+}
+
+void checkCorrectTime() {
+   // Haal de RTC tijd op
+   RTCTime currentTime = getRTCTime();
+   int day = currentTime.getDayOfMonth();
+   int month = Month2int(currentTime.getMonth());
+   int year = currentTime.getYear();
+
+   // Controleer of de RTC tijd correct is
+   if (day == 1 && month == 1 && year == 2066) {
+      wifiConnected = false;
+   }
 }
 
 void setRTC(time_t localTime) {

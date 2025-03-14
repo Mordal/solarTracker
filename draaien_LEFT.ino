@@ -3,7 +3,9 @@ void forceLinksDraaien() {
    if (rechtsDraaien) {
       deactivate_Draaien();
    }
-   linksDraaien_activate();
+   if (!linksDraaien_activate()) {
+      deactivate_Draaien();
+   };
 }
 
 bool needToTurnLeft() {
@@ -16,27 +18,29 @@ bool needToTurnLeft() {
    return false;
 }
 
-void linksDraaien_activate() {
+bool linksDraaien_activate() {
+   if (SAFE_MODE) {
+      return false;
+   }
+
    if (draaienTooLong && !linksDraaien_FORCE) {
       // print("Draaien in ALARM - RETURN");
-      return;
+      return false;
    }
 
    if (antiPendel_Draaien && !linksDraaien_FORCE) {
       // print("ANTI-PENDEL Draaien ACTIVE - RETURN");
-      return;
+      return false;
    }
 
    if (einde_Linksdraaien) {
       // print("Eindeloop LINKS activated");
-      linksDraaien = false;
-      return;
+      return false;
    };
 
    if (STOP_MODE && !linksDraaien_FORCE) {
       // print("STOP_MODE activated");
-      linksDraaien = false;
-      return;
+      return false;
    }
 
    // print("TURN LEFT");
@@ -47,6 +51,7 @@ void linksDraaien_activate() {
    if (turnStartTime == 0) {
       turnStartTime = millis();
    }
+   return true;
 }
 
 void goToLeftEnd(bool includeTurnRight = true) {

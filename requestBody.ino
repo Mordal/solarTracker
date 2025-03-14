@@ -10,8 +10,8 @@ String readBody(WiFiClient client, int contentLength) {
    while (client.available() && body.length() < contentLength) {
       body += (char)client.read();  // lees de body byte voor byte
    }
-   Serial.print("Body received:");
-   Serial.println(body);
+   // Serial.print("Body received:");
+   // Serial.println(body);
    return body;
 }
 

@@ -1,18 +1,29 @@
 
 void gotoTurnPercentage(int percentage = -1) {
    if (percentage != -1) {
+      // when called from loop
       gotoTurnPosition = true;
       wantedTurnPercentage = percentage;
    }
 
-   if ((wantedTurnPercentage) > currentTurnPercentage + 100) {
+   if ((wantedTurnPercentage) > (currentTurnPercentage + 200)) {
+      if (linksDraaien_FORCE) {
+         deactivate_Draaien();
+         linksDraaien_FORCE = false;
+      }
       rechtsDraaien_FORCE = true;
       return;
 
-   } else if ((wantedTurnPercentage) < currentTurnPercentage - 100) {
+   } else if ((wantedTurnPercentage) < (currentTurnPercentage - 200)) {
+      if (rechtsDraaien_FORCE) {
+         deactivate_Draaien();
+         rechtsDraaien_FORCE = false;
+      }
       linksDraaien_FORCE = true;
       return;
    }
+
+   deactivate_Draaien();
    linksDraaien_FORCE = false;
    rechtsDraaien_FORCE = false;
    gotoTurnPosition = false;
@@ -70,9 +81,9 @@ void deactivate_Draaien() {
 
 // Timer: setTurnPercentage_Timer
 bool setCurrentTurnPercentage(void *) {
-   const unsigned int percentageTurned =
-       getPercentageTurned();  // moet nog delen door 100 = 2 decimalen
    if (linksDraaien) {
+      const unsigned int percentageTurned =
+          getPercentageTurned();  // moet nog delen door 100 = 2 decimalen
       if (percentageTurned > currentTurnPercentage) {
          currentTurnPercentage = 0;
       } else {
@@ -80,10 +91,12 @@ bool setCurrentTurnPercentage(void *) {
       }
 
    } else if (rechtsDraaien) {
-      if (currentTurnPercentage + percentageTurned > 11000) {
+      const unsigned int percentageTurned =
+          getPercentageTurned();  // moet nog delen door 100 = 2 decimalen
+      if (percentageTurned + currentTurnPercentage > 11000) {
          currentTurnPercentage = 10000;
       } else {
-         currentTurnPercentage = currentTurnPercentage + percentageTurned;
+         currentTurnPercentage += percentageTurned;
       }
    } else {
       return true;
@@ -99,11 +112,10 @@ bool setCurrentTurnPercentage(void *) {
 }
 
 int getPercentageTurned() {
-   const unsigned long timeDifference = millis() - turnStartTime;
-   const float calculatedPercentage =
-       (float)timeDifference / (float)timeNeededToTurn;
+   const unsigned long timeDif = millis() - turnStartTime;
+   const float calculatedPercentage = (float)timeDif / (float)timeNeededToTurn;
 
-   int returnValue = calculatedPercentage * 10000;
+   // int returnValue = calculatedPercentage * 10000;
 
    // Serial.print("Calculated TURN percentage: ");
    // Serial.println(calculatedPercentage);

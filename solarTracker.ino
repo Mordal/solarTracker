@@ -202,13 +202,8 @@ void setup() {
    mqtt_Setup();
 
    // setup RTC - internal clock
-   RTC.begin();
-   setTimeFromNet();
-   delay(1000);  // Need to do 2 times to get the correct time
-   setTimeFromNet();
+   RTC_Setup();
    resetTime = getRTCTime();
-   // Initialize needed time
-   // initializeNeededTime();
 
    // TESTMODE
    //  testMode();

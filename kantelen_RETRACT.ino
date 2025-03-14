@@ -4,7 +4,9 @@ void forceRetract() {
    if (uitschuiven) {
       deactivate_Kantelen();
    }
-   inschuiven_activate();
+   if (!inschuiven_activate()) {
+      deactivate_Kantelen();
+   };
 }
 
 bool needToRetract() {
@@ -17,27 +19,29 @@ bool needToRetract() {
    return false;
 }
 
-void inschuiven_activate() {
+bool inschuiven_activate() {
+   if (SAFE_MODE) {
+      return false;
+   }
+
    if (kantelenTooLong && !inschuiven_FORCE) {
       // print("Kantelen in ALARM - RETURN");
-      return;
+      return false;
    }
 
    if (antiPendel_Kantelen && !inschuiven_FORCE) {
       // print("2- ANTI-PENDEL kantelen ACTIVE - RETURN");
-      return;
+      return false;
    }
 
    if (einde_Inschuiven) {
       // print("EindeLoop INSCHUIVEN activated");
-      inschuiven = false;
-      return;
+      return false;
    };
 
    if (STOP_MODE && !inschuiven_FORCE) {
       // print("STOP_MODE activated");
-      inschuiven = false;
-      return;
+      return false;
    }
 
    // print("RETRACT");
@@ -48,6 +52,7 @@ void inschuiven_activate() {
    if (tiltStartTime == 0) {
       tiltStartTime = millis();
    }
+   return true;
 }
 
 void goToBottomEnd(bool includeUitschuiven = true) {
