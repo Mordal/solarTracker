@@ -237,26 +237,42 @@ function setTiltMovement(pageData) {
 }
 
 function setTimeRemaining(pageData) {
-  //   JSONVar getRemainingTime() {
-  //     JSONVar remainingTimeObject = undefined;
-  //     remainingTimeObject["TimeRem"]["antiPendel_Draaien_Timer"] =
-  //         antiPendel_Draaien_Timer_Remaining;
-  //     remainingTimeObject["TimeRem"]["antiPendel_Kantelen_Timer"] =
-  //         antiPendel_Kantelen_Timer_Remaining;
-  //     remainingTimeObject["TimeRem"]["draaien_TimeOut"] =
-  //         draaien_TimeOut_Remaining;
-  //     remainingTimeObject["TimeRem"]["kantelen_TimeOut"] =
-  //         kantelen_TimeOut_Remaining;
-  //     remainingTimeObject["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
-  //     remainingTimeObject["TimeRem"]["clientConnectedTimer"] =
-  //         clientConnectedTimer_Remaining;
-  //     remainingTimeObject["TimeRem"]["retryTimer"] = retryTimer_Remaining;
-  //     remainingTimeObject["TimeRem"]["settingsUnlockedTimer"] =
-  //         settingsUnlockedTimer_Remaining;
-  //     remainingTimeObject["TimeRem"]["gotoPosition_Timer"] =
-  //         gotoPosition_Timer_Remaining;
-  //     return remainingTimeObject;
+  // JSONVar remainingTimeObject = undefined;
+  // remainingTimeObject["TimeRem"]["AP_Draaien_Timer"] =
+  //     antiPendel_Draaien_Timer_Remaining;
+  // remainingTimeObject["TimeRem"]["AP_Kantelen_Timer"] =
+  //     antiPendel_Kantelen_Timer_Remaining;
+  // remainingTimeObject["TimeRem"]["draaien_TO"] = draaien_TimeOut_Remaining;
+  // remainingTimeObject["TimeRem"]["kantelen_TO"] = kantelen_TimeOut_Remaining;
+  // remainingTimeObject["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
+  // remainingTimeObject["TimeRem"]["clientTimer"] =
+  //     clientConnectedTimer_Remaining;
+  // remainingTimeObject["TimeRem"]["retryTimer"] = retryTimer_Remaining;
+  // remainingTimeObject["TimeRem"]["setUnlockTimer"] =
+  //     settingsUnlockedTimer_Remaining;
+  // remainingTimeObject["TimeRem"]["gotoPosTimer"] =
+  //     gotoPosition_Timer_Remaining;
+  // return remainingTimeObject;
+  // }
   //  }
 
-  document;
+  // Draaien
+  const draaienTime = pageData.TimeRem.AP_Draaien_Timer / 1000;
+  const draaienID = `AP_Draaien`;
+  setTimer(draaienID, draaienTime);
+
+  // Kantelen
+  const kantelenTime = pageData.TimeRem.AP_Kantelen_Timer / 1000;
+  const kantelenID = `AP_Kantelen`;
+  setTimer(kantelenID, kantelenTime);
+
+  // Draaien TimeOut
+  const draaienTimeOut = pageData.TimeRem.draaien_TO / 1000;
+  const draaienTimeOutID = `Draaien_TO`;
+  setTimer(draaienTimeOutID, draaienTimeOut);
+
+  // Kantelen TimeOut
+  const kantelenTimeOut = pageData.TimeRem.kantelen_TO / 1000;
+  const kantelenTimeOutID = `Kantelen_TO`;
+  setTimer(kantelenTimeOutID, kantelenTimeOut);
 }

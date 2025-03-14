@@ -1,7 +1,11 @@
 window.onload = function () {
+  getSettings();
   registerClient();
   setInterval(registerClient, 25000); // 25000 milliseconden = 25 seconden
 };
+
+let currentSettings = {};
+let timers = {};
 
 let forceLeftButton = false;
 let forceRightButton = false;
@@ -49,6 +53,7 @@ client.on('message', (topic, message) => {
   }
 
   if (topic == 'forceMovement') {
+    null;
     //setForceMovement(JSON.parse(message));
   }
   if (topic == 'timeRemaining') {
@@ -58,6 +63,11 @@ client.on('message', (topic, message) => {
 
 async function registerClient() {
   const response = await fetch(`${baseUrl}/API/CLIENTCONNECTED`);
+}
+
+async function getSettings() {
+  const response = await fetch(`${baseUrl}/API/SETTINGS`);
+  currentSettings = await response.json();
 }
 
 // Selecteer de knop
@@ -198,27 +208,87 @@ document
     });
   });
 
-function setTimer(timerId) {
-  const timeoutInput = document.getElementById(`${timerId}Timeout`);
+// function setTimer(timerId) {
+//   const timeoutInput = document.getElementById(`${timerId}Timeout`);
+//   const progressElement = document.getElementById(`${timerId}Progress`);
+//   const progressText = document.getElementById(`${timerId}ProgressText`);
+//   const totalDuration = parseInt(timeoutInput.value) || 0;
+//   let remainingTime = totalDuration;
+
+//   if (totalDuration > 0) {
+//     progressElement.style.width = '100%';
+//     progressText.textContent = `${remainingTime}/${totalDuration}`;
+//     const interval = setInterval(() => {
+//       remainingTime -= 0.1; // update elke 100ms voor vloeiende animatie
+//       progressElement.style.width = `${(remainingTime / totalDuration) * 100}%`;
+//       progressText.textContent = `${Math.ceil(remainingTime)}/${totalDuration}`; // afronding naar boven
+
+//       if (remainingTime <= 0) {
+//         clearInterval(interval);
+//         progressElement.style.width = '0%';
+//         progressText.textContent = `0/${totalDuration}`;
+//       }
+//     }, 100);
+//   }
+// }
+
+function getTimerSetting(timerId) {
+  if (currentSettings['TimeOuts'] === undefined) {
+    getSettings();
+  }
+  if (timerId === 'AP_Draaien') {
+    return currentSettings['TimeOuts']['APTime'] / 1000;
+  }
+  if (timerId === 'AP_Kantelen') {
+    return currentSettings['TimeOuts']['APTime'] / 1000;
+  }
+  if (timerId === 'Draaien_TO') {
+    return currentSettings['TimeOuts']['maxMoveTime'] / 1000;
+  }
+  if (timerId === 'Kantelen_TO') {
+    return currentSettings['TimeOuts']['maxMoveTime'] / 1000;
+  }
+  //ADD MORE TIMERS HERE
+  return 0;
+}
+
+function setTimer(timerId, remainingTime) {
+  const totalDuration = getTimerSetting(timerId);
+  if (totalDuration <= 0) return; // Geen negatieve of nul timers
+
+  if (!timers[timerId]) {
+    // Start een nieuwe timer als deze nog niet bestaat
+    timers[timerId] = {
+      remainingTime,
+      interval: setInterval(() => updateTimer(timerId, totalDuration), 100),
+    };
+  } else {
+    // Update de bestaande timer
+    timers[timerId].remainingTime = remainingTime;
+  }
+  updateTimer(timerId, totalDuration);
+}
+
+function updateTimer(timerId, totalDuration) {
   const progressElement = document.getElementById(`${timerId}Progress`);
   const progressText = document.getElementById(`${timerId}ProgressText`);
-  const totalDuration = parseInt(timeoutInput.value) || 0;
-  let remainingTime = totalDuration;
 
-  if (totalDuration > 0) {
-    progressElement.style.width = '100%';
-    progressText.textContent = `${remainingTime}/${totalDuration}`;
-    const interval = setInterval(() => {
-      remainingTime -= 0.1; // update elke 100ms voor vloeiende animatie
-      progressElement.style.width = `${(remainingTime / totalDuration) * 100}%`;
-      progressText.textContent = `${Math.ceil(remainingTime)}/${totalDuration}`; // afronding naar boven
+  if (!timers[timerId]) return; // Timer bestaat niet
 
-      if (remainingTime <= 0) {
-        clearInterval(interval);
-        progressElement.style.width = '0%';
-        progressText.textContent = `0/${totalDuration}`;
-      }
-    }, 100);
+  timers[timerId].remainingTime -= 0.1; // update elke 100ms voor vloeiende animatie
+
+  progressElement.style.width = `${
+    (timers[timerId].remainingTime / totalDuration) * 100
+  }%`;
+  progressText.textContent = `${Math.ceil(
+    timers[timerId].remainingTime
+  )}/${totalDuration}`;
+
+  if (timers[timerId].remainingTime <= 0) {
+    clearInterval(timers[timerId].interval);
+    delete timers[timerId];
+    progressElement.style.width = '0%';
+    progressText.textContent = `0/${totalDuration}`;
   }
 }
 

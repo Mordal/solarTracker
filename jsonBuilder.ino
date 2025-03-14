@@ -95,30 +95,29 @@ JSONVar getSettings() {
    settingsObject["sensorOffsets"]["LO"] = lichtSensor_LO_offset;
    settingsObject["sensorOffsets"]["RO"] = lichtSensor_RO_offset;
    settingsObject["Sensors"]["licht_marge"] = licht_marge;
-   settingsObject["TimeOuts"]["antiPendelTime"] = antiPendelTime;
-   settingsObject["TimeOuts"]["maxMovementTime"] = maxMovementTime;
+   settingsObject["TimeOuts"]["APTime"] = antiPendelTime;
+   settingsObject["TimeOuts"]["maxMoveTime"] = maxMovementTime;
    settingsObject["TimeOuts"]["retryTime"] = retryTime;
-   settingsObject["TimeOuts"]["logBook_Timer_delay"] = logBook_Timer_delay;
+   settingsObject["TimeOuts"]["logBook_delay"] = logBook_Timer_delay;
+   settingsObject["TimeOuts"]["clientConTimeOut"] = clientConnectedTimeOut;
    return settingsObject;
 }
 
 JSONVar getRemainingTime() {
    JSONVar remainingTimeObject = undefined;
-   remainingTimeObject["TimeRem"]["antiPendel_Draaien_Timer"] =
+   remainingTimeObject["TimeRem"]["AP_Draaien_Timer"] =
        antiPendel_Draaien_Timer_Remaining;
-   remainingTimeObject["TimeRem"]["antiPendel_Kantelen_Timer"] =
+   remainingTimeObject["TimeRem"]["AP_Kantelen_Timer"] =
        antiPendel_Kantelen_Timer_Remaining;
-   remainingTimeObject["TimeRem"]["draaien_TimeOut"] =
-       draaien_TimeOut_Remaining;
-   remainingTimeObject["TimeRem"]["kantelen_TimeOut"] =
-       kantelen_TimeOut_Remaining;
+   remainingTimeObject["TimeRem"]["draaien_TO"] = draaien_TimeOut_Remaining;
+   remainingTimeObject["TimeRem"]["kantelen_TO"] = kantelen_TimeOut_Remaining;
    remainingTimeObject["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
-   remainingTimeObject["TimeRem"]["clientConnectedTimer"] =
+   remainingTimeObject["TimeRem"]["clientTimer"] =
        clientConnectedTimer_Remaining;
    remainingTimeObject["TimeRem"]["retryTimer"] = retryTimer_Remaining;
-   remainingTimeObject["TimeRem"]["settingsUnlockedTimer"] =
+   remainingTimeObject["TimeRem"]["setUnlockTimer"] =
        settingsUnlockedTimer_Remaining;
-   remainingTimeObject["TimeRem"]["gotoPosition_Timer"] =
+   remainingTimeObject["TimeRem"]["gotoPosTimer"] =
        gotoPosition_Timer_Remaining;
    return remainingTimeObject;
 }
