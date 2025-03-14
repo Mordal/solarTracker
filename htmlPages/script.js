@@ -51,11 +51,13 @@ client.on('message', (topic, message) => {
   if (topic == 'forceMovement') {
     //setForceMovement(JSON.parse(message));
   }
+  if (topic == 'timeRemaining') {
+    setTimeRemaining(JSON.parse(message));
+  }
 });
 
 async function registerClient() {
   const response = await fetch(`${baseUrl}/API/CLIENTCONNECTED`);
-  console.log(response.status);
 }
 
 // Selecteer de knop
@@ -196,7 +198,7 @@ document
     });
   });
 
-function startTimer(timerId) {
+function setTimer(timerId) {
   const timeoutInput = document.getElementById(`${timerId}Timeout`);
   const progressElement = document.getElementById(`${timerId}Progress`);
   const progressText = document.getElementById(`${timerId}ProgressText`);

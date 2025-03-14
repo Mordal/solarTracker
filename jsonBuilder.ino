@@ -124,7 +124,7 @@ JSONVar getRemainingTime() {
 }
 
 // Haal de verschillende JSON-gegevens op
-JSONVar getPageData() {
+void getPageData() {
    return;
    // DEPRECATED
    JSONVar pageData = undefined;
@@ -205,7 +205,8 @@ JSONVar getPageData() {
    pageData["Sensors"]["isNight"] = isNight();
 
    // print(" - Sensors added");
-   return pageData;
+
+   // return pageData;
 }
 
 void sendJson(WiFiClient client, JSONVar object) {

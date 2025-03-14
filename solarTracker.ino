@@ -261,21 +261,20 @@ void print(JSONVar json) { Serial.println(json); }
 void setTimers() {
    retryTimer.every(retryTime, retryConnection);
    start_Logbook_Timer();
-   start_sendAllData_Timer();
    setTurnPercentage_Timer.every(1000, setCurrentTurnPercentage);  // 1 sec
    setTiltPercentage_Timer.every(1000, setCurrentTiltPercentage);  // 1 sec
    gotoPosition_Timer.every(3600000, gotoPresetPosition);          // 1 uur
 }
 
-start_Logbook_Timer() {
+void start_Logbook_Timer() {
    logBook_Timer.every(logBook_Timer_delay, setLogbook);
    // 10 sec ----- //every minute -> voor een
    // week: 6 keer per uur
 }
 
-stop_Logbook_Timer() { logBook_Timer.cancel(); }
+void stop_Logbook_Timer() { logBook_Timer.cancel(); }
 
-start_sendAllData_Timer() {
+void start_sendAllData_Timer() {
    sendAllData_Timer.every(sendAllData_Timer_delay, sendAllPageData);
 }
 

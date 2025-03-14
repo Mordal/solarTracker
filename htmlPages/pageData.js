@@ -235,3 +235,28 @@ function setTiltMovement(pageData) {
     document.getElementById('IN_Force').classList.remove('green');
   }
 }
+
+function setTimeRemaining(pageData) {
+  //   JSONVar getRemainingTime() {
+  //     JSONVar remainingTimeObject = undefined;
+  //     remainingTimeObject["TimeRem"]["antiPendel_Draaien_Timer"] =
+  //         antiPendel_Draaien_Timer_Remaining;
+  //     remainingTimeObject["TimeRem"]["antiPendel_Kantelen_Timer"] =
+  //         antiPendel_Kantelen_Timer_Remaining;
+  //     remainingTimeObject["TimeRem"]["draaien_TimeOut"] =
+  //         draaien_TimeOut_Remaining;
+  //     remainingTimeObject["TimeRem"]["kantelen_TimeOut"] =
+  //         kantelen_TimeOut_Remaining;
+  //     remainingTimeObject["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
+  //     remainingTimeObject["TimeRem"]["clientConnectedTimer"] =
+  //         clientConnectedTimer_Remaining;
+  //     remainingTimeObject["TimeRem"]["retryTimer"] = retryTimer_Remaining;
+  //     remainingTimeObject["TimeRem"]["settingsUnlockedTimer"] =
+  //         settingsUnlockedTimer_Remaining;
+  //     remainingTimeObject["TimeRem"]["gotoPosition_Timer"] =
+  //         gotoPosition_Timer_Remaining;
+  //     return remainingTimeObject;
+  //  }
+
+  document;
+}

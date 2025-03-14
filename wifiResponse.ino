@@ -21,7 +21,14 @@ void sendAllPageDataByWifi(WiFiClient client) {
    client.println();
    client.println("GET ALL DATA - DEPRICATED");
    client.println();
-   return;
+}
+
+void sendOk(WiFiClient client) {
+   sendStartData(client);
+   client.println("Content-type:text/plain");
+   client.println();
+   client.println("OK");
+   client.println();
 }
 
 void sendInvalidRequest(WiFiClient client) {
@@ -77,6 +84,7 @@ void response_API_Request(WiFiClient client, String currentLine) {
       apiResetAlarms(client);
    } else if (requestHasString(currentLine, "GET /API/CLIENTCONNECTED")) {
       setClientConnectedTimer();
+      sendOk(client);
 
       // deze moet als laatste
    } else if (requestHasString(currentLine, "GET /API")) {

@@ -7,19 +7,30 @@ void wifi_Setup() {
       return;
    }
 
-   WiFi.config(IPAddress(192, 168, 0, 111));  // set IP
+   WiFi.config(IPAddress(192, 168, 0, 111), IPAddress(192, 168, 0, 1),
+               IPAddress(255, 255, 255, 0));  // set IP
+
+   WiFi.begin(ssid, pass);
+   Serial.println("Connecting to WiFi...");
+
+   // Wacht tot WiFi verbonden is (max 20 seconden)
    int attempts = 0;
-   while (WiFi.status() != WL_CONNECTED) {
-      if (attempts == 2) {
-         Serial.println("WiFi connection FAILED");
-         return;
-      }
-      WiFi.begin(ssid, pass);
-      delay(10000);
+   while (WiFi.status() != WL_CONNECTED && attempts < 20) {
+      delay(1000);
+      Serial.print(".");
       attempts++;
    }
-   wifiConnected = true;
-   server.begin();
+
+   if (WiFi.status() == WL_CONNECTED) {
+      Serial.println("\nWiFi connected!");
+      wifiConnected = true;
+      server.begin();
+      Serial.println("Server started!");
+      print_WifiData();
+   } else {
+      Serial.println("\nWiFi connection FAILED!");
+   }
+
    print_WifiData();
 }
 
@@ -31,6 +42,10 @@ void wiFiLoop() {
    }
    if (WiFi.status() != WL_CONNECTED) {
       wifiConnected = false;
+   }
+
+   if (mqttClient.connected() == false) {
+      mqttConnected = false;
    }
 }
 
@@ -117,6 +132,12 @@ void clientConnection(WiFiClient client) {
          break;  // don't check for body
       }
 
+      // Controleer of het een request naar favicon.ico is
+      if (currentLine.indexOf("GET /favicon.ico") >= 0) {
+         client.stop();  // Verbreek direct de verbinding
+         return;
+      }
+
       if (currentLine.endsWith("POST /CONTROL")) {
          controlRequest = true;  // Don't break, check for body
       }
@@ -147,9 +168,16 @@ void mqtt_Setup() {
    const char broker[] = "192.168.0.205";
    int port = 49111;
 
+   // Controleer of er een actieve verbinding is en verbreek deze
+   if (mqttClient.connected()) {
+      Serial.println("Bestaande MQTT-verbinding verbreken...");
+      mqttClient.stop();
+   }
+
    if (!mqttClient.connect(broker, port)) {
       Serial.print("MQTT connection failed! Error code = ");
       Serial.println(mqttClient.connectError());
+      mqttConnected = false;
    } else {
       Serial.println("You're connected to the MQTT broker!");
       mqttConnected = true;
