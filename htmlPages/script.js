@@ -236,19 +236,29 @@ function getTimerSetting(timerId) {
   if (currentSettings['TimeOuts'] === undefined) {
     getSettings();
   }
-  if (timerId === 'AP_Draaien') {
-    return currentSettings['TimeOuts']['APTime'] / 1000;
+
+  switch (timerId) {
+    case 'AP_Draaien':
+      return currentSettings['TimeOuts']['APTime'] / 1000;
+    case 'AP_Kantelen':
+      return currentSettings['TimeOuts']['APTime'] / 1000;
+    case 'Draaien_TO':
+      return currentSettings['TimeOuts']['maxMoveTime'] / 1000;
+    case 'Kantelen_TO':
+      return currentSettings['TimeOuts']['maxMoveTime'] / 1000;
+    case 'LogbookTimer':
+      return currentSettings['TimeOuts']['logBook_delay'] / 1000;
+    case 'Retry_Timer':
+      return currentSettings['TimeOuts']['retryTime'] / 1000;
+    case 'Settings_Unlock':
+      return 1200; // 20 minuten
+    case 'goToPosition':
+      return 3600; // 1 uur
+
+    default:
+      return 0;
   }
-  if (timerId === 'AP_Kantelen') {
-    return currentSettings['TimeOuts']['APTime'] / 1000;
-  }
-  if (timerId === 'Draaien_TO') {
-    return currentSettings['TimeOuts']['maxMoveTime'] / 1000;
-  }
-  if (timerId === 'Kantelen_TO') {
-    return currentSettings['TimeOuts']['maxMoveTime'] / 1000;
-  }
-  //ADD MORE TIMERS HERE
+
   return 0;
 }
 

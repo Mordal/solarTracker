@@ -90,10 +90,10 @@ JSONVar getForcedMovements() {
 
 JSONVar getSettings() {
    JSONVar settingsObject = undefined;
-   settingsObject["sensorOffsets"]["LB"] = lichtSensor_LB_offset;
-   settingsObject["sensorOffsets"]["RB"] = lichtSensor_RB_offset;
-   settingsObject["sensorOffsets"]["LO"] = lichtSensor_LO_offset;
-   settingsObject["sensorOffsets"]["RO"] = lichtSensor_RO_offset;
+   settingsObject["Offsets"]["LB"] = lichtSensor_LB_offset;
+   settingsObject["Offsets"]["RB"] = lichtSensor_RB_offset;
+   settingsObject["Offsets"]["LO"] = lichtSensor_LO_offset;
+   settingsObject["Offsets"]["RO"] = lichtSensor_RO_offset;
    settingsObject["Sensors"]["licht_marge"] = licht_marge;
    settingsObject["TimeOuts"]["APTime"] = antiPendelTime;
    settingsObject["TimeOuts"]["maxMoveTime"] = maxMovementTime;

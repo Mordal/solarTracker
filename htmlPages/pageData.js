@@ -275,4 +275,24 @@ function setTimeRemaining(pageData) {
   const kantelenTimeOut = pageData.TimeRem.kantelen_TO / 1000;
   const kantelenTimeOutID = `Kantelen_TO`;
   setTimer(kantelenTimeOutID, kantelenTimeOut);
+
+  // Logbook timer
+  const logBookTime = pageData.TimeRem.logBook_Timer / 1000;
+  const logBookID = `LogbookTimer`;
+  setTimer(logBookID, logBookTime);
+
+  //retryTimer
+  const retryTime = pageData.TimeRem.retryTimer / 1000;
+  const retryID = `Retry_Timer`;
+  setTimer(retryID, retryTime);
+
+  //Settings Unlocked Timer
+  const unlockTime = pageData.TimeRem.setUnlockTimer / 1000;
+  const unlockID = `Settings_Unlock`;
+  setTimer(unlockID, unlockTime);
+
+  //goToPosition Timer
+  const gotoPosTime = pageData.TimeRem.gotoPosTimer / 1000;
+  const gotoPosID = `goToPosition`;
+  setTimer(gotoPosID, gotoPosTime);
 }
