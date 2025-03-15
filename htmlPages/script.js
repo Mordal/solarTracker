@@ -15,7 +15,33 @@ let forceOutButton = false;
 const baseUrl = 'http://pieserver.myds.me:90';
 
 // MQTT //
-const client = mqtt.connect('ws://pieserver.myds.me:9001');
+
+function loadMqttScript(urls, callback) {
+  if (urls.length === 0) {
+    console.error('Geen werkende MQTT CDN gevonden!');
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.src = urls[0];
+  script.onload = () => {
+    console.log(`MQTT geladen vanaf: ${urls[0]}`);
+    callback();
+  };
+  script.onerror = () => {
+    console.warn(`Kon niet laden: ${urls[0]}. Probeer volgende...`);
+    loadMqttScript(urls.slice(1), callback); // Probeer de volgende URL
+  };
+
+  document.head.appendChild(script);
+}
+
+// Probeer deze CDNs in volgorde
+const mqttCDNs = [
+  'https://unpkg.com/mqtt/dist/mqtt.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js',
+  'https://cdn.jsdelivr.net/npm/mqtt@5.10.3/dist/mqtt.min.js',
+];
 const topics = {
   FLAGS: 'flags',
   TILT: 'tiltMovementData',
@@ -25,44 +51,86 @@ const topics = {
   SENSORS: 'sensorData',
 };
 
-client.on('connect', () => {
-  console.log('Verbonden met MQTT broker');
-  // Alle topics tegelijk subscriben
-  client.subscribe(Object.values(topics), (err) => {
-    if (err) {
-      console.error('Fout bij subscriben:', err);
-    } else {
-      console.log('Succesvol geabonneerd op alle topics!');
-    }
-  });
+// Start de laadprocedure en verbind met MQTT zodra geladen
+loadMqttScript(mqttCDNs, () => {
+  if (typeof mqtt !== 'undefined') {
+    const client = mqtt.connect('ws://pieserver.myds.me:9001');
+
+    client.on('connect', () => {
+      console.log('Verbonden met MQTT broker');
+      // Alle topics tegelijk subscriben
+      client.subscribe(Object.values(topics), (err) => {
+        if (err) {
+          console.error('Fout bij subscriben:', err);
+        } else {
+          console.log('Succesvol geabonneerd op alle topics!');
+        }
+      });
+    });
+
+    client.on('message', (topic, message) => {
+      if (topic == 'flags') {
+        setFlags(JSON.parse(message));
+      }
+      if (topic == 'tiltMovementData') {
+        setTiltMovement(JSON.parse(message));
+      }
+      if (topic == 'turnMovementData') {
+        setTurnMovement(JSON.parse(message));
+      }
+
+      if (topic == 'sensorData') {
+        setSensors(JSON.parse(message));
+      }
+
+      if (topic == 'forceMovement') {
+        null;
+        //setForceMovement(JSON.parse(message));
+      }
+      if (topic == 'timeRemaining') {
+        setTimeRemaining(JSON.parse(message));
+      }
+    });
+
+    client.on('error', (err) => {
+      console.error('MQTT Fout:', err);
+    });
+  } else {
+    console.error('MQTT library kon niet worden geladen.');
+  }
 });
 
-client.on('message', (topic, message) => {
-  if (topic == 'flags') {
-    setFlags(JSON.parse(message));
-  }
-  if (topic == 'tiltMovementData') {
-    setTiltMovement(JSON.parse(message));
-  }
-  if (topic == 'turnMovementData') {
-    setTurnMovement(JSON.parse(message));
-  }
+// const client = mqtt.connect('ws://pieserver.myds.me:9001');
 
-  if (topic == 'sensorData') {
-    setSensors(JSON.parse(message));
-  }
-
-  if (topic == 'forceMovement') {
-    null;
-    //setForceMovement(JSON.parse(message));
-  }
-  if (topic == 'timeRemaining') {
-    setTimeRemaining(JSON.parse(message));
-  }
-});
+// client.on('connect', () => {
+//   console.log('Verbonden met MQTT broker');
+//   // Alle topics tegelijk subscriben
+//   client.subscribe(Object.values(topics), (err) => {
+//     if (err) {
+//       console.error('Fout bij subscriben:', err);
+//     } else {
+//       console.log('Succesvol geabonneerd op alle topics!');
+//     }
+//   });
+// });
 
 async function registerClient() {
-  const response = await fetch(`${baseUrl}/API/CLIENTCONNECTED`);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 2000); // 2 sec timeout
+
+  try {
+    const response = await fetch(`${baseUrl}/API/CLIENTCONNECTED`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timeout); // Timeout annuleren als de response op tijd komt
+    return;
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      console.warn('Request timed out!');
+    } else {
+      console.error('Fetch error:', error);
+    }
+  }
 }
 
 async function getSettings() {
@@ -169,7 +237,7 @@ document.getElementById('unlockBtn').addEventListener('click', async function (e
     })
     .then((responseText) => {
       console.log(responseText); // Hier krijg je de response body als tekst
-      document.getElementById('unlockForm').value = responseText;
+      document.getElementById('unlockInput').value = responseText;
     })
     .catch((error) => {
       console.error('Fout:', error);
@@ -258,8 +326,6 @@ function getTimerSetting(timerId) {
     default:
       return 0;
   }
-
-  return 0;
 }
 
 function setTimer(timerId, remainingTime) {

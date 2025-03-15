@@ -9,6 +9,33 @@
 byte turnPercentage_Presets[14] = {0,  5,  10, 19, 28, 35, 42,
                                    52, 61, 70, 75, 80, 88, 100};
 
+byte tiltPercentage_Presets[12][14] = {
+    // Januari  (0)
+    {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
+    // Februari (1)
+    {0, 0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0},
+    // Maart    (2)
+    {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
+    // April    (3)
+    {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
+    // Mei      (4)
+    {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
+    // Juni     (5)
+    {0, 13, 35, 52, 70, 87, 95, 100, 90, 76, 57, 38, 23, 0},
+    // Juli     (6)
+    {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
+    // Augustus (7)
+    {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
+    // September (8)
+    {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
+    // Oktober   (9)
+    {0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0, 0},
+    // November  (10)
+    {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
+    // December  (11)
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+};
+
 // byte[14] getTurnPercentage_Presets() { return turnPercentage_Presets; };
 
 // void setTurnPercentage_Presets(byte[14] ...newTurnPercentagePresets) {
@@ -47,33 +74,6 @@ byte getExpectedTurnPosition(byte hour) {
    byte turnPercentage = turnPercentage_Presets[hour - 6];
    return turnPercentage;
 }
-
-byte tiltPercentage_Presets[12][14] = {
-    // Januari  (0)
-    {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
-    // Februari (1)
-    {0, 0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0},
-    // Maart    (2)
-    {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
-    // April    (3)
-    {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
-    // Mei      (4)
-    {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
-    // Juni     (5)
-    {0, 13, 35, 52, 70, 87, 95, 100, 90, 76, 57, 38, 23, 0},
-    // Juli     (6)
-    {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
-    // Augustus (7)
-    {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
-    // September (8)
-    {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
-    // Oktober   (9)
-    {0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0, 0},
-    // November  (10)
-    {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
-    // December  (11)
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-};
 
 // byte getTiltPercentage_Presets() { return tiltPercentage_Presets; };
 // void setTiltPercentage_Presets(byte newTiltPercentagePresets[12][14]) {
@@ -175,28 +175,29 @@ byte getExpectedTiltPosition(byte hour, byte month) {
    }
 
    // Retourneer het bijbehorende percentage
+   Serial.println("month: " + String(month));
+   Serial.println("hour: " + String(hour));
    return tiltPercentage_Presets[month]
                                 [hour - 6];  // Indexering voor uur 6 tot 19
 }
 
 bool gotoPresetPosition(void *) {
-   print("gotoPresetPosition TRIGGERED");
    if (isNight()) {
       return true;
    }
 
-   if (previousMonth != getMonthNumber()) {
-      previousMonth = getMonthNumber();
+   byte monthNumber = getMonthNumber();
+   byte hourNumber = getHourNumber();
+
+   if (previousMonth != monthNumber) {
+      previousMonth = monthNumber;
       setTimeFromNet();
    }
 
-   byte expectedTurnPosition = getExpectedTurnPosition(getHourNumber());
-   print("expectedTurnPosition: " + String(expectedTurnPosition));
+   byte expectedTurnPosition = getExpectedTurnPosition(hourNumber);
    gotoTurnPercentage((int)expectedTurnPosition * 100);
 
-   byte expectedTiltPosition =
-       getExpectedTiltPosition(getHourNumber(), getMonthNumber());
-   print("expectedTiltPosition: " + String(expectedTiltPosition));
+   byte expectedTiltPosition = getExpectedTiltPosition(hourNumber, monthNumber);
    gotoTiltPercentage((int)expectedTiltPosition * 100);
 
    return true;

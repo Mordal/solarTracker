@@ -92,13 +92,13 @@ byte getHourNumber() {
 
 byte getMonthNumber() {
    RTCTime currentTime = getRTCTime();
-   return (byte)currentTime.getMonth();
+   return (byte)Month2int(currentTime.getMonth());
 }
 
 void printTime() {
    // Haal de RTC tijd op
    RTCTime currentTime = getRTCTime();
-   String timeString = currentTime.toString();
+   // String timeString = currentTime.toString();
 
    // Print de RTC tijd
    Serial.print(currentTime.getDayOfMonth());
