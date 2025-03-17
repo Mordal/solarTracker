@@ -164,7 +164,7 @@ byte getExpectedTiltPosition(byte hour, byte month) {
    }
 
    if (hour > 19) {
-      return 100;
+      return 0;
    }
 
    month -= 1;
