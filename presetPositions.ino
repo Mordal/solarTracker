@@ -36,6 +36,19 @@ byte tiltPercentage_Presets[12][14] = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
 
+void setTurnPercentage_Presets(byte newTurnPercentagePresets[14]) {
+   for (int i = 0; i < 14; i++) {
+      turnPercentage_Presets[i] = newTurnPercentagePresets[i];
+   }
+}
+
+void setTiltPercentage_Presets(byte monthIndex, byte newTiltPercentagePresets[14]) {
+   for (int i = 0; i < 14; i++) {
+      tiltPercentage_Presets[monthIndex][i] = newTiltPercentagePresets[i];
+   }
+}
+
+
 // byte[14] getTurnPercentage_Presets() { return turnPercentage_Presets; };
 
 // void setTurnPercentage_Presets(byte[14] ...newTurnPercentagePresets) {

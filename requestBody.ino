@@ -1,11 +1,10 @@
-
 //  // Voorbeeld curl commando:
 //     //curl -X POST -d "{\"hallo\":5}" http://192.48.56.2/
 //  //voorbeeld string to send as Body:
 //     // "{\"hallo\":5}"
 //     // "{\"hallo\":\"no\"}"
 
-String readBody(WiFiClient client, int contentLength) {
+String readBody(WiFiClient& client, int contentLength) {
    String body = "";
    while (client.available() && body.length() < contentLength) {
       body += (char)client.read();  // lees de body byte voor byte
@@ -14,27 +13,6 @@ String readBody(WiFiClient client, int contentLength) {
    // Serial.println(body);
    return body;
 }
-
-// bool readBody_OLD(WiFiClient client, int contentLength){
-//   // Example curl http://192.48.56.2/ -d "{\"hallo\":\"no\"}"
-
-//   if (!contentLength || contentLength < 1 || contentLength > 1024) {
-//     return false;
-//     }
-//   String requestBody;
-//   int bodyRead = 0;
-//   while (bodyRead < contentLength && client.available()) {
-//     char c = client.read();
-//     requestBody += c;
-//     bodyRead++;
-//     }
-//   Serial.println("Raw: " + requestBody);
-
-//   JSONVar jsonBody = JSON.parse(requestBody);
-//   Serial.println(jsonBody);
-//   setValues(jsonBody);
-//   return true;
-// }
 
 void unlock() {
    settingsUnlocked = true;
@@ -47,104 +25,128 @@ bool lockSettings(void *) {
    return false;
 }
 
-void control(WiFiClient client, String body) {
-   if (!settingsUnlocked) {
+void settingsAreLocked() {
+ if (!settingsUnlocked) {
       print("Settings are locked");
       sendInvalidRequest(client);
-      return;
+      return true;
    }
+   return false;
+}
+
+bool validateJson(WiFiClient& client, JSONVar& jsonBody) {
+    if (JSON.typeof(jsonBody) != "object") {
+        print("Invalid JSON body");
+        sendInvalidRequest(client);
+        return false;
+    }
+    return true;
+}
+
+void control(WiFiClient& client, const String& body) {
+   if (settingsAreLocked()) return;
 
    JSONVar jsonBody = JSON.parse(body);
+   if (!validateJson(client, jsonBody)) return;
 
-   // FORCED MOVEMENTS //
-   if (jsonBody.hasOwnProperty("LEFT_Force")) {
-      linksDraaien_FORCE = jsonBody["LEFT_Force"];
-   }
-   if (jsonBody.hasOwnProperty("RIGHT_Force")) {
-      rechtsDraaien_FORCE = jsonBody["RIGHT_Force"];
-   }
-   if (jsonBody.hasOwnProperty("OUT_Force")) {
-      uitschuiven_FORCE = jsonBody["OUT_Force"];
-   }
-   if (jsonBody.hasOwnProperty("IN_Force")) {
-      inschuiven_FORCE = jsonBody["IN_Force"];
-   }
+   // FORCED MOVEMENTS
+   setFromJson(jsonBody, "LEFT_Force", linksDraaien_FORCE);
+   setFromJson(jsonBody, "RIGHT_Force", rechtsDraaien_FORCE);
+   setFromJson(jsonBody, "OUT_Force", uitschuiven_FORCE);
+   setFromJson(jsonBody, "IN_Force", inschuiven_FORCE);
 
-   // GOTO POSITION //
+   // MODES
+   setFromJson(jsonBody, "TEST_MODE", TEST_MODE);
+   setFromJson(jsonBody, "SAFE_MODE", SAFE_MODE);
+   setFromJson(jsonBody, "STOP_MODE", STOP_MODE);
+
+
+   // GOTO POSITION
    if (jsonBody.hasOwnProperty("TURN_Position")) {
-      int input = jsonBody["TURN_Position"];
+      int input = (int)jsonBody["TURN_Position"];
       int turnPosition = normalizePosition(input);
       gotoTurnPercentage(turnPosition);
+      Serial.print("Goto TURN_Position: "); Serial.println(turnPosition);
    }
    if (jsonBody.hasOwnProperty("TILT_Position")) {
-      int input = jsonBody["TILT_Position"];
+      int input = (int)jsonBody["TILT_Position"];
       int tiltPosition = normalizePosition(input);
       gotoTiltPercentage(tiltPosition);
+      Serial.print("Goto TILT_Position: "); Serial.println(tiltPosition);
    }
 
-   // MODES //
-   if (jsonBody.hasOwnProperty("TEST_MODE")) {
-      TEST_MODE = jsonBody["TEST_MODE"];
-   }
-   if (jsonBody.hasOwnProperty("SAFE_MODE")) {
-      SAFE_MODE = jsonBody["SAFE_MODE"];
-   }
-   if (jsonBody.hasOwnProperty("STOP_MODE")) {
-      STOP_MODE = jsonBody["STOP_MODE"];
-   }
    sendJsonData(client, jsonBody);
 }
 
 int normalizePosition(int position) {
-   if (position < 0) {
-      return 0;
-   }
-
-   if (position > 10000) {
-      return 10000;
-   }
+   if (position < 0) return 0;
+   if (position > 10000) return 10000;
    return position;
 }
 
-void setValues(WiFiClient client, String body) {
-   if (!settingsUnlocked) {
-      print("Settings are locked");
-      sendInvalidRequest(client);
-      return;
-   }
+void setFromJson(JSONVar& json, const char* key, int& var) {
+    if (json.hasOwnProperty(key)) {
+        var = (int)json[key];
+        Serial.print("Set "); Serial.print(key); Serial.print(" to: "); Serial.println(var);
+    }
+}
+void setFromJson(JSONVar& json, const char* key, bool& var) {
+    if (json.hasOwnProperty(key)) {
+        var = (bool)json[key];
+        Serial.print("Set "); Serial.print(key); Serial.print(" to: "); Serial.println(var);
+    }
+}
+
+
+
+void setValues(WiFiClient& client, const String& body) {
+   if (settingsAreLocked()) return;
 
    JSONVar jsonBody = JSON.parse(body);
+   if (!validateJson(client, jsonBody)) return;
    Serial.println(jsonBody);
 
-   if (jsonBody.hasOwnProperty("LB_Offset")) {
-      lichtSensor_LB_offset = jsonBody["LB_Offset"];
-   }
-   if (jsonBody.hasOwnProperty("RB_Offset")) {
-      lichtSensor_RB_offset = jsonBody["RB_Offset"];
-   }
-   if (jsonBody.hasOwnProperty("LO_Offset")) {
-      lichtSensor_LO_offset = jsonBody["LO_Offset"];
-   }
-   if (jsonBody.hasOwnProperty("RO_Offset")) {
-      lichtSensor_RO_offset = jsonBody["RO_Offset"];
-   }
+   setFromJson(jsonBody, "LB_Offset", lichtSensor_LB_offset);
+   setFromJson(jsonBody, "RB_Offset", lichtSensor_RB_offset);
+   setFromJson(jsonBody, "LO_Offset", lichtSensor_LO_offset);
+   setFromJson(jsonBody, "RO_Offset", lichtSensor_RO_offset);
+   setFromJson(jsonBody, "licht_marge", licht_marge);
+   setFromJson(jsonBody, "antiPendelTime", antiPendelTime);
+   setFromJson(jsonBody, "maxMovementTime", maxMovementTime);
 
-   if (jsonBody.hasOwnProperty("licht_marge")) {
-      licht_marge = jsonBody["licht_marge"];
-   }
-   if (jsonBody.hasOwnProperty("antiPendelTime")) {
-      antiPendelTime = jsonBody["antiPendelTime"];
-   }
-   if (jsonBody.hasOwnProperty("maxMovementTime")) {
-      maxMovementTime = jsonBody["maxMovementTime"];
-   }
    if (jsonBody.hasOwnProperty("retryTime")) {
-      retryTime = jsonBody["retryTime"];
+      retryTime = (int)jsonBody["retryTime"];
+      Serial.print("Set retryTime to: "); Serial.println(retryTime);
       setTimers();
    }
    if (jsonBody.hasOwnProperty("logBook_Timer_delay")) {
-      logBook_Timer_delay = jsonBody["logBook_Timer_delay"];
+      logBook_Timer_delay = (int)jsonBody["logBook_Timer_delay"];
+      Serial.print("Set logBook_Timer_delay to: "); Serial.println(logBook_Timer_delay);
       setTimers();
    }
+
+   if (jsonBody.hasOwnProperty("tilt_Presets")) {
+      JSONVar tilt_Presets = jsonBody["tilt_Presets"];
+      byte monthIndex = (byte)tilt_Presets["monthIndex"];
+      JSONVar arr = tilt_Presets["presets"];
+      byte newtiltPresets[14];
+      for (int i = 0; i < 14; i++) {
+         newtiltPresets[i] = (byte)arr[i];
+      }
+      settiltPercentage_Presets(monthIndex, newtiltPresets);
+      Serial.println("Set tilt_Presets");
+   }
+
+   if (jsonBody.hasOwnProperty("turn_Presets")) {
+      JSONVar turn_Presets = jsonBody["turn_Presets"];
+      JSONVar arr = turn_Presets["turnPresets"];
+      byte newturnPresets[14];
+      for (int i = 0; i < 14; i++) {
+         newturnPresets[i] = (byte)arr[i];
+      }
+      setturnPercentage_Presets(newturnPresets);
+      Serial.println("Set turn_Presets");
+   }
+
    sendJsonData(client, jsonBody);
 }

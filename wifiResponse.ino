@@ -1,5 +1,5 @@
 
-void sendStartData(WiFiClient client) {
+void sendStartData(WiFiClient& client) {
    // print("Sending start data to client...");
    client.println("HTTP/1.1 200 OK");
    client.println("Access-Control-Allow-Origin: *");
@@ -7,7 +7,7 @@ void sendStartData(WiFiClient client) {
    // client.println("Access-Control-Allow-Headers: Content-Type");
 }
 
-void sendJsonData(WiFiClient client, JSONVar jsonData) {
+void sendJsonData(WiFiClient& client, JSONVar& jsonData) {
    sendStartData(client);
    client.println("Content-type:application/json");
    client.println();
@@ -15,7 +15,7 @@ void sendJsonData(WiFiClient client, JSONVar jsonData) {
    client.println();
 }
 
-void sendAllPageDataByWifi(WiFiClient client) {
+void sendAllPageDataByWifi(WiFiClient& client) {
    sendStartData(client);
    client.println("Content-type:application/json");
    client.println();
@@ -23,7 +23,7 @@ void sendAllPageDataByWifi(WiFiClient client) {
    client.println();
 }
 
-void sendOk(WiFiClient client) {
+void sendOk(WiFiClient& client) {
    sendStartData(client);
    client.println("Content-type:text/plain");
    client.println();
@@ -31,7 +31,7 @@ void sendOk(WiFiClient client) {
    client.println();
 }
 
-void sendInvalidRequest(WiFiClient client) {
+void sendInvalidRequest(WiFiClient& client) {
    client.println("HTTP/1.1 400 BAD REQUEST");
    client.println("Access-Control-Allow-Origin: *");
    client.println("Access-Control-Allow-Methods: GET, POST");
@@ -41,7 +41,7 @@ void sendInvalidRequest(WiFiClient client) {
    client.println();
 }
 
-void sendEndpoints(WiFiClient client) {
+void sendEndpoints(WiFiClient& client) {
    sendStartData(client);
    client.println("Content-type:text/html");
    client.println();
@@ -60,7 +60,7 @@ void sendEndpoints(WiFiClient client) {
    client.println();
 }
 
-void response_API_Request(WiFiClient client, String currentLine) {
+void response_API_Request(WiFiClient& client, const String& currentLine) {
    if (requestHasString(currentLine, "GET /API/PAGEDATA")) {
       sendAllPageDataByWifi(client);
    } else if (requestHasString(currentLine, "GET /API/FLAGS")) {
@@ -82,6 +82,8 @@ void response_API_Request(WiFiClient client, String currentLine) {
    } else if (requestHasString(currentLine, "GET /API/RESETALARM") &&
               settingsUnlocked) {
       apiResetAlarms(client);
+   } else if (requestHasString(currentLine, "GET /API/PRESETPOSITINS")){
+      sendJsonData(client, getPresetPositions());
    } else if (requestHasString(currentLine, "GET /API/CLIENTCONNECTED")) {
       setClientConnectedTimer();
       sendOk(client);
@@ -111,7 +113,7 @@ bool clientConnectedDeactivate(void *) {
    return false;
 }
 
-void unlockSettings(WiFiClient client, String body) {
+void unlockSettings(WiFiClient& client, const String& body) {
    // print(body);
    if (body == "reteipreteip") {
       unlock();
@@ -125,7 +127,7 @@ void unlockSettings(WiFiClient client, String body) {
    }
 }
 
-void apiResetAlarms(WiFiClient client) {
+void apiResetAlarms(WiFiClient& client) {
    resetAlarms();
    sendStartData(client);
    client.println("Content-type:text/plain");

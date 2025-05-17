@@ -66,7 +66,7 @@ void print_WifiData() {
    Serial.println();
 }
 
-void clientConnection(WiFiClient client) {
+void clientConnection(WiFiClient& client) {
    Serial.println("new client");  // print a message out the serial port
 
    // String to hold incoming data from the client
@@ -133,7 +133,7 @@ void clientConnection(WiFiClient client) {
       }
 
       // Controleer of het een request naar favicon.ico is
-      if (currentLine.indexOf("GET /favicon.ico") >= 0) {
+      if (currentLine.indexOf("GET /fav") >= 0) {
          client.stop();  // Verbreek direct de verbinding
          return;
       }

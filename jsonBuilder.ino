@@ -88,6 +88,13 @@ JSONVar getForcedMovements() {
    return forceMovementObject;
 }
 
+JSONVar getPresetPositions() {
+   JSONVar presetPositionsObject = undefined;
+   presetPositionsObject["Turn"]= turnPercentage_Presets;
+   presetPositionsObject["Tilt"] = tiltPercentage_Presets;
+   return presetPositionsObject;
+}
+
 JSONVar getSettings() {
    JSONVar settingsObject = undefined;
    settingsObject["Offsets"]["LB"] = lichtSensor_LB_offset;
@@ -208,11 +215,11 @@ void getPageData() {
    // return pageData;
 }
 
-void sendJson(WiFiClient client, JSONVar object) {
+void sendJson(WiFiClient& client, JSONVar& object) {
    client.print(JSON.stringify(object));
 }
 
-void sendPartJson(WiFiClient client, JSONVar object) {
+void sendPartJson(WiFiClient& client, JSONVar& object) {
    JSONVar keys = object.keys();
    for (int i = 0; i < keys.length(); i++) {
       client.print(keys[i]);
