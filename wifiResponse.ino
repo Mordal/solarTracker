@@ -7,10 +7,11 @@ void sendStartData(WiFiClient& client) {
    // client.println("Access-Control-Allow-Headers: Content-Type");
 }
 
-void sendJsonData(WiFiClient& client, JSONVar& jsonData) {
+void sendJsonData(WiFiClient& client, const JSONVar& jsonData) {
    sendStartData(client);
    client.println("Content-type:application/json");
    client.println();
+   Serial.println("Sending JSON data to client...");
    sendJson(client, jsonData);
    client.println();
 }
@@ -41,57 +42,110 @@ void sendInvalidRequest(WiFiClient& client) {
    client.println();
 }
 
+JSONVar getEndpoints() {
+   const char* endpoints[] = {
+      "/API",
+      "/API/FLAGS",
+      "/API/LIGHTSENSORS",
+      "/API/TURNMOVEMENT",
+      "/API/TILTMOVEMENT",
+      "/API/OTHERDATA",
+      "/API/FORCEDMOVEMENTS",
+      "/API/SETTINGS",
+      "/API/TIMERS",
+      "/API/RESETALARM",
+      "/API/TURNPRESET",
+      "/API/TILTPRESET-monthIndex",
+      "/API/CLIENTCONNECTED"
+   };
+
+   JSONVar endpointsJson = undefined;
+   for (int i = 0; i < sizeof(endpoints) / sizeof(endpoints[0]); i++) {
+      endpointsJson[i] = endpoints[i];
+   }
+   return endpointsJson;
+}
+
 void sendEndpoints(WiFiClient& client) {
-   sendStartData(client);
-   client.println("Content-type:text/html");
-   client.println();
-   client.println("Available endpoints:");
-   client.println("/API");
-   client.println("/API/FLAGS");
-   client.println("/API/LIGHTSENSORS");
-   client.println("/API/TURNMOVEMENT");
-   client.println("/API/TILTMOVEMENT");
-   client.println("/API/OTHERDATA");
-   client.println("/API/FORCEDMOVEMENTS");
-   client.println("/API/SETTINGS");
-   client.println("/API/TIMERS");
-   client.println("/API/RESETALARM");
-   client.println("/API/CLIENTCONNECTED");
-   client.println();
+   sendJsonData(client, getEndpoints());
 }
 
 void response_API_Request(WiFiClient& client, const String& currentLine) {
    if (requestHasString(currentLine, "GET /API/PAGEDATA")) {
       sendAllPageDataByWifi(client);
-   } else if (requestHasString(currentLine, "GET /API/FLAGS")) {
+   }
+   else if (requestHasString(currentLine, "GET /API/FLAGS")) {
       sendJsonData(client, getFlags());
-   } else if (requestHasString(currentLine, "GET /API/LIGHTSENSORS")) {
+   }
+   else if (requestHasString(currentLine, "GET /API/LIGHTSENSORS")) {
       sendJsonData(client, getLightSensorData());
-   } else if (requestHasString(currentLine, "GET /API/TURNMOVEMENT")) {
+   }
+   else if (requestHasString(currentLine, "GET /API/TURNMOVEMENT")) {
       sendJsonData(client, getTurnMovementData());
-   } else if (requestHasString(currentLine, "GET /API/TILTMOVEMENT")) {
+   }
+   else if (requestHasString(currentLine, "GET /API/TILTMOVEMENT")) {
       sendJsonData(client, getTiltMovementData());
-   } else if (requestHasString(currentLine, "GET /API/OTHERDATA")) {
+   }
+   else if (requestHasString(currentLine, "GET /API/OTHERDATA")) {
       sendJsonData(client, getOtherData());
-   } else if (requestHasString(currentLine, "GET /API/FORCEDMOVEMENTS")) {
+   }
+   else if (requestHasString(currentLine, "GET /API/FORCEDMOVEMENTS")) {
       sendJsonData(client, getForcedMovements());
-   } else if (requestHasString(currentLine, "GET /API/SETTINGS")) {
+   }
+   else if (requestHasString(currentLine, "GET /API/SETTINGS")) {
       sendJsonData(client, getSettings());
-   } else if (requestHasString(currentLine, "GET /API/TIMERS")) {
+   }
+   else if (requestHasString(currentLine, "GET /API/TIMERS")) {
       sendJsonData(client, getRemainingTime());
-   } else if (requestHasString(currentLine, "GET /API/RESETALARM") &&
-              settingsUnlocked) {
+   }
+   else if (requestHasString(currentLine, "GET /API/RESETALARM") &&
+      settingsUnlocked) {
       apiResetAlarms(client);
-   } else if (requestHasString(currentLine, "GET /API/PRESETPOSITINS")){
-      sendJsonData(client, getPresetPositions());
-   } else if (requestHasString(currentLine, "GET /API/CLIENTCONNECTED")) {
+   }
+   else if (requestHasString(currentLine, "GET /API/TURNPRESET")) {
+      sendJsonData(client, getTurnPresetPositions());
+   }
+   else if (requestHasString(currentLine, "GET /API/TILTPRESET")) {
+      //"GET /API/TILTPRESET-<monthIndex>"
+
+      // Extract the month index from the request
+      int monthIndexStart = currentLine.indexOf('-') + 1;
+      if (monthIndexStart == 0) {
+         sendEndpoints(client);
+         return;
+      }
+      String monthIndexStr = currentLine.substring(monthIndexStart);
+      int monthIndex = monthIndexStr.toInt();
+
+      if (monthIndex < 0 || monthIndex > 11) {
+         sendInvalidRequest(client);
+         return;
+      }
+
+      sendJsonData(client, getTiltPresetPositions(monthIndex));
+   }
+   else if (requestHasString(currentLine, "POST /API/SETTINGS")) {
+      String body = client.readStringUntil('\r');
+      unlockSettings(client, body);
+   }
+   else if (requestHasString(currentLine, "POST /API/CONTROL")) {
+      String body = client.readStringUntil('\r');
+      control(client, body);
+   }
+   else if (requestHasString(currentLine, "POST /API/UNLOCK")) {
+      String body = client.readStringUntil('\r');
+      unlockSettings(client, body);
+   }
+   else if (requestHasString(currentLine, "GET /API/CLIENTCONNECTED")) {
       setClientConnectedTimer();
       sendOk(client);
 
       // deze moet als laatste
-   } else if (requestHasString(currentLine, "GET /API")) {
+   }
+   else if (requestHasString(currentLine, "GET /API")) {
       sendEndpoints(client);
-   } else {
+   }
+   else {
       sendInvalidRequest(client);
    }
 }
@@ -107,7 +161,7 @@ void setClientConnectedTimer() {
    start_sendAllData_Timer();
 }
 
-bool clientConnectedDeactivate(void *) {
+bool clientConnectedDeactivate(void*) {
    clientConnectedTimer.cancel();
    start_Logbook_Timer();
    return false;
@@ -122,7 +176,8 @@ void unlockSettings(WiFiClient& client, const String& body) {
       client.println();
       client.println("Settings unlocked");
       client.println();
-   } else {
+   }
+   else {
       sendInvalidRequest(client);
    }
 }

@@ -3,9 +3,7 @@
     {
       "name": "Win32",
       "includePath": [
-        "${workspaceFolder}/**",
-        "C:\\Users\\Pieter\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.1.0\\**",
-        "C:\\Users\\Pieter\\OneDrive - Cronos\\Documenten\\Arduino\\libraries\\**"
+        "${workspaceFolder}/**"
       ],
       "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
       "windowsSdkVersion": "10.0.19041.0",

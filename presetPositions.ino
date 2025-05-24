@@ -6,35 +6,7 @@
 // Wintertijd: Van de laatste zondag van oktober tot de laatste zondag van maart
 // (het daaropvolgende jaar).
 
-byte turnPercentage_Presets[14] = {0,  5,  10, 19, 28, 35, 42,
-                                   52, 61, 70, 75, 80, 88, 100};
 
-byte tiltPercentage_Presets[12][14] = {
-    // Januari  (0)
-    {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
-    // Februari (1)
-    {0, 0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0},
-    // Maart    (2)
-    {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
-    // April    (3)
-    {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
-    // Mei      (4)
-    {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
-    // Juni     (5)
-    {0, 13, 35, 52, 70, 87, 95, 100, 90, 76, 57, 38, 23, 0},
-    // Juli     (6)
-    {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
-    // Augustus (7)
-    {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
-    // September (8)
-    {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
-    // Oktober   (9)
-    {0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0, 0},
-    // November  (10)
-    {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
-    // December  (11)
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-};
 
 void setTurnPercentage_Presets(byte newTurnPercentagePresets[14]) {
    for (int i = 0; i < 14; i++) {
@@ -80,7 +52,8 @@ byte getExpectedTurnPosition(byte hour) {
    // Controleer of het uur binnen het bereik ligt (6 tot 19)
    if (hour < 6) {
       return 0;  // Voor 6 uur is het percentage 0%
-   } else if (hour > 19) {
+   }
+   else if (hour > 19) {
       return 100;  // Na 19 uur is het percentage 100%
    }
 
@@ -191,10 +164,10 @@ byte getExpectedTiltPosition(byte hour, byte month) {
    Serial.println("month: " + String(month));
    Serial.println("hour: " + String(hour));
    return tiltPercentage_Presets[month]
-                                [hour - 6];  // Indexering voor uur 6 tot 19
+      [hour - 6];  // Indexering voor uur 6 tot 19
 }
 
-bool gotoPresetPosition(void *) {
+bool gotoPresetPosition(void*) {
    if (isNight()) {
       return true;
    }

@@ -27,7 +27,8 @@ void wifi_Setup() {
       server.begin();
       Serial.println("Server started!");
       print_WifiData();
-   } else {
+   }
+   else {
       Serial.println("\nWiFi connection FAILED!");
    }
 
@@ -87,14 +88,11 @@ void clientConnection(WiFiClient& client) {
          // if the current line is blank, you got two newline characters in a
          // row. that's the end of the client HTTP request
          if (currentLine.length() == 0) {
-            if (contentLength > 1 &&
-                contentLength <
-                    1025) {  // body lezen als er een Content-Length is
+            if (contentLength > 1 && contentLength < 1025) {  // body lezen als er een Content-Length is
                String body = readBody(client, contentLength);
-
                if (unlockRequest) {
                   unlockSettings(
-                      client, body);  // Passeer de body naar je unlock functie
+                     client, body);  // Passeer de body naar je unlock functie
                }
 
                if (settingsRequest) {
@@ -108,7 +106,8 @@ void clientConnection(WiFiClient& client) {
                // response_WiFi_BASIC(client);  //send a response:
             };
             break;
-         } else {  // if you got a newline, then clear currentLine:
+         }
+         else {  // if you got a newline, then clear currentLine:
             if (contentLengthHeader) {
                contentLength = currentLine.substring(16).toInt();
                contentLengthHeader = false;
@@ -116,8 +115,9 @@ void clientConnection(WiFiClient& client) {
             // print(currentLine);
             currentLine = "";
          }
-      } else if (c != '\r') {  // if you got anything else but a carriage return
-                               // character,
+      }
+      else if (c != '\r') {  // if you got anything else but a carriage return
+         // character,
          currentLine += c;     // add it to the end of the currentLine
          if (currentLine == "Content-Length: ") contentLengthHeader = true;
       }
@@ -178,14 +178,15 @@ void mqtt_Setup() {
       Serial.print("MQTT connection failed! Error code = ");
       Serial.println(mqttClient.connectError());
       mqttConnected = false;
-   } else {
+   }
+   else {
       Serial.println("You're connected to the MQTT broker!");
       mqttConnected = true;
    };
    Serial.println();
 };
 
-bool retryConnection(void *) {
+bool retryConnection(void*) {
    if (wifiConnected == false) {
       stopMomevement();
       wifi_Setup();

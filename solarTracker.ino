@@ -44,6 +44,35 @@ int lichtSensors_Onder = 0;
 // byte turnPercentage_Presets[14];      // preset turn percentages from 6h to
 // 19h byte tiltPercentage_Presets[12][14];  // Preset tilt percentages per
 // maand en 6h tot 19h
+byte turnPercentage_Presets[14] = { 0,  5,  10, 19, 28, 35, 42,
+                                   52, 61, 70, 75, 80, 88, 100 };
+
+byte tiltPercentage_Presets[12][14] = {
+   // Januari  (0)
+   {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
+   // Februari (1)
+   {0, 0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0},
+   // Maart    (2)
+   {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
+   // April    (3)
+   {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
+   // Mei      (4)
+   {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
+   // Juni     (5)
+   {0, 13, 35, 52, 70, 87, 95, 100, 90, 76, 57, 38, 23, 0},
+   // Juli     (6)
+   {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
+   // Augustus (7)
+   {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
+   // September (8)
+   {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
+   // Oktober   (9)
+   {0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0, 0},
+   // November  (10)
+   {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
+   // December  (11)
+   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+   };
 
 // MOVEMENT //
 // DRAAIEN //
@@ -171,8 +200,8 @@ MqttClient mqttClient(wifiClient);
 // INTERNET TIME - NTP client
 WiFiUDP ntpUDP;
 NTPClient timeClient(
-    ntpUDP, "pool.ntp.org", 0,
-    60000);  // 0 offset initially, we will calculate it dynamically
+   ntpUDP, "pool.ntp.org", 0,
+   60000);  // 0 offset initially, we will calculate it dynamically
 byte previousMonth = 0;
 
 void setup() {
@@ -212,7 +241,7 @@ void setup() {
    setTimers();
 
    print("Setup done!");
-}
+   }
 
 void loop() {
    tickTimers();
@@ -222,7 +251,7 @@ void loop() {
    set_MoveDirection();
    set_Outputs();
    wiFiLoop();
-}
+   }
 
 void tickTimers() {
    antiPendel_Draaien_Timer_Remaining = antiPendel_Draaien_Timer.tick();
@@ -237,16 +266,16 @@ void tickTimers() {
    settingsUnlockedTimer_Remaining = settingsUnlockedTimer.tick();
    gotoPosition_Timer_Remaining = gotoPosition_Timer.tick();
    sendAllData_Timer.tick();
-}
+   }
 
 void set_Outputs() {
    digitalWrite(PIN_LinksDraaien, linksDraaien);
    digitalWrite(PIN_RechtsDraaien, !rechtsDraaien);
    digitalWrite(PIN_Uitschuiven, !uitschuiven);
    digitalWrite(PIN_Inschuiven, !inschuiven);
-}
+   }
 
-void print(const char *text) { Serial.println(text); }
+void print(const char* text) { Serial.println(text); }
 
 void print(const String text) { Serial.println(text); }
 
@@ -259,22 +288,22 @@ void setTimers() {
    setTurnPercentage_Timer.every(1000, setCurrentTurnPercentage);  // 1 sec
    setTiltPercentage_Timer.every(1000, setCurrentTiltPercentage);  // 1 sec
    gotoPosition_Timer.every(3600000, gotoPresetPosition);          // 1 uur
-}
+   }
 
 void start_Logbook_Timer() {
    logBook_Timer.every(logBook_Timer_delay, setLogbook);
    // 10 sec ----- //every minute -> voor een
    // week: 6 keer per uur
-}
+   }
 
 void stop_Logbook_Timer() { logBook_Timer.cancel(); }
 
 void start_sendAllData_Timer() {
    sendAllData_Timer.every(sendAllData_Timer_delay, sendAllPageData);
-}
+   }
 
 void resetAlarms() {
    draaienTooLong = false;
    kantelenTooLong = false;
    resetHappend = false;
-}
+   }

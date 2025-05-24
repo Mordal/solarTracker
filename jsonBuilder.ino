@@ -88,10 +88,29 @@ JSONVar getForcedMovements() {
    return forceMovementObject;
 }
 
-JSONVar getPresetPositions() {
+JSONVar getTurnPresetPositions() {
    JSONVar presetPositionsObject = undefined;
-   presetPositionsObject["Turn"]= turnPercentage_Presets;
-   presetPositionsObject["Tilt"] = tiltPercentage_Presets;
+   JSONVar turnArray = undefined;
+
+   for (int i = 0; i < 14; i++) {
+      turnArray[i] = turnPercentage_Presets[i];
+   };
+   presetPositionsObject["Turn"] = turnArray;
+   turnArray = undefined;
+
+   return presetPositionsObject;
+}
+
+JSONVar getTiltPresetPositions(byte monthIndex) {
+   JSONVar presetPositionsObject = undefined;
+   JSONVar tiltArray = undefined;
+
+   for (int col = 0; col < 14; col++) {
+      tiltArray[col] = tiltPercentage_Presets[monthIndex][col];
+   };
+
+   presetPositionsObject["Tilt"] = tiltArray;
+   tiltArray = undefined;
    return presetPositionsObject;
 }
 
@@ -113,19 +132,19 @@ JSONVar getSettings() {
 JSONVar getRemainingTime() {
    JSONVar remainingTimeObject = undefined;
    remainingTimeObject["TimeRem"]["AP_Draaien_Timer"] =
-       antiPendel_Draaien_Timer_Remaining;
+      antiPendel_Draaien_Timer_Remaining;
    remainingTimeObject["TimeRem"]["AP_Kantelen_Timer"] =
-       antiPendel_Kantelen_Timer_Remaining;
+      antiPendel_Kantelen_Timer_Remaining;
    remainingTimeObject["TimeRem"]["draaien_TO"] = draaien_TimeOut_Remaining;
    remainingTimeObject["TimeRem"]["kantelen_TO"] = kantelen_TimeOut_Remaining;
    remainingTimeObject["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
    remainingTimeObject["TimeRem"]["clientTimer"] =
-       clientConnectedTimer_Remaining;
+      clientConnectedTimer_Remaining;
    remainingTimeObject["TimeRem"]["retryTimer"] = retryTimer_Remaining;
    remainingTimeObject["TimeRem"]["setUnlockTimer"] =
-       settingsUnlockedTimer_Remaining;
+      settingsUnlockedTimer_Remaining;
    remainingTimeObject["TimeRem"]["gotoPosTimer"] =
-       gotoPosition_Timer_Remaining;
+      gotoPosition_Timer_Remaining;
    return remainingTimeObject;
 }
 
@@ -187,15 +206,15 @@ void getPageData() {
    // print(" - ForceMovement added");
 
    pageData["TimeRem"]["antiPendel_Draaien_Timer"] =
-       antiPendel_Draaien_Timer_Remaining;
+      antiPendel_Draaien_Timer_Remaining;
    pageData["TimeRem"]["antiPendel_Kantelen_Timer"] =
-       antiPendel_Kantelen_Timer_Remaining;
+      antiPendel_Kantelen_Timer_Remaining;
    pageData["TimeRem"]["draaien_TimeOut"] = draaien_TimeOut_Remaining;
    pageData["TimeRem"]["kantelen_TimeOut"] = kantelen_TimeOut_Remaining;
    pageData["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
    pageData["TimeRem"]["retryTimer"] = retryTimer_Remaining;
    pageData["TimeRem"]["settingsUnlockedTimer"] =
-       settingsUnlockedTimer_Remaining;
+      settingsUnlockedTimer_Remaining;
    pageData["TimeRem"]["gotoPosition_Timer"] = gotoPosition_Timer_Remaining;
 
    // print(" - TimeRemaining added");
@@ -215,7 +234,7 @@ void getPageData() {
    // return pageData;
 }
 
-void sendJson(WiFiClient& client, JSONVar& object) {
+void sendJson(WiFiClient& client, const JSONVar& object) {
    client.print(JSON.stringify(object));
 }
 
