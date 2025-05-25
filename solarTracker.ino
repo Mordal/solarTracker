@@ -98,8 +98,10 @@ const int PIN_Force_Rechtsdraaien = 11;  // INPUT
 // turning activated
 bool linksDraaien = false;
 bool linksDraaien_FORCE = false;
+bool linksDraaien_FORCE_EXT = false; // force command from APIet
 bool rechtsDraaien = false;
 bool rechtsDraaien_FORCE = false;
+bool rechtsDraaien_FORCE_EXT = false;  // force command from API
 bool gotoTurnPosition = false;
 
 // sensors
@@ -130,8 +132,10 @@ const int PIN_Force_Inschuiven = 13;   // INPUT
 // kantelen activated
 bool uitschuiven = false;
 bool uitschuiven_FORCE = false;
+bool uitschuiven_FORCE_EXT = false;  // force command from API
 bool inschuiven = false;
 bool inschuiven_FORCE = false;
+bool inschuiven_FORCE_EXT = false;  // force command from API
 bool gotoTiltPosition = false;
 
 // sensors
@@ -266,7 +270,6 @@ void loop() {
    set_Outputs();
    wiFiLoop();
 }
-
 
 void set_Outputs() {
    digitalWrite(PIN_LinksDraaien, linksDraaien);

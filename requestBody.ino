@@ -59,15 +59,21 @@ void control(WiFiClient& client, const String& body) {
    if (!validateJson(client, jsonBody)) return;
 
    // FORCED MOVEMENTS
-   setFromJson(jsonBody, "LEFT_Force", linksDraaien_FORCE);
-   setFromJson(jsonBody, "RIGHT_Force", rechtsDraaien_FORCE);
-   setFromJson(jsonBody, "OUT_Force", uitschuiven_FORCE);
-   setFromJson(jsonBody, "IN_Force", inschuiven_FORCE);
+   setFromJson(jsonBody, "LEFT_Force", linksDraaien_FORCE_EXT);
+   setFromJson(jsonBody, "RIGHT_Force", rechtsDraaien_FORCE_EXT);
+   setFromJson(jsonBody, "OUT_Force", uitschuiven_FORCE_EXT);
+   setFromJson(jsonBody, "IN_Force", inschuiven_FORCE_EXT);
 
    // MODES
    setFromJson(jsonBody, "TEST_MODE", TEST_MODE);
    setFromJson(jsonBody, "SAFE_MODE", SAFE_MODE);
-   setFromJson(jsonBody, "STOP_MODE", STOP_MODE);
+
+
+   if (jsonBody.hasOwnProperty("STOP_MODE")) {
+      STOP_MODE = (bool)jsonBody["STOP_MODE"];
+      stopMomevement();
+      clearForceSignals();
+   }
 
    // GOTO POSITION
    if (jsonBody.hasOwnProperty("TURN_Position")) {

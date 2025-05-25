@@ -158,8 +158,12 @@ byte getExpectedTiltPosition(byte hour, byte month) {
 
 bool gotoPresetPosition(void*) {
    if (isNight()) {
-      return true;
+      return true; // Night mode is active, do not change position
    }
+   if (STOP_MODE) {
+      return true; // Stop mode is active, do not change position
+   }
+
 
    byte monthNumber = getMonthNumber();
    byte hourNumber = getHourNumber();

@@ -1,7 +1,7 @@
 
 void gotoTurnPercentage(int percentage = -1) {
    if (percentage != -1) {
-      // when called from loop
+      // when not called from loop
       gotoTurnPosition = true;
       wantedTurnPercentage = percentage;
    }
@@ -35,9 +35,12 @@ void setDraaien() {
    if (gotoTurnPosition) {
       gotoTurnPercentage();
    }
-   if (draaienForceMode()) {
+   if (draaienForceMode()) return;
+   if (STOP_MODE) {
+      deactivate_Draaien();
       return;
    }
+
    draaienNormalMode();
 }
 

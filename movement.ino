@@ -9,10 +9,10 @@ void readEindeloop() {
 }
 
 void readForceSignals() {
-   linksDraaien_FORCE = digitalRead(PIN_Force_Linksdraaien);
-   rechtsDraaien_FORCE = digitalRead(PIN_Force_Rechtsdraaien);
-   uitschuiven_FORCE = digitalRead(PIN_Force_Uitschuiven);
-   inschuiven_FORCE = digitalRead(PIN_Force_Inschuiven);
+   linksDraaien_FORCE = digitalRead(PIN_Force_Linksdraaien) || linksDraaien_FORCE_EXT;
+   rechtsDraaien_FORCE = digitalRead(PIN_Force_Rechtsdraaien) || rechtsDraaien_FORCE_EXT;
+   uitschuiven_FORCE = digitalRead(PIN_Force_Uitschuiven) || uitschuiven_FORCE_EXT;
+   inschuiven_FORCE = digitalRead(PIN_Force_Inschuiven) || inschuiven_FORCE_EXT;
 }
 
 void stopMomevement() {
@@ -20,6 +20,16 @@ void stopMomevement() {
    deactivate_Kantelen();
    set_Outputs();
 }
+
+void clearForceSignals() {
+   linksDraaien_FORCE = false;
+   rechtsDraaien_FORCE = false;
+   uitschuiven_FORCE = false;
+   inschuiven_FORCE = false;
+   gotoTurnPosition = false;
+   gotoTiltPosition = false;
+}
+
 
 void gotoNightPosition() {
    initializeNeededTime();

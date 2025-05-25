@@ -1,7 +1,7 @@
 
 void gotoTiltPercentage(int percentage = -1) {
    if (percentage != -1) {
-      // when called from loop
+      // when not called from loop
       gotoTiltPosition = true;
       wantedTiltPercentage = percentage;
    }
@@ -14,7 +14,8 @@ void gotoTiltPercentage(int percentage = -1) {
       uitschuiven_FORCE = true;
       return;
 
-   } else if ((wantedTiltPercentage) < (currentTiltPercentage - 200)) {
+   }
+   else if ((wantedTiltPercentage) < (currentTiltPercentage - 200)) {
       if (uitschuiven_FORCE) {
          deactivate_Kantelen();
          uitschuiven_FORCE = false;
@@ -33,9 +34,12 @@ void setKantelen() {
    if (gotoTiltPosition) {
       gotoTiltPercentage();
    }
-   if (kantelenForceMode()) {
+   if (kantelenForceMode()) return;
+   if (STOP_MODE) {
+      deactivate_Kantelen();
       return;
    }
+
    kantelenNormalMode();
 }
 
@@ -45,12 +49,14 @@ void kantelenNormalMode() {
          deactivate_Kantelen();
       }
       uitschuiven_activate();
-   } else if (needToRetract()) {
+   }
+   else if (needToRetract()) {
       if (uitschuiven) {
          deactivate_Kantelen();
       }
       inschuiven_activate();
-   } else {
+   }
+   else {
       deactivate_Kantelen();
    }
 }
@@ -79,25 +85,29 @@ void deactivate_Kantelen() {
 }
 
 // Timer: setTiltPercentage_Timer
-bool setCurrentTiltPercentage(void *) {
+bool setCurrentTiltPercentage(void*) {
    if (inschuiven) {
       const unsigned int percentageTilted =
-          getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
+         getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
       if (percentageTilted > currentTiltPercentage) {
          currentTiltPercentage = 0;
-      } else {
+      }
+      else {
          currentTiltPercentage -= percentageTilted;
       }
 
-   } else if (uitschuiven) {
+   }
+   else if (uitschuiven) {
       const unsigned int percentageTilted =
-          getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
+         getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
       if (percentageTilted + currentTiltPercentage > 11000) {
          currentTiltPercentage = 10000;
-      } else {
+      }
+      else {
          currentTiltPercentage += percentageTilted;
       }
-   } else {
+   }
+   else {
       return true;
    }
 
@@ -129,7 +139,7 @@ int getPercentageTilted() {
    // return returnValue;
 
    return calculatedPercentage *
-          10000.0;  // percentage (*100) met 2 decimalen (*100)
+      10000.0;  // percentage (*100) met 2 decimalen (*100)
 }
 
 void set_kantelenTimeOut() {
@@ -139,10 +149,10 @@ void set_kantelenTimeOut() {
 void set_antiPendel_Kantelen() {
    antiPendel_Kantelen = true;
    antiPendel_Kantelen_Timer.in(
-       antiPendelTime, reset_antiPendel_Kantelen);  // 5 min. = 300000 ms
+      antiPendelTime, reset_antiPendel_Kantelen);  // 5 min. = 300000 ms
 }
 
-bool reset_antiPendel_Kantelen(void *) {
+bool reset_antiPendel_Kantelen(void*) {
    antiPendel_Kantelen = false;
    return false;
 }
@@ -167,7 +177,7 @@ void read_EindeLoop_Kantelen() {
    }
 }
 
-bool kantelenTimeOutAlarm(void *) {
+bool kantelenTimeOutAlarm(void*) {
    print("ALARM: kantelen TimeOut!");
    kantelenTooLong = true;
    deactivate_Kantelen();
