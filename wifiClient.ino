@@ -146,22 +146,12 @@ void clientConnection(WiFiClient& client) {
       }
 
       if (currentLine.endsWith("POST /UNLOCK")) {
+         // curl -X POST -d "reteipreteip" http://192.168.0.205:90/UNLOCK
          unlockRequest = true;  // Don't break, check for body
       }
 
-      // if (currentLine.endsWith("GET /API/")){
-      //   response_WiFi_JSON(client);
-      //   break;
-      // }
-
-      // if(currentLine.endsWith("GET /TIMERS")){
-      //   response_WiFi_Timers(client);
-      //   break;
-      // }
    }
-   // close the connection:
    client.stop();
-   // Serial.println("client disconnected");
 }
 
 void mqtt_Setup() {
@@ -186,14 +176,3 @@ void mqtt_Setup() {
    Serial.println();
 };
 
-bool retryConnection(void*) {
-   if (wifiConnected == false) {
-      stopMomevement();
-      wifi_Setup();
-      RTC_Setup();
-   }
-   if (mqttConnected == false) {
-      mqtt_Setup();
-   }
-   return true;
-}

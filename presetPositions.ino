@@ -21,12 +21,6 @@ void setTiltPercentage_Presets(byte monthIndex, byte newTiltPercentagePresets[14
 }
 
 
-// byte[14] getTurnPercentage_Presets() { return turnPercentage_Presets; };
-
-// void setTurnPercentage_Presets(byte[14] ...newTurnPercentagePresets) {
-//    turnPercentage_Presets = ...newTurnPercentagePresets;
-// };
-
 byte getExpectedTurnPosition(byte hour) {
    // Winter:
    // 6h = 0%
@@ -61,10 +55,6 @@ byte getExpectedTurnPosition(byte hour) {
    return turnPercentage;
 }
 
-// byte getTiltPercentage_Presets() { return tiltPercentage_Presets; };
-// void setTiltPercentage_Presets(byte newTiltPercentagePresets[12][14]) {
-//    tiltPercentage_Presets = newTiltPercentagePresets;
-// }
 
 byte getExpectedTiltPosition(byte hour, byte month) {
    // Winter:
@@ -156,9 +146,8 @@ byte getExpectedTiltPosition(byte hour, byte month) {
    month -= 1;
 
    // Controleer of de maand geldig is (0-11)
-   if (month < 0 || month > 11) {
-      return 0;  // Ongeldige maand, retourneer 0%
-   }
+   if (!validMonthIndex(month)) return 0; // Ongeldige maand, retourneer 0%
+
 
    // Retourneer het bijbehorende percentage
    Serial.println("month: " + String(month));

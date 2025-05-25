@@ -317,7 +317,7 @@ function getTimerSetting(timerId) {
     case 'LogbookTimer':
       return currentSettings['TimeOuts']['logBook_delay'] / 1000;
     case 'Retry_Timer':
-      return currentSettings['TimeOuts']['retryTime'] / 1000;
+      return currentSettings['TimeOuts']['periodicalTime'] / 1000;
     case 'Settings_Unlock':
       return 1200; // 20 minuten
     case 'goToPosition':

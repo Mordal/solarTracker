@@ -32,15 +32,6 @@ void sendOk(WiFiClient& client) {
    client.println();
 }
 
-void sendInvalidRequest(WiFiClient& client) {
-   client.println("HTTP/1.1 400 BAD REQUEST");
-   client.println("Access-Control-Allow-Origin: *");
-   client.println("Access-Control-Allow-Methods: GET, POST");
-   client.println("Content-type:text/plain");
-   client.println();
-   client.println("Invalid request");
-   client.println();
-}
 
 JSONVar getEndpoints() {
    const char* endpoints[] = {
@@ -117,8 +108,8 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
       String monthIndexStr = currentLine.substring(monthIndexStart);
       int monthIndex = monthIndexStr.toInt();
 
-      if (monthIndex < 0 || monthIndex > 11) {
-         sendInvalidRequest(client);
+      if (!validMonthIndex(monthIndex)) {
+         sendInvalidRequest(client, "Invalid month index");
          return;
       }
 
@@ -146,7 +137,7 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
       sendEndpoints(client);
    }
    else {
-      sendInvalidRequest(client);
+      sendInvalidRequest(client, "Unknown API request");
    }
 }
 
@@ -178,7 +169,7 @@ void unlockSettings(WiFiClient& client, const String& body) {
       client.println();
    }
    else {
-      sendInvalidRequest(client);
+      sendInvalidRequest(client, "FUCK OFF");
    }
 }
 

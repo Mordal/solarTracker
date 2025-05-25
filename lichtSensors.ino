@@ -1,6 +1,6 @@
 
 
-void readLichtSensors(){
+void readLichtSensors() {
   lichtSensor_LB = analogRead(PIN_lichtSensor_LB) + lichtSensor_LB_offset;
   lichtSensor_RB = analogRead(PIN_lichtSensor_RB) + lichtSensor_RB_offset;
   lichtSensor_LO = analogRead(PIN_lichtSensor_LO) + lichtSensor_LO_offset;
@@ -12,9 +12,10 @@ void readLichtSensors(){
 }
 
 //onder de 300 is donker (??)
-bool isNight(){
-  if(lichtSensor_LB < 300 && lichtSensor_RB < 300 && lichtSensor_LO < 300 && lichtSensor_RO < 300){
-    return true;
+bool isNight() {
+  byte currentHour = getHourNumber();
+  if (isSummerTimeRTC()) {
+    currentHour--;
   }
-  return false;
+  return (currentHour >= 21 || currentHour < 6);
 }

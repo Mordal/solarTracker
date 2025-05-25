@@ -123,7 +123,7 @@ JSONVar getSettings() {
    settingsObject["Sensors"]["licht_marge"] = licht_marge;
    settingsObject["TimeOuts"]["APTime"] = antiPendelTime;
    settingsObject["TimeOuts"]["maxMoveTime"] = maxMovementTime;
-   settingsObject["TimeOuts"]["retryTime"] = retryTime;
+   settingsObject["TimeOuts"]["periodicalTime"] = periodicalTime;
    settingsObject["TimeOuts"]["logBook_delay"] = logBook_Timer_delay;
    settingsObject["TimeOuts"]["clientConTimeOut"] = clientConnectedTimeOut;
    return settingsObject;
@@ -140,7 +140,7 @@ JSONVar getRemainingTime() {
    remainingTimeObject["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
    remainingTimeObject["TimeRem"]["clientTimer"] =
       clientConnectedTimer_Remaining;
-   remainingTimeObject["TimeRem"]["retryTimer"] = retryTimer_Remaining;
+   remainingTimeObject["TimeRem"]["periodicalTimer"] = periodicalTimer_Remaining;
    remainingTimeObject["TimeRem"]["setUnlockTimer"] =
       settingsUnlockedTimer_Remaining;
    remainingTimeObject["TimeRem"]["gotoPosTimer"] =
@@ -212,7 +212,7 @@ void getPageData() {
    pageData["TimeRem"]["draaien_TimeOut"] = draaien_TimeOut_Remaining;
    pageData["TimeRem"]["kantelen_TimeOut"] = kantelen_TimeOut_Remaining;
    pageData["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
-   pageData["TimeRem"]["retryTimer"] = retryTimer_Remaining;
+   pageData["TimeRem"]["periodicalTimer"] = periodicalTimer_Remaining;
    pageData["TimeRem"]["settingsUnlockedTimer"] =
       settingsUnlockedTimer_Remaining;
    pageData["TimeRem"]["gotoPosition_Timer"] = gotoPosition_Timer_Remaining;

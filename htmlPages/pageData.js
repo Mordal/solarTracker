@@ -247,7 +247,7 @@ function setTimeRemaining(pageData) {
   // remainingTimeObject["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
   // remainingTimeObject["TimeRem"]["clientTimer"] =
   //     clientConnectedTimer_Remaining;
-  // remainingTimeObject["TimeRem"]["retryTimer"] = retryTimer_Remaining;
+  // remainingTimeObject["TimeRem"]["periodicalTimer"] = periodicalTimer_Remaining;
   // remainingTimeObject["TimeRem"]["setUnlockTimer"] =
   //     settingsUnlockedTimer_Remaining;
   // remainingTimeObject["TimeRem"]["gotoPosTimer"] =
@@ -281,10 +281,10 @@ function setTimeRemaining(pageData) {
   const logBookID = `LogbookTimer`;
   setTimer(logBookID, logBookTime);
 
-  //retryTimer
-  const retryTime = pageData.TimeRem.retryTimer / 1000;
+  //periodicalTimer
+  const periodicalTime = pageData.TimeRem.periodicalTimer / 1000;
   const retryID = `Retry_Timer`;
-  setTimer(retryID, retryTime);
+  setTimer(retryID, periodicalTime);
 
   //Settings Unlocked Timer
   const unlockTime = pageData.TimeRem.setUnlockTimer / 1000;

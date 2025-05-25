@@ -22,11 +22,9 @@ void stopMomevement() {
 }
 
 void gotoNightPosition() {
-   print("IS NIGHT");
-   if (isNight()) {
-      goToLeftEnd();
-      gotoTiltPercentage(20);
-      stopMomevement();
-      return;
-   }
+   initializeNeededTime();
+   gotoTiltPercentage(20);  // 0% tilt
+   stopMomevement();
+   return;
+
 }

@@ -1,4 +1,5 @@
 void testMode() {
+   TEST_MODE = true;
    stopMomevement();
    while (true) {
       testMode_Output();
@@ -102,12 +103,16 @@ void testMode_ForceSignals() {
    Serial.println(inschuiven_FORCE);
 }
 
+
+//Permanent functions
 void initializeNeededTime() {
+   TEST_MODE = true;
    stopMomevement();
    print("Initialiseer benodigde tijd");
    getTimeDraaien();
    getTimeKantelen();
    print("Benodigde tijd geinitialiseerd");
+   TEST_MODE = false;
 }
 
 void getTimeDraaien() {
@@ -122,12 +127,12 @@ void getTimeDraaien() {
 }
 
 void getTimeKantelen() {
-   goToTopEnd();
+   goToBottomEnd();
    const unsigned long startingTime = millis();
-   goToBottomEnd(false);
+   goToTopEnd(false);
    const unsigned long endingTime = millis();
    timeNeededToTilt = endingTime - startingTime;
    Serial.print("Tijd om te kantelen: ");
    Serial.println(timeNeededToTilt);
-   uitschuivenWhenEindeLoopInschuiven();
+   inschuivenWhenEindeLoopUitschuiven();
 }

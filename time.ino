@@ -69,7 +69,7 @@ bool summertime(int year, byte month, byte day, byte hour, byte tzHours) {
       return true;  // zomertijd in Apr, May, Jun, Jul, Aug, Sep
 
    int lastSunday =
-       (31 - ((5 * year / 4 + 4) % 7));  // Bereken laatste zondag van de maand
+      (31 - ((5 * year / 4 + 4) % 7));  // Bereken laatste zondag van de maand
 
    if (month == 3)
       return (day > lastSunday || (day == lastSunday && hour >= 2));
@@ -81,13 +81,18 @@ bool summertime(int year, byte month, byte day, byte hour, byte tzHours) {
 bool isSummerTimeRTC() {
    RTCTime currentTime = getRTCTime();
    return summertime(currentTime.getYear(), (byte)currentTime.getMonth(),
-                     (byte)currentTime.getDayOfMonth(),
-                     (byte)currentTime.getHour(), 1);
+      (byte)currentTime.getDayOfMonth(),
+      (byte)currentTime.getHour(), 1);
 }
 
 byte getHourNumber() {
    RTCTime currentTime = getRTCTime();
    return (byte)currentTime.getHour();
+}
+
+byte getMinuteNumber() {
+   RTCTime currentTime = getRTCTime();
+   return (byte)currentTime.getMinutes();
 }
 
 byte getMonthNumber() {

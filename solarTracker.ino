@@ -1,9 +1,6 @@
 
 // TODO
 
-// isNight() -> als het donker is
-// --> ga naar begin positie -> stop met draaien en kantelen
-
 #include <NTPClient.h>
 #include <RTC.h>
 #include <TimeLib.h>
@@ -48,9 +45,7 @@ byte turnPercentage_Presets[14] = { 0,  5,  10, 19, 28, 35, 42,
                                    52, 61, 70, 75, 80, 88, 100 };
 
 //Wintertijd
-// { 6u, 7u, 8u, 9u, 10u, 11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u };
 //{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
-
 
 byte tiltPercentage_Presets[12][14] = {
    // Januari  (0)
@@ -159,7 +154,7 @@ int wantedTiltPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 // Settings
 unsigned int antiPendelTime = 5000;        //= 5 sec. = 5000 ms  ;  MAX = 65535
 unsigned int maxMovementTime = 50000;      // 50 sec. = 50000 ms ;  MAX = 65535
-unsigned long retryTime = 300000;          // 5 min. = 300000 ms
+unsigned long periodicalTime = 300000;          // 5 min. = 300000 ms
 unsigned int logBook_Timer_delay = 10000;  // 10 sec. = 10000 ms
 unsigned int sendAllData_Timer_delay = 1000;  // 1 sec. = 1000 ms
 unsigned int clientConnectedTimeOut = 30000;  // 30 sec. = 30000 ms
@@ -178,7 +173,7 @@ Timer<1> setTiltPercentage_Timer;
 Timer<1> logBook_Timer;
 Timer<1> sendAllData_Timer;
 Timer<1> clientConnectedTimer;
-Timer<1> retryTimer;
+Timer<1> periodicalTimer;
 Timer<1> settingsUnlockedTimer;
 Timer<1> gotoPosition_Timer;
 
@@ -189,7 +184,7 @@ unsigned int draaien_TimeOut_Remaining = 0;
 unsigned int kantelen_TimeOut_Remaining = 0;
 unsigned int logBook_Timer_Remaining = 0;
 unsigned int clientConnectedTimer_Remaining = 0;
-unsigned long retryTimer_Remaining = 0;
+unsigned long periodicalTimer_Remaining = 0;
 unsigned long settingsUnlockedTimer_Remaining = 0;
 unsigned long gotoPosition_Timer_Remaining = 0;
 
@@ -204,6 +199,7 @@ bool STOP_MODE = false;
 bool draaienTooLong = false;
 bool kantelenTooLong = false;
 bool settingsUnlocked = false;
+bool nightMode = false;
 
 // WIFI CONFIG
 char ssid[] = SECRET_SSID;
@@ -255,6 +251,8 @@ void setup() {
 
    // setup Timers
    setTimers();
+   initializeNeededTime();
+
 
    print("Setup done!");
 }
@@ -269,20 +267,6 @@ void loop() {
    wiFiLoop();
 }
 
-void tickTimers() {
-   antiPendel_Draaien_Timer_Remaining = antiPendel_Draaien_Timer.tick();
-   antiPendel_Kantelen_Timer_Remaining = antiPendel_Kantelen_Timer.tick();
-   draaien_TimeOut_Remaining = draaien_TimeOut.tick();
-   kantelen_TimeOut_Remaining = kantelen_TimeOut.tick();
-   logBook_Timer_Remaining = logBook_Timer.tick();
-   clientConnectedTimer_Remaining = clientConnectedTimer.tick();
-   retryTimer_Remaining = retryTimer.tick();
-   setTurnPercentage_Timer.tick();
-   setTiltPercentage_Timer.tick();
-   settingsUnlockedTimer_Remaining = settingsUnlockedTimer.tick();
-   gotoPosition_Timer_Remaining = gotoPosition_Timer.tick();
-   sendAllData_Timer.tick();
-}
 
 void set_Outputs() {
    digitalWrite(PIN_LinksDraaien, linksDraaien);
@@ -296,27 +280,6 @@ void print(const char* text) { Serial.println(text); }
 void print(const String text) { Serial.println(text); }
 
 void print(JSONVar json) { Serial.println(json); }
-
-// set permanent timers
-void setTimers() {
-   retryTimer.every(retryTime, retryConnection);
-   start_Logbook_Timer();
-   setTurnPercentage_Timer.every(1000, setCurrentTurnPercentage);  // 1 sec
-   setTiltPercentage_Timer.every(1000, setCurrentTiltPercentage);  // 1 sec
-   gotoPosition_Timer.every(3600000, gotoPresetPosition);          // 1 uur
-}
-
-void start_Logbook_Timer() {
-   logBook_Timer.every(logBook_Timer_delay, setLogbook);
-   // 10 sec ----- //every minute -> voor een
-   // week: 6 keer per uur
-}
-
-void stop_Logbook_Timer() { logBook_Timer.cancel(); }
-
-void start_sendAllData_Timer() {
-   sendAllData_Timer.every(sendAllData_Timer_delay, sendAllPageData);
-}
 
 void resetAlarms() {
    draaienTooLong = false;

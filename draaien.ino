@@ -14,7 +14,8 @@ void gotoTurnPercentage(int percentage = -1) {
       rechtsDraaien_FORCE = true;
       return;
 
-   } else if ((wantedTurnPercentage) < (currentTurnPercentage - 200)) {
+   }
+   else if ((wantedTurnPercentage) < (currentTurnPercentage - 200)) {
       if (rechtsDraaien_FORCE) {
          deactivate_Draaien();
          rechtsDraaien_FORCE = false;
@@ -46,12 +47,14 @@ void draaienNormalMode() {
          deactivate_Draaien();
       }
       linksDraaien_activate();
-   } else if (needToTurnRight()) {
+   }
+   else if (needToTurnRight()) {
       if (linksDraaien) {
          deactivate_Draaien();
       }
       rechtsDraaien_activate();
-   } else {
+   }
+   else {
       deactivate_Draaien();
    }
 }
@@ -80,31 +83,31 @@ void deactivate_Draaien() {
 }
 
 // Timer: setTurnPercentage_Timer
-bool setCurrentTurnPercentage(void *) {
+bool setCurrentTurnPercentage(void*) {
    if (linksDraaien) {
       const unsigned int percentageTurned =
-          getPercentageTurned();  // moet nog delen door 100 = 2 decimalen
+         getPercentageTurned();  // moet nog delen door 100 = 2 decimalen
       if (percentageTurned > currentTurnPercentage) {
          currentTurnPercentage = 0;
-      } else {
+      }
+      else {
          currentTurnPercentage -= percentageTurned;
       }
 
-   } else if (rechtsDraaien) {
+   }
+   else if (rechtsDraaien) {
       const unsigned int percentageTurned =
-          getPercentageTurned();  // moet nog delen door 100 = 2 decimalen
+         getPercentageTurned();  // moet nog delen door 100 = 2 decimalen
       if (percentageTurned + currentTurnPercentage > 11000) {
          currentTurnPercentage = 10000;
-      } else {
+      }
+      else {
          currentTurnPercentage += percentageTurned;
       }
-   } else {
+   }
+   else {
       return true;
    }
-
-   // const float floatPercentage = (float)currentTurnPercentage / 100.0;
-   // Serial.print("Current Turn Percentage: ");
-   // Serial.println(floatPercentage, 4);
 
    // start from current time again
    turnStartTime = millis();
@@ -135,7 +138,7 @@ void set_antiPendel_Draaien() {
    antiPendel_Draaien_Timer.in(antiPendelTime, reset_antiPendel_Draaien);
 }
 
-bool reset_antiPendel_Draaien(void *) {
+bool reset_antiPendel_Draaien(void*) {
    antiPendel_Draaien = false;
    return false;
 }
@@ -164,7 +167,7 @@ void read_EindeLoop_Draaien() {
    }
 }
 
-bool draaienTimeOutAlarm(void *) {
+bool draaienTimeOutAlarm(void*) {
    print("ALARM: draaien TimeOut!");
    draaienTooLong = true;
    deactivate_Draaien();
