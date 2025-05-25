@@ -47,32 +47,48 @@ int lichtSensors_Onder = 0;
 byte turnPercentage_Presets[14] = { 0,  5,  10, 19, 28, 35, 42,
                                    52, 61, 70, 75, 80, 88, 100 };
 
+//Wintertijd
+// { 6u, 7u, 8u, 9u, 10u, 11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u };
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+
+
 byte tiltPercentage_Presets[12][14] = {
    // Januari  (0)
-   {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0, 0, 0, 0,  0,  0, 10, 10,  0,  0,  0,  0,  0,  0},
    // Februari (1)
-   {0, 0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0, 0, 0, 0,  7, 17, 24, 27, 24, 15,  0,  0,  0,  0},
    // Maart    (2)
-   {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0, 0, 0,12, 27, 39, 48, 49, 42, 35, 23,  4,  0,  0},
    // April    (3)
-   {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0, 0,14,32, 50, 63, 72, 75, 69, 55, 39, 23,  0,  0},
    // Mei      (4)
-   {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0,10,28,48, 63, 80, 89, 90, 86, 72, 52, 35, 15,  0},
    // Juni     (5)
-   {0, 13, 35, 52, 70, 87, 95, 100, 90, 76, 57, 38, 23, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0,13,35,52, 70, 87, 95,100, 90, 76, 57, 38, 23,  0},
    // Juli     (6)
-   {0, 10, 28, 48, 63, 80, 89, 90, 86, 72, 52, 37, 15, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0,10,28,48, 63, 80, 89, 91, 86, 72, 53, 37, 17,  0},
    // Augustus (7)
-   {0, 0, 0, 0, 0, 14, 32, 50, 63, 72, 75, 69, 55, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0, 0,14,32, 49, 63, 72, 75, 69, 55, 39, 23,  0,  0},
    // September (8)
-   {0, 0, 0, 0, 0, 0, 12, 27, 39, 48, 49, 42, 35, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0, 0, 0,14, 30, 40, 48, 49, 42, 34, 21,  0,  0,  0},
    // Oktober   (9)
-   {0, 0, 0, 0, 0, 0, 10, 17, 25, 20, 12, 0, 0, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0, 0, 0, 0, 11, 22, 26, 26, 21,  9,  0,  0,  0,  0},
    // November  (10)
-   {0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0},
+//{ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+   {0, 0, 0, 0,  0,  0,  8,  8,  0,  0,  0,  0,  0,  0},
    // December  (11)
    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-   };
+};
 
 // MOVEMENT //
 // DRAAIEN //
@@ -241,7 +257,7 @@ void setup() {
    setTimers();
 
    print("Setup done!");
-   }
+}
 
 void loop() {
    tickTimers();
@@ -251,7 +267,7 @@ void loop() {
    set_MoveDirection();
    set_Outputs();
    wiFiLoop();
-   }
+}
 
 void tickTimers() {
    antiPendel_Draaien_Timer_Remaining = antiPendel_Draaien_Timer.tick();
@@ -266,14 +282,14 @@ void tickTimers() {
    settingsUnlockedTimer_Remaining = settingsUnlockedTimer.tick();
    gotoPosition_Timer_Remaining = gotoPosition_Timer.tick();
    sendAllData_Timer.tick();
-   }
+}
 
 void set_Outputs() {
    digitalWrite(PIN_LinksDraaien, linksDraaien);
    digitalWrite(PIN_RechtsDraaien, !rechtsDraaien);
    digitalWrite(PIN_Uitschuiven, !uitschuiven);
    digitalWrite(PIN_Inschuiven, !inschuiven);
-   }
+}
 
 void print(const char* text) { Serial.println(text); }
 
@@ -288,22 +304,22 @@ void setTimers() {
    setTurnPercentage_Timer.every(1000, setCurrentTurnPercentage);  // 1 sec
    setTiltPercentage_Timer.every(1000, setCurrentTiltPercentage);  // 1 sec
    gotoPosition_Timer.every(3600000, gotoPresetPosition);          // 1 uur
-   }
+}
 
 void start_Logbook_Timer() {
    logBook_Timer.every(logBook_Timer_delay, setLogbook);
    // 10 sec ----- //every minute -> voor een
    // week: 6 keer per uur
-   }
+}
 
 void stop_Logbook_Timer() { logBook_Timer.cancel(); }
 
 void start_sendAllData_Timer() {
    sendAllData_Timer.every(sendAllData_Timer_delay, sendAllPageData);
-   }
+}
 
 void resetAlarms() {
    draaienTooLong = false;
    kantelenTooLong = false;
    resetHappend = false;
-   }
+}
