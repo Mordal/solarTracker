@@ -255,7 +255,8 @@ void setup() {
 
    // setup Timers
    setTimers();
-   initializeNeededTime();
+
+   // initializeNeededTime();
 
 
    print("Setup done!");

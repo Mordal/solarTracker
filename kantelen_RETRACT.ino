@@ -25,26 +25,21 @@ bool inschuiven_activate() {
    }
 
    if (kantelenTooLong && !inschuiven_FORCE) {
-      // print("Kantelen in ALARM - RETURN");
       return false;
    }
 
    if (antiPendel_Kantelen && !inschuiven_FORCE) {
-      // print("2- ANTI-PENDEL kantelen ACTIVE - RETURN");
       return false;
    }
 
    if (einde_Inschuiven) {
-      // print("EindeLoop INSCHUIVEN activated");
       return false;
    };
 
    if (STOP_MODE && !inschuiven_FORCE) {
-      // print("STOP_MODE activated");
       return false;
    }
 
-   // print("RETRACT");
    inschuiven = true;
    einde_Uitschuiven = false;
    set_kantelenTimeOut();
@@ -55,7 +50,7 @@ bool inschuiven_activate() {
    return true;
 }
 
-void goToBottomEnd(bool includeUitschuiven = true) {
+void goToRetractEnd(bool includeUitschuiven = true) {
    tiltStartTime = millis();
    while (!digitalRead(PIN_Einde_Inschuiven)) {
       inschuiven = true;

@@ -24,26 +24,21 @@ bool rechtsDraaien_activate() {
    }
 
    if (draaienTooLong && !rechtsDraaien_FORCE) {
-      // print("Draaien in ALARM - RETURN");
       return false;
    }
 
    if (antiPendel_Draaien && !rechtsDraaien_FORCE) {
-      // print("ANTI-PENDEL Draaien ACTIVE - RETURN");
       return false;
    }
 
    if (einde_Rechtsdraaien) {
-      // print("EindeLoop RECHTS activated");
       return false;
    };
 
    if (STOP_MODE && !rechtsDraaien_FORCE) {
-      // print("STOP_MODE activated");
       return false;
    }
 
-   // print("TURN RIGHT - After checks");
    rechtsDraaien = true;
    einde_Linksdraaien = false;
    set_draaienTimeOut();

@@ -70,6 +70,7 @@ void control(WiFiClient& client, const String& body) {
 
 
    if (jsonBody.hasOwnProperty("STOP_MODE")) {
+      // curl -X POST -d "{\"STOP_MODE\":true"} http://192.168.0.205:90/CONTROL
       STOP_MODE = (bool)jsonBody["STOP_MODE"];
       stopMomevement();
       clearForceSignals();
@@ -80,15 +81,11 @@ void control(WiFiClient& client, const String& body) {
       int input = (int)jsonBody["TURN_Position"];
       int turnPosition = normalizePosition(input);
       gotoTurnPercentage(turnPosition);
-      Serial.print("Goto TURN_Position: ");
-      Serial.println(turnPosition);
    }
    if (jsonBody.hasOwnProperty("TILT_Position")) {
       int input = (int)jsonBody["TILT_Position"];
       int tiltPosition = normalizePosition(input);
       gotoTiltPercentage(tiltPosition);
-      Serial.print("Goto TILT_Position: ");
-      Serial.println(tiltPosition);
    }
 
    sendJsonData(client, jsonBody);

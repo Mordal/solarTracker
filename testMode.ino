@@ -127,7 +127,7 @@ void getTimeDraaien() {
 }
 
 void getTimeKantelen() {
-   goToBottomEnd();
+   goToRetractEnd();
    const unsigned long startingTime = millis();
    goToTopEnd(false);
    const unsigned long endingTime = millis();
