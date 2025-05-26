@@ -54,8 +54,6 @@ void goToRightEnd(bool includeTurnLeft = true) {
    turnStartTime = millis();
 
    while (!digitalRead(PIN_Einde_Rechtsdraaien)) {
-      rechtsDraaien = true;
-      einde_Linksdraaien = false;
       digitalWrite(PIN_RechtsDraaien, !true);
       delay(100);
    }
