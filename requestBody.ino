@@ -26,7 +26,7 @@ String readBody(WiFiClient& client, int contentLength) {
 void unlock() {
    settingsUnlocked = true;
    settingsUnlockedTimer.cancel();
-   settingsUnlockedTimer.in(1200000, lockSettings);  // 20min == 1200000
+   settingsUnlockedTimer.in(settingsUnlockedTime, lockSettings);  // 20min == 1200000
 }
 
 bool lockSettings(void*) {
@@ -100,20 +100,18 @@ int normalizePosition(int position) {
 void setFromJson(JSONVar& json, const char* key, int& var) {
    if (json.hasOwnProperty(key)) {
       var = (int)json[key];
-      Serial.print("Set ");
-      Serial.print(key);
-      Serial.print(" to: ");
-      Serial.println(var);
    }
 }
 
 void setFromJson(JSONVar& json, const char* key, unsigned int& var) {
    if (json.hasOwnProperty(key)) {
       var = (int)json[key];
-      Serial.print("Set ");
-      Serial.print(key);
-      Serial.print(" to: ");
-      Serial.println(var);
+   }
+}
+
+void setFromJson(JSONVar& json, const char* key, unsigned long& var) {
+   if (json.hasOwnProperty(key)) {
+      var = (unsigned long)json[key];
    }
 }
 
@@ -123,11 +121,27 @@ void setFromJson(JSONVar& json, const char* key, bool& var) {
    }
 }
 
+void setTimerFromJson(JSONVar& json, const char* key, unsigned int& var) {
+   if (json.hasOwnProperty(key)) {
+      var = (unsigned int)json[key];
+      restartTimers();
+   }
+}
+
+void setTimerFromJson(JSONVar& json, const char* key, unsigned long& var) {
+   if (json.hasOwnProperty(key)) {
+      var = (unsigned long)json[key];
+      restartTimers();
+   }
+}
+
+
 void setValues(WiFiClient& client, const String& body) {
    if (settingsAreLocked(client)) return;
 
    JSONVar jsonBody = JSON.parse(body);
    if (!validateJson(client, jsonBody)) return;
+
 
    setFromJson(jsonBody, "LB_Offset", lichtSensor_LB_offset);
    setFromJson(jsonBody, "RB_Offset", lichtSensor_RB_offset);
@@ -136,19 +150,15 @@ void setValues(WiFiClient& client, const String& body) {
    setFromJson(jsonBody, "licht_marge", licht_marge);
    setFromJson(jsonBody, "antiPendelTime", antiPendelTime);
    setFromJson(jsonBody, "maxMovementTime", maxMovementTime);
+   setFromJson(jsonBody, "timeNeededToTurn", timeNeededToTurn);
+   setFromJson(jsonBody, "timeNeededToTilt", timeNeededToTilt);
+   setFromJson(jsonBody, "dailyTest_Active", dailyTest_Active);
 
-   if (jsonBody.hasOwnProperty("periodicalTime")) {
-      periodicalTime = (int)jsonBody["periodicalTime"];
-      Serial.print("Set periodicalTime to: ");
-      Serial.println(periodicalTime);
-      setTimers();
-   }
-   if (jsonBody.hasOwnProperty("logBook_Timer_delay")) {
-      logBook_Timer_delay = (int)jsonBody["logBook_Timer_delay"];
-      Serial.print("Set logBook_Timer_delay to: ");
-      Serial.println(logBook_Timer_delay);
-      setTimers();
-   }
+   setTimerFromJson(jsonBody, "logBook_Timer_delay", logBook_Timer_delay);
+   setTimerFromJson(jsonBody, "periodicalTime", periodicalTime);
+   setTimerFromJson(jsonBody, "sendAllData_Timer_delay", sendAllData_Timer_delay);
+   setTimerFromJson(jsonBody, "clientConnectedTimeOut", clientConnectedTimeOut);
+   setTimerFromJson(jsonBody, "settingsUnlockedTime", settingsUnlockedTime);
 
    if (jsonBody.hasOwnProperty("tilt_Presets")) {
       //example JSON :

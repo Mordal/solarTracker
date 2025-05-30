@@ -51,12 +51,22 @@ bool inschuiven_activate() {
 }
 
 void goToRetractEnd(bool includeUitschuiven = true) {
+   if (kantelenTooLong) return;
    tiltStartTime = millis();
    while (!digitalRead(PIN_Einde_Inschuiven)) {
       inschuiven = true;
       einde_Uitschuiven = false;
       digitalWrite(PIN_Inschuiven, !true);
       delay(100);
+
+      //SAFETY CHECK
+      if (movementTooLong(tiltStartTime)) {
+         kantelenTooLong = true;
+         digitalWrite(PIN_Inschuiven, !false);
+         deactivate_Kantelen();
+         return;
+      }
+
    }
    inschuiven = false;
    digitalWrite(PIN_Inschuiven, !false);
@@ -72,8 +82,19 @@ void uitschuivenWhenEindeLoopInschuiven() {
    digitalWrite(PIN_Inschuiven, !false);
    delay(1000);
    digitalWrite(PIN_Uitschuiven, !true);
+   unsigned long tiltTime = millis();
+
    while (digitalRead(PIN_Einde_Inschuiven)) {
       delay(100);
+
+      //SAFETY CHECK
+      if (movementTooLong(tiltTime)) {
+         kantelenTooLong = true;
+         digitalWrite(PIN_Uitschuiven, !false);
+         deactivate_Kantelen();
+         return;
+      }
+
    }
    digitalWrite(PIN_Uitschuiven, !false);
 }

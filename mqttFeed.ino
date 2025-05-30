@@ -2,7 +2,7 @@
 // ALL TOPICS: mosquitto_sub -v -h 172.17.0.3 -p 1883 -t '#'
 // TOPIC combinedData: mosquitto_sub -v -h 172.17.0.2 -p 1883 -t 'combinedData'
 
-bool setLogbook(void *) {
+bool setLogbook(void*) {
    // print("Sending messages to MQTT...");
 
    const long timeStamp = getEpochTime();
@@ -40,7 +40,7 @@ bool setLogbook(void *) {
    return true;
 }
 
-bool sendAllPageData(void *) {
+bool sendAllPageData(void*) {
    if (clientConnectedTimer.empty()) {
       return false;
    }
@@ -84,10 +84,6 @@ bool sendAllPageData(void *) {
    mqttClient.beginMessage("sensorData");
    mqttClient.print(message);
    mqttClient.endMessage();
-
-   // int timeEnd = millis();
-   // Serial.print("Time needed to send all data: ");
-   // Serial.println(timeEnd - timeStart);
 
    return true;
 }

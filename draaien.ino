@@ -36,6 +36,12 @@ void setDraaien() {
       gotoTurnPercentage();
    }
    if (draaienForceMode()) return;
+
+   if (NIGHT_MODE) {
+      deactivate_Draaien();
+      return;
+   }
+
    if (STOP_MODE) {
       deactivate_Draaien();
       return;
@@ -120,15 +126,6 @@ bool setCurrentTurnPercentage(void*) {
 int getPercentageTurned() {
    const unsigned long timeDif = millis() - turnStartTime;
    const float calculatedPercentage = (float)timeDif / (float)timeNeededToTurn;
-
-   // int returnValue = calculatedPercentage * 10000;
-
-   // Serial.print("Calculated TURN percentage: ");
-   // Serial.println(calculatedPercentage);
-
-   // Serial.print("Return value");
-   // Serial.println(returnValue);
-
    return calculatedPercentage * 10000.0;
 }
 
@@ -176,3 +173,4 @@ bool draaienTimeOutAlarm(void*) {
    deactivate_Draaien();
    return false;
 }
+

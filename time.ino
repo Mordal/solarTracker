@@ -129,3 +129,4 @@ RTCTime getRTCTime() {
    RTC.getTime(currentTime);
    return currentTime;
 }
+

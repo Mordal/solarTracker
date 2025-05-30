@@ -35,6 +35,12 @@ void setKantelen() {
       gotoTiltPercentage();
    }
    if (kantelenForceMode()) return;
+
+   if (NIGHT_MODE) {
+      deactivate_Kantelen();
+      return;
+   }
+
    if (STOP_MODE) {
       deactivate_Kantelen();
       return;

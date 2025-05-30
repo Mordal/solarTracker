@@ -36,5 +36,14 @@ void gotoNightPosition() {
    gotoTiltPercentage(20);  // 0% tilt
    stopMomevement();
    return;
+}
 
+unsigned int getMovementTime(const unsigned long& startTime) {
+   unsigned long currentTime = millis();
+   return (unsigned int)(currentTime - startTime);
+}
+
+bool movementTooLong(const unsigned long& startTime) {
+   unsigned int timeMoved = getMovementTime(startTime);
+   return timeMoved > maxMovementTime;
 }

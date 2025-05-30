@@ -106,6 +106,9 @@ void testMode_ForceSignals() {
 
 //Permanent functions
 void initializeNeededTime() {
+   if (!dailyTest_Active) {
+      return;
+   }
    TEST_MODE = true;
    stopMomevement();
    print("Initialiseer benodigde tijd");
@@ -116,6 +119,7 @@ void initializeNeededTime() {
 }
 
 void getTimeDraaien() {
+   if (draaienTooLong) return;
    goToRightEnd();
    const unsigned long startingTime = millis();
    goToLeftEnd(false);
@@ -127,6 +131,7 @@ void getTimeDraaien() {
 }
 
 void getTimeKantelen() {
+   if (kantelenTooLong) return;
    goToRetractEnd();
    const unsigned long startingTime = millis();
    goToTopEnd(false);

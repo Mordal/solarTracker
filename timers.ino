@@ -24,6 +24,27 @@ void setTimers() {
     gotoPosition_Timer.cancel();  // reset gotoPosition_Timer
 }
 
+void restartTimers() {
+    periodicalTimer.cancel();
+    setTurnPercentage_Timer.cancel();
+    setTiltPercentage_Timer.cancel();
+    gotoPosition_Timer.cancel();
+    setTimers();
+    resetLogbookTimers();
+
+}
+
+void resetLogbookTimers() {
+    if (clientConnectedTimer.size() > 0) {
+        sendAllData_Timer.cancel();
+        setClientConnectedTimer();
+    }
+    else {
+        stop_Logbook_Timer();
+        start_Logbook_Timer();
+    }
+}
+
 void start_Logbook_Timer() {
     logBook_Timer.every(logBook_Timer_delay, setLogbook);
     // 10 sec ----- //every minute -> voor een
@@ -54,13 +75,13 @@ bool periodicalFunction(void*) {
         gotoPosition_Timer.every(3600000, gotoPresetPosition);          // 1 uur
     }
 
-    if (isNight() && !nightMode) {
-        nightMode = true;
+    if (isNight() && !NIGHT_MODE) {
+        NIGHT_MODE = true;
         gotoNightPosition();
     }
-    else if (!isNight() && nightMode) {
+    else if (!isNight() && NIGHT_MODE) {
         gotoTiltPercentage(0);
-        nightMode = false;
+        NIGHT_MODE = false;
         stopMomevement();
     }
     return true;
