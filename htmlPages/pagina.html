@@ -1,620 +1,556 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="data:;base64,=" />
-  </head>
-  <body>
-    <header>
-      <h1>Solar Tracker</h1>
-    </header>
-    <section>
-      <nav>
-        <ul>
-          <li><a href="./\"> Home </a></li>
-          <li><a href="./TIMERS\">Timers </a></li>
-          <li><a href="./JSON\">Full Json </a></li>
-        </ul>
-        <div class="grid-item">
-          <h3 class="section-title">Flags</h3>
-          <table class="status-table">
-            <tr>
-              <th>Wifi Connected</th>
-              <td id="Wifi_connected" class="red status grey"></td>
-            </tr>
-            <tr>
-              <th>Mqtt Connected</th>
-              <td id="Mqtt_connected" class="status grey"></td>
-            </tr>
-            <tr>
-              <th>isNight</th>
-              <td id="isNight" class="status grey"></td>
-            </tr>
-          </table>
-        </div>
-        <div class="grid-item">
-          <h3 class="section-title">Alarms</h3>
-          <table class="status-table">
-            <tr>
-              <th>Draaien te lang</th>
-              <td id="Draaien_too_long" class="status grey"></td>
-            </tr>
-            <tr>
-              <th>Kantelen te lang</th>
-              <td id="Kantelen_too_long" class="status grey"></td>
-            </tr>
-            <tr>
-              <th>Reset happened</th>
-              <td id="reset" class="status grey"></td>
-            </tr>
-          </table>
-        </div>
+	<head>
+		<link rel="stylesheet" href="styles.css" />
+		<link rel="icon" href="data:;base64,=" />
+	</head>
+	<body>
+		<header>
+			<h1>Solar Tracker</h1>
+		</header>
+		<section>
+			<nav>
+				<ul>
+					<li><a href="./\"> Home </a></li>
+					<li><a href="./TIMERS\">Timers </a></li>
+					<li><a href="./JSON\">Full Json </a></li>
+				</ul>
+				<div class="grid-item">
+					<h3 class="section-title">Flags</h3>
+					<table class="status-table">
+						<tr>
+							<th>Wifi Connected</th>
+							<td id="Wifi_connected" class="red status grey"></td>
+						</tr>
+						<tr>
+							<th>Mqtt Connected</th>
+							<td id="Mqtt_connected" class="status grey"></td>
+						</tr>
+						<tr>
+							<th>isNight</th>
+							<td id="isNight" class="status grey"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="grid-item">
+					<h3 class="section-title">Alarms</h3>
+					<table class="status-table">
+						<tr>
+							<th>Draaien te lang</th>
+							<td id="Draaien_too_long" class="status grey"></td>
+						</tr>
+						<tr>
+							<th>Kantelen te lang</th>
+							<td id="Kantelen_too_long" class="status grey"></td>
+						</tr>
+						<tr>
+							<th>Reset happened</th>
+							<td id="reset" class="status grey"></td>
+						</tr>
+					</table>
+				</div>
 
-        <div class="grid-item">
-          <h3 class="section-title">Modes</h3>
-          <table class="status-table">
-            <tr>
-              <th>Test Mode</th>
-              <td id="TEST_MODE" class="status grey"></td>
-            </tr>
-            <tr>
-              <th>Safe Mode</th>
-              <td id="SAFE_MODE" class="status grey"></td>
-            </tr>
-            <tr>
-              <th>Stop Mode</th>
-              <td id="STOP_MODE" class="status grey"></td>
-            </tr>
-            <tr>
-              <th>Force Mode</th>
-              <td id="FORCE_MODE" class="status grey"></td>
-            </tr>
-          </table>
-        </div>
-      </nav>
+				<div class="grid-item">
+					<h3 class="section-title">Modes</h3>
+					<table class="status-table">
+						<tr>
+							<th>Test Mode</th>
+							<td id="TEST_MODE" class="status grey"></td>
+						</tr>
+						<tr>
+							<th>Safe Mode</th>
+							<td id="SAFE_MODE" class="status grey"></td>
+						</tr>
+						<tr>
+							<th>Stop Mode</th>
+							<td id="STOP_MODE" class="status grey"></td>
+						</tr>
+						<tr>
+							<th>Force Mode</th>
+							<td id="FORCE_MODE" class="status grey"></td>
+						</tr>
+					</table>
+				</div>
+			</nav>
 
-      <div class="container">
-        <h2>Sensors</h2>
+			<div class="container">
+				<h2>Sensors</h2>
 
-        <div class="grid-container">
-          <div style="padding-left: 20px" class="grid-item">
-            <table style="border-width: 2px; width: 120px; height: 120px">
-              <tr>
-                <td>
-                  <strong>LB</strong>
-                  <br />
-                  <span id="lb">1000</span>
-                </td>
-                <td>
-                  <strong>RB</strong> <br />
-                  <span id="rb">2000</span>
-                </td>
-              </tr>
+				<div class="grid-container">
+					<div style="padding-left: 20px" class="grid-item">
+						<table style="border-width: 2px; width: 120px; height: 120px">
+							<tr>
+								<td>
+									<strong>LB</strong>
+									<br />
+									<span id="lb">1000</span>
+								</td>
+								<td>
+									<strong>RB</strong> <br />
+									<span id="rb">2000</span>
+								</td>
+							</tr>
 
-              <tr>
-                <td>
-                  <strong>LO</strong> <br />
-                  <span id="lo">300</span>
-                </td>
-                <td>
-                  <strong>RO</strong> <br />
-                  <span id="ro">444</span>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div style="padding-left: 20px" class="grid-item">
-            <table style="border-width: 2px; width: 120px; height: 120px">
-              <tr>
-                <td>
-                  <strong>L</strong>
-                  <br />
-                  <span id="l">1300</span>
-                </td>
-                <td>
-                  <strong>R</strong> <br />
-                  <span id="r">2444</span>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div style="padding-left: 20px" class="grid-item">
-            <table style="border-width: 2px; width: 120px; height: 120px">
-              <tr>
-                <td>
-                  <strong>B</strong>
-                  <br />
-                  <span id="b">3000</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <strong>O</strong> <br />
-                  <span id="o">744</span>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div class="grid-item"></div>
-          <div style="margin-top: -10px" class="form-group">
-            <div class="title-container">
-              <label for="LB_Offset">Settings</label>
-              <div id="colorSquare" class="square"></div>
-            </div>
-            <input type="text" id="unlockInput" name="Unlock" placeholder="" />
-            <button type="submit" id="unlockBtn" class="save-btn">UNLOCK</button>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <h2>
-          <button id="StopButton" class="button button1 button2">STOP</button>
-          <span style="padding-right: 180" class="center-text">Movement</span>
-        </h2>
+							<tr>
+								<td>
+									<strong>LO</strong> <br />
+									<span id="lo">300</span>
+								</td>
+								<td>
+									<strong>RO</strong> <br />
+									<span id="ro">444</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div style="padding-left: 20px" class="grid-item">
+						<table style="border-width: 2px; width: 120px; height: 120px">
+							<tr>
+								<td>
+									<strong>L</strong>
+									<br />
+									<span id="l">1300</span>
+								</td>
+								<td>
+									<strong>R</strong> <br />
+									<span id="r">2444</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div style="padding-left: 20px" class="grid-item">
+						<table style="border-width: 2px; width: 120px; height: 120px">
+							<tr>
+								<td>
+									<strong>B</strong>
+									<br />
+									<span id="b">3000</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>O</strong> <br />
+									<span id="o">744</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="grid-item"></div>
+					<div style="margin-top: -10px" class="form-group">
+						<div class="title-container">
+							<label for="LB_Offset">Settings</label>
+							<div id="colorSquare" class="square"></div>
+						</div>
+						<input type="text" id="unlockInput" name="Unlock" placeholder="" />
+						<button type="submit" id="unlockBtn" class="save-btn">UNLOCK</button>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<h2>
+					<button id="StopButton" class="button button1 button2">STOP</button>
+					<span style="padding-right: 180" class="center-text">Movement</span>
+				</h2>
 
-        <div>
-          <div style="margin-bottom: -20px" class="grid-container">
-            <div class="grid-item movement-grid">
-              <h3>Links</h3>
-              <table class="status-table">
-                <tr>
-                  <th>Active</th>
-                  <td id="LEFT_Active" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Sensors</th>
-                  <td id="LEFT_Sensors" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>End</th>
-                  <td id="LEFT_End" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Antipendel</th>
-                  <td id="LEFT_Antipendel" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Alarm</th>
-                  <td id="LEFT_Alarm" class="status grey"></td>
-                </tr>
-              </table>
-              <table class="status-table">
-                <tr>
-                  <th>Force L</th>
-                  <td id="LEFT_Force" class="status grey"></td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="border: none">
-                    <button
-                      class="button button1"
-                      onmousedown="forceMovement_Activate('LEFT_Force')"
-                    >
-                      FORCE
-                    </button>
-                  </td>
-                </tr>
-              </table>
-            </div>
+				<div>
+					<div style="margin-bottom: -20px" class="grid-container">
+						<div class="grid-item movement-grid">
+							<h3>Links</h3>
+							<table class="status-table">
+								<tr>
+									<th>Active</th>
+									<td id="LEFT_Active" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Sensors</th>
+									<td id="LEFT_Sensors" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>End</th>
+									<td id="LEFT_End" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Antipendel</th>
+									<td id="LEFT_Antipendel" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Alarm</th>
+									<td id="LEFT_Alarm" class="status grey"></td>
+								</tr>
+							</table>
+							<table class="status-table">
+								<tr>
+									<th>Force L</th>
+									<td id="LEFT_Force" class="status grey"></td>
+								</tr>
+								<tr>
+									<td colspan="2" style="border: none">
+										<button
+											class="button button1"
+											onmousedown="forceMovement_Activate('LEFT_Force')"
+										>
+											FORCE
+										</button>
+									</td>
+								</tr>
+							</table>
+						</div>
 
-            <div class="grid-item movement-grid">
-              <h3>Rechts</h3>
-              <table class="status-table">
-                <tr>
-                  <th>Active</th>
-                  <td id="RIGHT_Active" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Sensors</th>
-                  <td id="RIGHT_Sensors" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>End</th>
-                  <td id="RIGHT_End" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Antipendel</th>
-                  <td id="RIGHT_Antipendel" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Alarm</th>
-                  <td id="RIGHT_Alarm" class="status grey"></td>
-                </tr>
-              </table>
-              <table class="status-table">
-                <tr>
-                  <th>Force R</th>
-                  <td id="RIGHT_Force" class="status grey"></td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="border: none">
-                    <button
-                      class="button button1"
-                      onmousedown="forceMovement_Activate('RIGHT_Force')"
-                    >
-                      FORCE
-                    </button>
-                  </td>
-                </tr>
-              </table>
-            </div>
+						<div class="grid-item movement-grid">
+							<h3>Rechts</h3>
+							<table class="status-table">
+								<tr>
+									<th>Active</th>
+									<td id="RIGHT_Active" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Sensors</th>
+									<td id="RIGHT_Sensors" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>End</th>
+									<td id="RIGHT_End" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Antipendel</th>
+									<td id="RIGHT_Antipendel" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Alarm</th>
+									<td id="RIGHT_Alarm" class="status grey"></td>
+								</tr>
+							</table>
+							<table class="status-table">
+								<tr>
+									<th>Force R</th>
+									<td id="RIGHT_Force" class="status grey"></td>
+								</tr>
+								<tr>
+									<td colspan="2" style="border: none">
+										<button
+											class="button button1"
+											onmousedown="forceMovement_Activate('RIGHT_Force')"
+										>
+											FORCE
+										</button>
+									</td>
+								</tr>
+							</table>
+						</div>
 
-            <div class="grid-item movement-grid">
-              <h3>Onder</h3>
-              <table class="status-table">
-                <tr>
-                  <th>Active</th>
-                  <td id="IN_Active" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Sensors</th>
-                  <td id="IN_Sensors" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>End</th>
-                  <td id="IN_End" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Antipendel</th>
-                  <td id="IN_Antipendel" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Alarm</th>
-                  <td id="IN_Alarm" class="status grey"></td>
-                </tr>
-              </table>
-              <table class="status-table">
-                <tr>
-                  <th>Force O</th>
-                  <td id="IN_Force" class="status grey"></td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="border: none">
-                    <button
-                      class="button button1"
-                      onmousedown="forceMovement_Activate('IN_Force')"
-                    >
-                      FORCE
-                    </button>
-                  </td>
-                </tr>
-              </table>
-            </div>
+						<div class="grid-item movement-grid">
+							<h3>Onder</h3>
+							<table class="status-table">
+								<tr>
+									<th>Active</th>
+									<td id="IN_Active" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Sensors</th>
+									<td id="IN_Sensors" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>End</th>
+									<td id="IN_End" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Antipendel</th>
+									<td id="IN_Antipendel" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Alarm</th>
+									<td id="IN_Alarm" class="status grey"></td>
+								</tr>
+							</table>
+							<table class="status-table">
+								<tr>
+									<th>Force O</th>
+									<td id="IN_Force" class="status grey"></td>
+								</tr>
+								<tr>
+									<td colspan="2" style="border: none">
+										<button class="button button1" onmousedown="forceMovement_Activate('IN_Force')">
+											FORCE
+										</button>
+									</td>
+								</tr>
+							</table>
+						</div>
 
-            <div class="grid-item movement-grid">
-              <h3>Boven</h3>
-              <table class="status-table">
-                <tr>
-                  <th>Active</th>
-                  <td id="OUT_Active" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Sensors</th>
-                  <td id="OUT_Sensors" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>End</th>
-                  <td id="OUT_End" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Antipendel</th>
-                  <td id="OUT_Antipendel" class="status grey"></td>
-                </tr>
-                <tr>
-                  <th>Alarm</th>
-                  <td id="OUT_Alarm" class="status grey"></td>
-                </tr>
-              </table>
-              <table class="status-table">
-                <tr>
-                  <th>Force B</th>
-                  <td id="OUT_Force" class="status grey"></td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="border: none">
-                    <button
-                      class="button button1"
-                      onmousedown="forceMovement_Activate('OUT_Force')"
-                    >
-                      FORCE
-                    </button>
-                  </td>
-                </tr>
-              </table>
-            </div>
+						<div class="grid-item movement-grid">
+							<h3>Boven</h3>
+							<table class="status-table">
+								<tr>
+									<th>Active</th>
+									<td id="OUT_Active" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Sensors</th>
+									<td id="OUT_Sensors" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>End</th>
+									<td id="OUT_End" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Antipendel</th>
+									<td id="OUT_Antipendel" class="status grey"></td>
+								</tr>
+								<tr>
+									<th>Alarm</th>
+									<td id="OUT_Alarm" class="status grey"></td>
+								</tr>
+							</table>
+							<table class="status-table">
+								<tr>
+									<th>Force B</th>
+									<td id="OUT_Force" class="status grey"></td>
+								</tr>
+								<tr>
+									<td colspan="2" style="border: none">
+										<button
+											class="button button1"
+											onmousedown="forceMovement_Activate('OUT_Force')"
+										>
+											FORCE
+										</button>
+									</td>
+								</tr>
+							</table>
+						</div>
 
-            <div class="input-grid movement-grid">
-              <div class="form-group">
-                <label id="Draaien-Positie_Percentage" for="Draaien-Positie_Input"
-                  >Draaien - 40,73%</label
-                >
-                <input
-                  type="number"
-                  id="Draaien-Positie_Input"
-                  name="Draaien-Positie"
-                  placeholder="Ga naar positie"
-                />
-                <button id="Draaien-Positie_Btn" type="submit" class="save-btn">
-                  GO
-                </button>
-              </div>
-              <div style="margin-bottom: 20px" class="form-group">
-                <label id="Kantelen-Positie_Percentage" for="Kantelen-Positie"
-                  >Kantelen - 20,45%</label
-                >
-                <input
-                  type="number"
-                  id="Kantelen-Positie_Input"
-                  name="Kantelen-Positie"
-                  placeholder="Ga naar positie"
-                />
-                <button id="Kantelen-Positie_Btn" type="submit" class="save-btn">
-                  GO
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="container"></div> -->
+						<div class="input-grid movement-grid">
+							<div class="form-group">
+								<label id="Draaien-Positie_Percentage" for="Draaien-Positie_Input"
+									>Draaien - 40,73%</label
+								>
+								<input
+									type="number"
+									id="Draaien-Positie_Input"
+									name="Draaien-Positie"
+									placeholder="Ga naar positie"
+								/>
+								<button id="Draaien-Positie_Btn" type="submit" class="save-btn">GO</button>
+							</div>
+							<div style="margin-bottom: 20px" class="form-group">
+								<label id="Kantelen-Positie_Percentage" for="Kantelen-Positie"
+									>Kantelen - 20,45%</label
+								>
+								<input
+									type="number"
+									id="Kantelen-Positie_Input"
+									name="Kantelen-Positie"
+									placeholder="Ga naar positie"
+								/>
+								<button id="Kantelen-Positie_Btn" type="submit" class="save-btn">GO</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="container"></div> -->
 
-      <div class="setting-container">
-        <h2>Timers</h2>
-        <div class="input-grid">
-          <!-- Timer 1 -->
-          <div class="form-group">
-            <label for="AP_Draaien">AP Draaien</label>
+			<div class="setting-container">
+				<h2>Timers</h2>
+				<div class="input-grid">
+					<!-- Timer 1 -->
+					<div class="form-group">
+						<label for="draaien_AP">AP Draaien</label>
 
-            <div class="progress-bar">
-              <div class="progress" id="AP_DraaienProgress">
-                <span class="progress-text" id="AP_DraaienProgressText"></span>
-              </div>
-            </div>
-            <input
-              type="number"
-              id="AP_DraaienTimeout"
-              name="AP_DraaienTimeout"
-              placeholder="Default: 50"
-              aria-label="Timeout tijd voor Timer 1"
-            />
-            <button
-              type="button"
-              class="save-btn"
-              onclick="NewSettingTimer('AP_Draaien')"
-            >
-              Set
-            </button>
-          </div>
+						<div class="progress-bar">
+							<div class="progress" id="draaien_APProgress">
+								<span class="progress-text" id="draaien_APProgressText"></span>
+							</div>
+						</div>
+						<input
+							type="number"
+							id="draaien_APTimeout"
+							name="draaien_APTimeout"
+							placeholder="Default: 50"
+							aria-label="Timeout tijd voor Timer 1"
+						/>
+						<button type="button" class="save-btn" onclick="NewSettingTimer('draaien_AP')">
+							Set
+						</button>
+					</div>
 
-          <!-- Timer 2 -->
-          <div class="form-group">
-            <label for="AP_Kantelen">AP Kantelen</label>
-            <div class="progress-bar">
-              <div class="progress" id="AP_KantelenProgress">
-                <span class="progress-text" id="AP_KantelenProgressText"></span>
-              </div>
-            </div>
-            <input
-              type="number"
-              id="AP_KantelenTimeout"
-              name="AP_KantelenTimeout"
-              placeholder="Timeout (seconden)"
-              aria-label="Timeout tijd voor Timer 2"
-            />
-            <button
-              type="button"
-              class="save-btn"
-              onclick="NewSettingTimer('AP_Kantelen')"
-            >
-              Set
-            </button>
-          </div>
+					<!-- Timer 2 -->
+					<div class="form-group">
+						<label for="kantelen_AP">AP Kantelen</label>
+						<div class="progress-bar">
+							<div class="progress" id="kantelen_APProgress">
+								<span class="progress-text" id="kantelen_APProgressText"></span>
+							</div>
+						</div>
+						<input
+							type="number"
+							id="kantelen_APTimeout"
+							name="kantelen_APTimeout"
+							placeholder="Timeout (seconden)"
+							aria-label="Timeout tijd voor Timer 2"
+						/>
+						<button type="button" class="save-btn" onclick="NewSettingTimer('kantelen_AP')">
+							Set
+						</button>
+					</div>
 
-          <!-- Timer 3 -->
-          <div class="form-group">
-            <label for="Draaien_TO">Draaien Timeout</label>
-            <div class="progress-bar">
-              <div class="progress" id="Draaien_TOProgress">
-                <span class="progress-text" id="Draaien_TOProgressText"></span>
-              </div>
-            </div>
-            <input
-              type="number"
-              id="Draaien_TOTimeout"
-              name="Draaien_TOTimeout"
-              placeholder="Timeout (seconden)"
-              aria-label="Timeout tijd voor Timer 3"
-            />
-            <button
-              type="button"
-              class="save-btn"
-              onclick="NewSettingTimer('Draaien_TO')"
-            >
-              Set
-            </button>
-          </div>
+					<!-- Timer 3 -->
+					<div class="form-group">
+						<label for="Draaien_TO">Draaien Timeout</label>
+						<div class="progress-bar">
+							<div class="progress" id="Draaien_TOProgress">
+								<span class="progress-text" id="Draaien_TOProgressText"></span>
+							</div>
+						</div>
+						<input
+							type="number"
+							id="Draaien_TOTimeout"
+							name="Draaien_TOTimeout"
+							placeholder="Timeout (seconden)"
+							aria-label="Timeout tijd voor Timer 3"
+						/>
+						<button type="button" class="save-btn" onclick="NewSettingTimer('Draaien_TO')">
+							Set
+						</button>
+					</div>
 
-          <!-- Timer 4 -->
-          <div class="form-group">
-            <label for="Kantelen_TO">Kantelen Timeout</label>
-            <div class="progress-bar">
-              <div class="progress" id="Kantelen_TOProgress">
-                <span class="progress-text" id="Kantelen_TOProgressText"></span>
-              </div>
-            </div>
-            <input
-              type="number"
-              id="Kantelen_TOTimeout"
-              name="Kantelen_TOTimeout"
-              placeholder="Timeout (seconden)"
-              aria-label="Timeout tijd voor Timer 4"
-            />
-            <button
-              type="button"
-              class="save-btn"
-              onclick="NewSettingTimer('Kantelen_TO')"
-            >
-              Set
-            </button>
-          </div>
+					<!-- Timer 4 -->
+					<div class="form-group">
+						<label for="Kantelen_TO">Kantelen Timeout</label>
+						<div class="progress-bar">
+							<div class="progress" id="Kantelen_TOProgress">
+								<span class="progress-text" id="Kantelen_TOProgressText"></span>
+							</div>
+						</div>
+						<input
+							type="number"
+							id="Kantelen_TOTimeout"
+							name="Kantelen_TOTimeout"
+							placeholder="Timeout (seconden)"
+							aria-label="Timeout tijd voor Timer 4"
+						/>
+						<button type="button" class="save-btn" onclick="NewSettingTimer('Kantelen_TO')">
+							Set
+						</button>
+					</div>
 
-          <!-- Timer 5 -->
-          <div class="form-group">
-            <label for="LogbookTimer">Logbook timer</label>
-            <div class="progress-bar">
-              <div class="progress" id="LogbookTimerProgress">
-                <span class="progress-text" id="LogbookTimerProgressText"></span>
-              </div>
-            </div>
-            <input
-              type="number"
-              id="LogbookTimerTimeout"
-              name="LogbookTimerTimeout"
-              placeholder="Timeout (seconden)"
-              aria-label="Timeout tijd voor Timer 4"
-            />
-            <button
-              type="button"
-              class="save-btn"
-              onclick="NewSettingTimer('LogbookTimer')"
-            >
-              Set
-            </button>
-          </div>
+					<!-- Timer 5 -->
+					<div class="form-group">
+						<label for="LogbookTimer">Logbook timer</label>
+						<div class="progress-bar">
+							<div class="progress" id="LogbookTimerProgress">
+								<span class="progress-text" id="LogbookTimerProgressText"></span>
+							</div>
+						</div>
+						<input
+							type="number"
+							id="LogbookTimerTimeout"
+							name="LogbookTimerTimeout"
+							placeholder="Timeout (seconden)"
+							aria-label="Timeout tijd voor Timer 4"
+						/>
+						<button type="button" class="save-btn" onclick="NewSettingTimer('LogbookTimer')">
+							Set
+						</button>
+					</div>
 
-          <!-- Timer 6 -->
-          <div class="form-group">
-            <label for="Retry_Timer">Retry timer</label>
-            <div class="progress-bar">
-              <div class="progress" id="Retry_TimerProgress">
-                <span class="progress-text" id="Retry_TimerProgressText"></span>
-              </div>
-            </div>
-            <input
-              type="number"
-              id="Retry_TimerTimeout"
-              name="Retry_TimerTimeout"
-              placeholder="Timeout (seconden)"
-              aria-label="Timeout tijd voor Timer 4"
-            />
-            <button
-              type="button"
-              class="save-btn"
-              onclick="NewSettingTimer('Retry_Timer')"
-            >
-              Set
-            </button>
-          </div>
+					<!-- Timer 6 -->
+					<div class="form-group">
+						<label for="Retry_Timer">Retry timer</label>
+						<div class="progress-bar">
+							<div class="progress" id="Retry_TimerProgress">
+								<span class="progress-text" id="Retry_TimerProgressText"></span>
+							</div>
+						</div>
+						<input
+							type="number"
+							id="Retry_TimerTimeout"
+							name="Retry_TimerTimeout"
+							placeholder="Timeout (seconden)"
+							aria-label="Timeout tijd voor Timer 4"
+						/>
+						<button type="button" class="save-btn" onclick="NewSettingTimer('Retry_Timer')">
+							Set
+						</button>
+					</div>
 
-          <!-- Timer 7 -->
-          <div class="form-group">
-            <label for="Settings_Unlock">Settings Unlock</label>
-            <div class="progress-bar">
-              <div class="progress" id="Settings_UnlockProgress">
-                <span class="progress-text" id="Settings_UnlockProgressText"></span>
-              </div>
-            </div>
-            <input
-              type="number"
-              id="Settings_UnlockTimeout"
-              name="Settings_UnlockTimeout"
-              placeholder="Timeout (seconden)"
-              aria-label="Timeout tijd voor Timer 4"
-            />
-            <button
-              type="button"
-              class="save-btn"
-              onclick="startTimer('Settings_Unlock')"
-            >
-              Set
-            </button>
-          </div>
+					<!-- Timer 7 -->
+					<div class="form-group">
+						<label for="Settings_Unlock">Settings Unlock</label>
+						<div class="progress-bar">
+							<div class="progress" id="Settings_UnlockProgress">
+								<span class="progress-text" id="Settings_UnlockProgressText"></span>
+							</div>
+						</div>
+						<input
+							type="number"
+							id="Settings_UnlockTimeout"
+							name="Settings_UnlockTimeout"
+							placeholder="Timeout (seconden)"
+							aria-label="Timeout tijd voor Timer 4"
+						/>
+						<button type="button" class="save-btn" onclick="startTimer('Settings_Unlock')">
+							Set
+						</button>
+					</div>
 
-          <!-- Timer 8 -->
-          <div class="form-group">
-            <label for="goToPosition">Go to Position</label>
-            <div class="progress-bar">
-              <div class="progress" id="goToPositionProgress">
-                <span class="progress-text" id="goToPositionProgressText"></span>
-              </div>
-            </div>
-            <input
-              type="number"
-              id="goToPositionTimeout"
-              name="goToPositionTimeout"
-              placeholder="Timeout (seconden)"
-              aria-label="Timeout tijd voor Timer 4"
-            />
-            <button
-              type="button"
-              class="save-btn"
-              onclick="NewSettingTimer('goToPosition')"
-            >
-              Set
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="setting-container">
-        <h2>Instellingen</h2>
-        <div>
-          <div class="input-grid">
-            <div class="form-group">
-              <label for="LB_Offset">LB Offset</label>
-              <input
-                type="number"
-                id="LB_Offset"
-                name="LB_Offset"
-                placeholder="LB Offset"
-              />
-              <button type="submit" class="save-btn">Opslaan</button>
-            </div>
-            <div class="form-group">
-              <label for="RB_Offset">RB Offset</label>
-              <input
-                type="number"
-                id="RB_Offset"
-                name="RB_Offset"
-                placeholder="RB Offset"
-              />
-              <button type="submit" class="save-btn">Opslaan</button>
-            </div>
-            <div class="form-group">
-              <label for="LO_Offset">LO Offset</label>
-              <input
-                type="number"
-                id="LO_Offset"
-                name="LO_Offset"
-                placeholder="LO Offset"
-              />
-              <button type="submit" class="save-btn">Opslaan</button>
-            </div>
-            <div class="form-group">
-              <label for="RO_Offset">RO Offset</label>
-              <input
-                type="number"
-                id="RO_Offset"
-                name="RO_Offset"
-                placeholder="RO Offset"
-              />
-              <button type="submit" class="save-btn">Opslaan</button>
-            </div>
-            <div class="form-group">
-              <label for="lichtMarge">Licht marge</label>
-              <input
-                type="number"
-                id="lichtMarge"
-                name="lichtMarge"
-                placeholder="Licht marge"
-              />
-              <button type="submit" class="save-btn">Opslaan</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <footer><p>Footer</p></footer>
-    <!-- <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
-    <script src="pageData.js"></script>
-    <script src="script.js"></script>
-  </body>
+					<!-- Timer 8 -->
+					<div class="form-group">
+						<label for="goToPosition">Go to Position</label>
+						<div class="progress-bar">
+							<div class="progress" id="goToPositionProgress">
+								<span class="progress-text" id="goToPositionProgressText"></span>
+							</div>
+						</div>
+						<input
+							type="number"
+							id="goToPositionTimeout"
+							name="goToPositionTimeout"
+							placeholder="Timeout (seconden)"
+							aria-label="Timeout tijd voor Timer 4"
+						/>
+						<button type="button" class="save-btn" onclick="NewSettingTimer('goToPosition')">
+							Set
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="setting-container">
+				<h2>Instellingen</h2>
+				<div>
+					<div class="input-grid">
+						<div class="form-group">
+							<label for="LB_Offset">LB Offset</label>
+							<input type="number" id="LB_Offset" name="LB_Offset" placeholder="LB Offset" />
+							<button type="submit" class="save-btn">Opslaan</button>
+						</div>
+						<div class="form-group">
+							<label for="RB_Offset">RB Offset</label>
+							<input type="number" id="RB_Offset" name="RB_Offset" placeholder="RB Offset" />
+							<button type="submit" class="save-btn">Opslaan</button>
+						</div>
+						<div class="form-group">
+							<label for="LO_Offset">LO Offset</label>
+							<input type="number" id="LO_Offset" name="LO_Offset" placeholder="LO Offset" />
+							<button type="submit" class="save-btn">Opslaan</button>
+						</div>
+						<div class="form-group">
+							<label for="RO_Offset">RO Offset</label>
+							<input type="number" id="RO_Offset" name="RO_Offset" placeholder="RO Offset" />
+							<button type="submit" class="save-btn">Opslaan</button>
+						</div>
+						<div class="form-group">
+							<label for="lichtMarge">Licht marge</label>
+							<input type="number" id="lichtMarge" name="lichtMarge" placeholder="Licht marge" />
+							<button type="submit" class="save-btn">Opslaan</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer><p>Footer</p></footer>
+		<!-- <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script> -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+		<script src="pageData.js"></script>
+		<script src="script.js"></script>
+	</body>
 </html>

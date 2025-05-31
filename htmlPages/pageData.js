@@ -238,9 +238,9 @@ function setTiltMovement(pageData) {
 
 function setTimeRemaining(pageData) {
   // JSONVar remainingTimeObject = undefined;
-  // remainingTimeObject["TimeRem"]["AP_Draaien_Timer"] =
+  // remainingTimeObject["TimeRem"]["draaien_AP_Timer"] =
   //     antiPendel_Draaien_Timer_Remaining;
-  // remainingTimeObject["TimeRem"]["AP_Kantelen_Timer"] =
+  // remainingTimeObject["TimeRem"]["kantelen_AP_Timer"] =
   //     antiPendel_Kantelen_Timer_Remaining;
   // remainingTimeObject["TimeRem"]["draaien_TO"] = draaien_TimeOut_Remaining;
   // remainingTimeObject["TimeRem"]["kantelen_TO"] = kantelen_TimeOut_Remaining;
@@ -257,13 +257,13 @@ function setTimeRemaining(pageData) {
   //  }
 
   // Draaien
-  const draaienTime = pageData.TimeRem.AP_Draaien_Timer / 1000;
-  const draaienID = `AP_Draaien`;
+  const draaienTime = pageData.TimeRem.draaien_AP_Timer / 1000;
+  const draaienID = `draaien_AP`;
   setTimer(draaienID, draaienTime);
 
   // Kantelen
-  const kantelenTime = pageData.TimeRem.AP_Kantelen_Timer / 1000;
-  const kantelenID = `AP_Kantelen`;
+  const kantelenTime = pageData.TimeRem.kantelen_AP_Timer / 1000;
+  const kantelenID = `kantelen_AP`;
   setTimer(kantelenID, kantelenTime);
 
   // Draaien TimeOut

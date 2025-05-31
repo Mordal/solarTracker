@@ -160,8 +160,8 @@ bool gotoPresetPosition(void*) {
    if (isNight()) {
       return true; // Night mode is active, do not change position
    }
-   if (STOP_MODE) {
-      return true; // Stop mode is active, do not change position
+   if (STOP_MODE || SAFE_MODE) {
+      return true; // Stop mode or safe mode is active, do not change position
    }
 
 

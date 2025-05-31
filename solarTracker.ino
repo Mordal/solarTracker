@@ -160,8 +160,8 @@ unsigned int antiPendelTime = 5000;        //= 5 sec. = 5000 ms  ;  MAX = 65535
 unsigned int maxMovementTime = 50000;      // 50 sec. = 50000 ms ;  MAX = 65535
 unsigned long periodicalTime = 300000;          // 5 min. = 300000 ms
 unsigned long settingsUnlockedTime = 1200000;  // 20 min. = 1200000 ms
-unsigned int logBook_Timer_delay = 10000;  // 10 sec. = 10000 ms
-unsigned int sendAllData_Timer_delay = 1000;  // 1 sec. = 1000 ms
+unsigned int logbookTime = 10000;  // 10 sec. = 10000 ms
+unsigned int sendAllDataTime = 1000;  // 1 sec. = 1000 ms
 unsigned int clientConnectedTimeOut = 30000;  // 30 sec. = 30000 ms
 
 // Draaien
@@ -201,11 +201,11 @@ RTCTime resetTime;
 bool TEST_MODE = false;
 bool SAFE_MODE = false;
 bool STOP_MODE = false;
+bool NIGHT_MODE = false;
 bool draaienTooLong = false;
 bool kantelenTooLong = false;
 bool settingsUnlocked = false;
-bool NIGHT_MODE = false;
-bool dailyTest_Active = true;
+bool dailyTest_Active = false;
 
 // WIFI CONFIG
 char ssid[] = SECRET_SSID;
@@ -258,7 +258,7 @@ void setup() {
    // setup Timers
    setTimers();
 
-   // initializeNeededTime();
+   initializeNeededTime();
 
 
    print("Setup done!");

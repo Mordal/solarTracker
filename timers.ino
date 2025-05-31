@@ -46,7 +46,7 @@ void resetLogbookTimers() {
 }
 
 void start_Logbook_Timer() {
-    logBook_Timer.every(logBook_Timer_delay, setLogbook);
+    logBook_Timer.every(logbookTime, setLogbook);
     // 10 sec ----- //every minute -> voor een
     // week: 6 keer per uur
 }
@@ -54,7 +54,7 @@ void start_Logbook_Timer() {
 void stop_Logbook_Timer() { logBook_Timer.cancel(); }
 
 void start_sendAllData_Timer() {
-    sendAllData_Timer.every(sendAllData_Timer_delay, sendAllPageData);
+    sendAllData_Timer.every(sendAllDataTime, sendAllPageData);
 }
 
 

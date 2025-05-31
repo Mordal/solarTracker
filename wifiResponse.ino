@@ -42,7 +42,8 @@ JSONVar getEndpoints() {
       "/API/TILTMOVEMENT",
       "/API/OTHERDATA",
       "/API/FORCEDMOVEMENTS",
-      "/API/SETTINGS",
+      "/API/SETTINGSOFFSETS",
+      "/API/SETTINGSTIMEOUTS",
       "/API/TIMERS",
       "/API/RESETALARM",
       "/API/TURNPRESET",
@@ -83,9 +84,20 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
    else if (requestHasString(currentLine, "GET /API/FORCEDMOVEMENTS")) {
       sendJsonData(client, getForcedMovements());
    }
+   else if (requestHasString(currentLine, "GET /API/SETTINGSOFFSETS")) {
+      sendJsonData(client, getSettings_Offsets());
+   }
+   else if (requestHasString(currentLine, "GET /API/SETTINGSTIMEOUTS")) {
+      sendJsonData(client, getSettings_TimeOuts());
+   }
    else if (requestHasString(currentLine, "GET /API/SETTINGS")) {
       sendJsonData(client, getSettings());
    }
+   else if (requestHasString(currentLine, "GET /API/TIMERS") &&
+      settingsUnlocked) {
+      sendJsonData(client, getTimers());
+   }
+
    else if (requestHasString(currentLine, "GET /API/TIMERS")) {
       sendJsonData(client, getRemainingTime());
    }

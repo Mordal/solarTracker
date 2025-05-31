@@ -30,6 +30,13 @@ void clearForceSignals() {
    gotoTiltPosition = false;
 }
 
+void gotoSafePosition(int turnPercentage = 20, int tiltPercentage = 50) {
+   SAFE_MODE = true;
+   gotoTurnPercentage(turnPercentage);
+   gotoTiltPercentage(tiltPercentage);
+   stopMomevement();
+   return;
+}
 
 void gotoNightPosition() {
    initializeNeededTime();

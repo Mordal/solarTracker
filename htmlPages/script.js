@@ -306,9 +306,9 @@ function getTimerSetting(timerId) {
   }
 
   switch (timerId) {
-    case 'AP_Draaien':
+    case 'draaien_AP':
       return currentSettings['TimeOuts']['APTime'] / 1000;
-    case 'AP_Kantelen':
+    case 'kantelen_AP':
       return currentSettings['TimeOuts']['APTime'] / 1000;
     case 'Draaien_TO':
       return currentSettings['TimeOuts']['maxMoveTime'] / 1000;

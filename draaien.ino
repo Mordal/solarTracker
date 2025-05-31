@@ -37,12 +37,7 @@ void setDraaien() {
    }
    if (draaienForceMode()) return;
 
-   if (NIGHT_MODE) {
-      deactivate_Draaien();
-      return;
-   }
-
-   if (STOP_MODE) {
+   if (NIGHT_MODE || STOP_MODE || SAFE_MODE) {
       deactivate_Draaien();
       return;
    }

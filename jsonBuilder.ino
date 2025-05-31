@@ -114,30 +114,38 @@ JSONVar getTiltPresetPositions(byte monthIndex) {
    return presetPositionsObject;
 }
 
-JSONVar getSettings() {
+JSONVar getSettings_Offsets() {
    JSONVar settingsObject = undefined;
    settingsObject["Offsets"]["LB"] = lichtSensor_LB_offset;
    settingsObject["Offsets"]["RB"] = lichtSensor_RB_offset;
    settingsObject["Offsets"]["LO"] = lichtSensor_LO_offset;
    settingsObject["Offsets"]["RO"] = lichtSensor_RO_offset;
    settingsObject["Sensors"]["licht_marge"] = licht_marge;
+   return settingsObject;
+}
+
+
+JSONVar getSettings_TimeOuts() {
+   JSONVar settingsObject = undefined;
    settingsObject["TimeOuts"]["APTime"] = antiPendelTime;
    settingsObject["TimeOuts"]["maxMoveTime"] = maxMovementTime;
    settingsObject["TimeOuts"]["periodicalTime"] = periodicalTime;
-   settingsObject["TimeOuts"]["logBook_delay"] = logBook_Timer_delay;
+   settingsObject["TimeOuts"]["logbookTime"] = logbookTime;
    settingsObject["TimeOuts"]["clientConTimeOut"] = clientConnectedTimeOut;
+   settingsObject["TimeOuts"]["sendAllDataTime"] = sendAllDataTime;
+   settingsObject["TimeOuts"]["settingsUnlockedTime"] = settingsUnlockedTime;
    return settingsObject;
 }
 
 JSONVar getRemainingTime() {
    JSONVar remainingTimeObject = undefined;
-   remainingTimeObject["TimeRem"]["AP_Draaien_Timer"] =
+   remainingTimeObject["TimeRem"]["draaien_AP"] =
       antiPendel_Draaien_Timer_Remaining;
-   remainingTimeObject["TimeRem"]["AP_Kantelen_Timer"] =
+   remainingTimeObject["TimeRem"]["kantelen_AP"] =
       antiPendel_Kantelen_Timer_Remaining;
    remainingTimeObject["TimeRem"]["draaien_TO"] = draaien_TimeOut_Remaining;
    remainingTimeObject["TimeRem"]["kantelen_TO"] = kantelen_TimeOut_Remaining;
-   remainingTimeObject["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
+   remainingTimeObject["TimeRem"]["logBookTimer"] = logBook_Timer_Remaining;
    remainingTimeObject["TimeRem"]["clientTimer"] =
       clientConnectedTimer_Remaining;
    remainingTimeObject["TimeRem"]["periodicalTimer"] = periodicalTimer_Remaining;
@@ -148,10 +156,10 @@ JSONVar getRemainingTime() {
    return remainingTimeObject;
 }
 
-// Haal de verschillende JSON-gegevens op
+
 void getPageData() {
-   return;
-   // DEPRECATED
+   return;   // DEPRECATED
+
    JSONVar pageData = undefined;
    pageData["Flags"]["TEST_MODE"] = TEST_MODE;
    pageData["Flags"]["SAFE_MODE"] = SAFE_MODE;

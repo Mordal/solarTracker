@@ -106,23 +106,27 @@ void testMode_ForceSignals() {
 
 //Permanent functions
 void initializeNeededTime() {
+
+   bool currentTestMode = TEST_MODE;
+
    if (!dailyTest_Active) {
       return;
    }
    TEST_MODE = true;
    stopMomevement();
-   print("Initialiseer benodigde tijd");
+
    getTimeDraaien();
    getTimeKantelen();
-   print("Benodigde tijd geinitialiseerd");
-   TEST_MODE = false;
+
+   TEST_MODE = currentTestMode;
 }
 
 void getTimeDraaien() {
-   if (draaienTooLong) return;
    goToRightEnd();
+   if (draaienTooLong) return;
    const unsigned long startingTime = millis();
    goToLeftEnd(false);
+   if (draaienTooLong) return;
    const unsigned long endingTime = millis();
    timeNeededToTurn = endingTime - startingTime;
    Serial.print("Tijd om te draaien: ");
@@ -131,10 +135,11 @@ void getTimeDraaien() {
 }
 
 void getTimeKantelen() {
-   if (kantelenTooLong) return;
    goToRetractEnd();
+   if (kantelenTooLong) return;
    const unsigned long startingTime = millis();
    goToTopEnd(false);
+   if (kantelenTooLong) return;
    const unsigned long endingTime = millis();
    timeNeededToTilt = endingTime - startingTime;
    Serial.print("Tijd om te kantelen: ");

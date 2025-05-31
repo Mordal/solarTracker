@@ -64,10 +64,31 @@ void control(WiFiClient& client, const String& body) {
    setFromJson(jsonBody, "OUT_Force", uitschuiven_FORCE_EXT);
    setFromJson(jsonBody, "IN_Force", inschuiven_FORCE_EXT);
 
-   // MODES
-   setFromJson(jsonBody, "TEST_MODE", TEST_MODE);
-   setFromJson(jsonBody, "SAFE_MODE", SAFE_MODE);
+   if (jsonBody.hasOwnProperty("initializeNeededTime")) {
+      if (dailyTest_Active) {
+         initializeNeededTime();
+         return;
+      }
+      dailyTest_Active = true;
+      initializeNeededTime();
+      dailyTest_Active = false;
+   }
 
+
+   // MODES
+
+   if (jsonBody.hasOwnProperty("SAFE_MODE")) {
+      //check if jsonBody["SAFE_MODE"] is a boolean
+      if (JSON.typeof(jsonBody["SAFE_MODE"]) == "boolean") {
+         SAFE_MODE = (bool)jsonBody["SAFE_MODE"];
+         return;
+      }
+
+      int turnPosition = normalizePosition((int)jsonBody["SAFE_MODE"]["TURN_Position"]) || undefined;
+      int tiltPosition = normalizePosition((int)jsonBody["SAFE_MODE"]["TILT_Position"]) || undefined;
+      gotoSafePosition(turnPosition, tiltPosition);
+      clearForceSignals();
+   }
 
    if (jsonBody.hasOwnProperty("STOP_MODE")) {
       // curl -X POST -d "{\"STOP_MODE\":true"} http://192.168.0.205:90/CONTROL
@@ -154,9 +175,9 @@ void setValues(WiFiClient& client, const String& body) {
    setFromJson(jsonBody, "timeNeededToTilt", timeNeededToTilt);
    setFromJson(jsonBody, "dailyTest_Active", dailyTest_Active);
 
-   setTimerFromJson(jsonBody, "logBook_Timer_delay", logBook_Timer_delay);
+   setTimerFromJson(jsonBody, "logbookTime", logbookTime);
    setTimerFromJson(jsonBody, "periodicalTime", periodicalTime);
-   setTimerFromJson(jsonBody, "sendAllData_Timer_delay", sendAllData_Timer_delay);
+   setTimerFromJson(jsonBody, "sendAllDataTime", sendAllDataTime);
    setTimerFromJson(jsonBody, "clientConnectedTimeOut", clientConnectedTimeOut);
    setTimerFromJson(jsonBody, "settingsUnlockedTime", settingsUnlockedTime);
 
