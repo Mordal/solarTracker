@@ -80,7 +80,7 @@ bool kantelenForceMode() {
 }
 
 void deactivate_Kantelen() {
-   setCurrentTiltPercentage(nullptr);
+   setCurrentTiltPercentage();
    tiltStartTime = 0;
    if (uitschuiven || inschuiven) {
       set_antiPendel_Kantelen();
@@ -90,8 +90,7 @@ void deactivate_Kantelen() {
    kantelen_TimeOut.cancel();
 }
 
-// Timer: setTiltPercentage_Timer
-bool setCurrentTiltPercentage(void*) {
+void setCurrentTiltPercentage() {
    if (inschuiven) {
       const unsigned int percentageTilted =
          getPercentageTilted();  // moet nog delen door 100 = 2 decimalen
@@ -114,17 +113,10 @@ bool setCurrentTiltPercentage(void*) {
       }
    }
    else {
-      return true;
+      return;
    }
 
-   // const float floatPercentage = (float)currentTiltPercentage / 100.0;
-
-   // Serial.print("Current Tilt Percentage: ");
-   // Serial.println(floatPercentage, 4);
-
-   // start from current time again
    tiltStartTime = millis();
-   return true;
 }
 
 int getPercentageTilted() {

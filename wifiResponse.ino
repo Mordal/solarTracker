@@ -90,14 +90,6 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
    else if (requestHasString(currentLine, "GET /API/SETTINGSTIMEOUTS")) {
       sendJsonData(client, getSettings_TimeOuts());
    }
-   else if (requestHasString(currentLine, "GET /API/SETTINGS")) {
-      sendJsonData(client, getSettings());
-   }
-   else if (requestHasString(currentLine, "GET /API/TIMERS") &&
-      settingsUnlocked) {
-      sendJsonData(client, getTimers());
-   }
-
    else if (requestHasString(currentLine, "GET /API/TIMERS")) {
       sendJsonData(client, getRemainingTime());
    }

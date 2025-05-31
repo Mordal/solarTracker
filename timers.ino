@@ -7,8 +7,7 @@ void tickTimers() {
     logBook_Timer_Remaining = logBook_Timer.tick();
     clientConnectedTimer_Remaining = clientConnectedTimer.tick();
     periodicalTimer_Remaining = periodicalTimer.tick();
-    setTurnPercentage_Timer.tick();
-    setTiltPercentage_Timer.tick();
+    setMovementPercentage_Timer.tick();
     settingsUnlockedTimer_Remaining = settingsUnlockedTimer.tick();
     gotoPosition_Timer_Remaining = gotoPosition_Timer.tick();
     sendAllData_Timer.tick();
@@ -19,15 +18,13 @@ void tickTimers() {
 void setTimers() {
     periodicalTimer.every(periodicalTime, periodicalFunction);
     start_Logbook_Timer();
-    setTurnPercentage_Timer.every(1000, setCurrentTurnPercentage);  // 1 sec
-    setTiltPercentage_Timer.every(1000, setCurrentTiltPercentage);  // 1 sec
+    setMovementPercentage_Timer.every(1000, setCurrentMovementPercentage);  // 1 sec
     gotoPosition_Timer.cancel();  // reset gotoPosition_Timer
 }
 
 void restartTimers() {
     periodicalTimer.cancel();
-    setTurnPercentage_Timer.cancel();
-    setTiltPercentage_Timer.cancel();
+    setMovementPercentage_Timer.cancel();
     gotoPosition_Timer.cancel();
     setTimers();
     resetLogbookTimers();

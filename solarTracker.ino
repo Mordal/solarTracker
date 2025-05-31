@@ -167,12 +167,10 @@ unsigned int clientConnectedTimeOut = 30000;  // 30 sec. = 30000 ms
 // Draaien
 Timer<1> antiPendel_Draaien_Timer;
 Timer<1> draaien_TimeOut;
-Timer<1> setTurnPercentage_Timer;
 
 // Kantelen
 Timer<1> antiPendel_Kantelen_Timer;
 Timer<1> kantelen_TimeOut;
-Timer<1> setTiltPercentage_Timer;
 
 // Other Timers
 Timer<1> logBook_Timer;
@@ -181,6 +179,7 @@ Timer<1> clientConnectedTimer;
 Timer<1> periodicalTimer;
 Timer<1> settingsUnlockedTimer;
 Timer<1> gotoPosition_Timer;
+Timer<1> setMovementPercentage_Timer;
 
 // Time Remaining
 unsigned int antiPendel_Draaien_Timer_Remaining = 0;

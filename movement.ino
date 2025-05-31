@@ -3,6 +3,12 @@ void set_MoveDirection() {
    setKantelen();
 }
 
+bool setCurrentMovementPercentage(void*) {
+   setCurrentTurnPercentage();
+   setCurrentTiltPercentage();
+   return true;
+}
+
 void readEindeloop() {
    read_EindeLoop_Draaien();
    read_EindeLoop_Kantelen();
@@ -35,14 +41,12 @@ void gotoSafePosition(int turnPercentage = 20, int tiltPercentage = 50) {
    gotoTurnPercentage(turnPercentage);
    gotoTiltPercentage(tiltPercentage);
    stopMomevement();
-   return;
 }
 
 void gotoNightPosition() {
    initializeNeededTime();
    gotoTiltPercentage(20);  // 0% tilt
    stopMomevement();
-   return;
 }
 
 unsigned int getMovementTime(const unsigned long& startTime) {

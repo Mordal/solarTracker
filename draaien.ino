@@ -76,7 +76,7 @@ bool draaienForceMode() {
 }
 
 void deactivate_Draaien() {
-   setCurrentTurnPercentage(nullptr);
+   setCurrentTurnPercentage();
    turnStartTime = 0;
    if (linksDraaien || rechtsDraaien) {
       set_antiPendel_Draaien();
@@ -86,8 +86,7 @@ void deactivate_Draaien() {
    draaien_TimeOut.cancel();
 }
 
-// Timer: setTurnPercentage_Timer
-bool setCurrentTurnPercentage(void*) {
+void setCurrentTurnPercentage() {
    if (linksDraaien) {
       const unsigned int percentageTurned =
          getPercentageTurned();  // moet nog delen door 100 = 2 decimalen
@@ -110,12 +109,11 @@ bool setCurrentTurnPercentage(void*) {
       }
    }
    else {
-      return true;
+      return;
    }
 
    // start from current time again
    turnStartTime = millis();
-   return true;
 }
 
 int getPercentageTurned() {
