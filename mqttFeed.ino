@@ -17,7 +17,7 @@ bool setLogbook(void*) {
 
    // loop through char mqtt_Data[][10]
    for (int i = 0; i < sizeof(mqtt_Logbook) / sizeof(mqtt_Logbook[0]); i++) {
-      mqtt_data topic = mqtt_Logbook[i];
+      char* topic = mqtt_Logbook[i];
       mqtt_sendData(topic);
    }
 
@@ -43,37 +43,39 @@ bool sendAllPageData(void*) {
    return true;
 }
 
-void mqtt_sendData(mqtt_data topic) {
-
-   mqtt_data dataTopic = topic;
-   switch (dataTopic) {
-   case flags:
+// enum mqtt_data {
+//    flags,
+//    tilt,
+//    turn,
+//    force,
+//    timeRemaining,
+//    sensors,
+//    other
+// };
+void mqtt_sendData(char* topic) {
+   if (strcmp(topic, "flags") == 0) {
       mqtt_getFlags();
-      break;
-   case tilt:
-      mqtt_getTiltMovementData();
-      break;
-   case turn:
-      mqtt_getTurnMovementData();
-      break;
-   case force:
-      mqtt_getForceMovements();
-      break;
-   case timeRemaining:
-      mqtt_getRemainingTime();
-      break;
-   case sensors:
-      mqtt_getLightSensorData();
-      break;
-   case other:
-      mqtt_getOtherData();
-      break;
-
-   default:
-      break;
    }
-
+   else if (strcmp(topic, "tilt") == 0) {
+      mqtt_getTiltMovementData();
+   }
+   else if (strcmp(topic, "turn") == 0) {
+      mqtt_getTurnMovementData();
+   }
+   else if (strcmp(topic, "force") == 0) {
+      mqtt_getForceMovements();
+   }
+   else if (strcmp(topic, "timeRemaining") == 0) {
+      mqtt_getRemainingTime();
+   }
+   else if (strcmp(topic, "sensors") == 0) {
+      mqtt_getLightSensorData();
+   }
+   else if (strcmp(topic, "other") == 0) {
+      mqtt_getOtherData();
+   }
 }
+
 
 
 void mqtt_getFlags() {
