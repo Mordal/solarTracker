@@ -214,6 +214,13 @@ WiFiServer server(80);
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
+char mqtt_Logbook[][10] =
+{
+  "hello",
+  "world"
+};
+
+
 // INTERNET TIME - NTP client
 WiFiUDP ntpUDP;
 NTPClient timeClient(
@@ -258,7 +265,6 @@ void setup() {
    setTimers();
 
    initializeNeededTime();
-
 
    print("Setup done!");
 }
