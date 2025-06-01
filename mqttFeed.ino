@@ -2,22 +2,16 @@
 // ALL TOPICS: mosquitto_sub -v -h 172.17.0.3 -p 1883 -t '#'
 // TOPIC combinedData: mosquitto_sub -v -h 172.17.0.2 -p 1883 -t 'combinedData'
 
-enum mqtt_data {
-   flags,
-   tilt,
-   turn,
-   force,
-   timeRemaining,
-   sensors,
-   other
-};
 
 
 bool setLogbook(void*) {
 
+   Serial.println("Sending logbook data to MQTT...");
    // loop through char mqtt_Data[][10]
    for (int i = 0; i < sizeof(mqtt_Logbook) / sizeof(mqtt_Logbook[0]); i++) {
       char* topic = mqtt_Logbook[i];
+      Serial.print("Sending topic: ");
+      Serial.println(topic);
       mqtt_sendData(topic);
    }
 
@@ -33,13 +27,22 @@ bool sendAllPageData(void*) {
    if (clientConnectedTimer.empty()) {
       return false;
    }
+   Serial.println("Sending all page data to MQTT...");
 
-   mqtt_getFlags();
-   mqtt_getTiltMovementData();
-   mqtt_getTurnMovementData();
-   mqtt_getForceMovements();
-   mqtt_getRemainingTime();
-   mqtt_getLightSensorData();
+   // loop through char mqtt_Data[][10]
+   for (int i = 0; i < sizeof(mqtt_allData) / sizeof(mqtt_allData[0]); i++) {
+      char* topic = mqtt_allData[i];
+      Serial.print("Sending topic: ");
+      Serial.println(topic);
+      mqtt_sendData(topic);
+   }
+
+   // mqtt_getFlags();
+   // mqtt_getTiltMovementData();
+   // mqtt_getTurnMovementData();
+   // mqtt_getForceMovements();
+   // mqtt_getRemainingTime();
+   // mqtt_getLightSensorData();
    return true;
 }
 
@@ -56,6 +59,9 @@ void mqtt_sendData(char* topic) {
    if (strcmp(topic, "flags") == 0) {
       mqtt_getFlags();
    }
+   else if (strcmp(topic, "sensors") == 0) {
+      mqtt_getLightSensorData();
+   }
    else if (strcmp(topic, "tilt") == 0) {
       mqtt_getTiltMovementData();
    }
@@ -68,12 +74,13 @@ void mqtt_sendData(char* topic) {
    else if (strcmp(topic, "timeRemaining") == 0) {
       mqtt_getRemainingTime();
    }
-   else if (strcmp(topic, "sensors") == 0) {
-      mqtt_getLightSensorData();
-   }
    else if (strcmp(topic, "other") == 0) {
       mqtt_getOtherData();
    }
+   else if (strcmp(topic, "wifi") == 0) {
+      mqtt_getWifiData();
+   }
+
 }
 
 
@@ -134,6 +141,15 @@ void mqtt_getRemainingTime() {
    JSONVar message = getRemainingTime();
    message["TimeStamp"] = timeStamp;
    mqttClient.beginMessage("timeRemaining");
+   mqttClient.print(message);
+   mqttClient.endMessage();
+}
+
+void mqtt_getWifiData() {
+   const long timeStamp = getEpochTime();
+   JSONVar message = getWifiData();
+   message["TimeStamp"] = timeStamp;
+   mqttClient.beginMessage("wifiData");
    mqttClient.print(message);
    mqttClient.endMessage();
 }

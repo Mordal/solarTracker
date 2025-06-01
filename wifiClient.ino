@@ -144,15 +144,13 @@ void clientConnection(WiFiClient& client) {
       if (currentLine.endsWith("POST /SETTINGS")) {
          settingsRequest = true;  // Don't break, check for body
       }
-
       if (currentLine.endsWith("POST /UNLOCK")) {
          // curl -X POST -d "reteipreteip" http://192.168.0.205:90/UNLOCK
          unlockRequest = true;  // Don't break, check for body
       }
-
    }
    client.stop();
-}
+};
 
 void mqtt_Setup() {
    const char broker[] = "192.168.0.205";
@@ -162,7 +160,7 @@ void mqtt_Setup() {
    if (mqttClient.connected()) {
       Serial.println("Bestaande MQTT-verbinding verbreken...");
       mqttClient.stop();
-   }
+   };
 
    if (!mqttClient.connect(broker, port)) {
       Serial.print("MQTT connection failed! Error code = ");
@@ -173,6 +171,6 @@ void mqtt_Setup() {
       Serial.println("You're connected to the MQTT broker!");
       mqttConnected = true;
    };
-   Serial.println();
+   Serial.println("MQTT Setup completed");
 };
 

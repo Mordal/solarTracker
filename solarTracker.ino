@@ -214,10 +214,26 @@ WiFiServer server(80);
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
-char mqtt_Logbook[][10] =
+char mqtt_Logbook[][15] =
 {
-  "hello",
-  "world"
+   "flags",
+   "sensors",
+   "tilt",
+   "turn",
+   "other",
+};
+
+
+char mqtt_allData[][15] =
+{
+   "flags",
+   "sensors",
+   "tilt",
+   "turn",
+   "force",
+   "timeRemaining",
+   "other",
+   "wifi",
 };
 
 

@@ -156,6 +156,27 @@ JSONVar getRemainingTime() {
    return remainingTimeObject;
 }
 
+//  IPAddress ip = WiFi.localIP();
+//    Serial.print("IP Address: ");
+//    Serial.println(ip);
+
+//    // print the SSID of the network you're attached to:
+//    Serial.print("Network name: ");
+//    Serial.println(WiFi.SSID());
+
+//    // print the received signal strength:
+//    long rssi = WiFi.RSSI();
+//    Serial.print("signal strength (RSSI):");
+
+JSONVar getWifiData() {
+   JSONVar wifiDataObject = undefined;
+   wifiDataObject["Wifi"]["SSID"] = WiFi.SSID();
+   wifiDataObject["Wifi"]["RSSI"] = WiFi.RSSI();
+   wifiDataObject["Wifi"]["Status"] = WiFi.status();
+   wifiDataObject["Wifi"]["Connected"] = wifiConnected;
+   return wifiDataObject;
+}
+
 
 void getPageData() {
    return;   // DEPRECATED

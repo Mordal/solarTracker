@@ -107,14 +107,17 @@ void testMode_ForceSignals() {
 //Permanent functions
 void initializeNeededTime() {
 
+   Serial.println("Initialize needed time STARTED");
    bool currentTestMode = TEST_MODE;
 
    if (!dailyTest_Active) {
+      Serial.println("Daily test is not active, skipping initialization.");
       return;
    }
    TEST_MODE = true;
    stopMomevement();
 
+   Serial.println("Starting initialization of needed time...");
    getTimeDraaien();
    getTimeKantelen();
 

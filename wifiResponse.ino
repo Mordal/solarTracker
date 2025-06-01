@@ -16,13 +16,6 @@ void sendJsonData(WiFiClient& client, const JSONVar& jsonData) {
    client.println();
 }
 
-void sendAllPageDataByWifi(WiFiClient& client) {
-   sendStartData(client);
-   client.println("Content-type:application/json");
-   client.println();
-   client.println("GET ALL DATA - DEPRICATED");
-   client.println();
-}
 
 void sendOk(WiFiClient& client) {
    sendStartData(client);
@@ -48,6 +41,7 @@ JSONVar getEndpoints() {
       "/API/RESETALARM",
       "/API/TURNPRESET",
       "/API/TILTPRESET-monthIndex",
+      "/API/WIFIDATA",
       "/API/CLIENTCONNECTED"
    };
 
@@ -63,10 +57,8 @@ void sendEndpoints(WiFiClient& client) {
 }
 
 void response_API_Request(WiFiClient& client, const String& currentLine) {
-   if (requestHasString(currentLine, "GET /API/PAGEDATA")) {
-      sendAllPageDataByWifi(client);
-   }
-   else if (requestHasString(currentLine, "GET /API/FLAGS")) {
+
+   if (requestHasString(currentLine, "GET /API/FLAGS")) {
       sendJsonData(client, getFlags());
    }
    else if (requestHasString(currentLine, "GET /API/LIGHTSENSORS")) {
@@ -93,8 +85,7 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
    else if (requestHasString(currentLine, "GET /API/TIMERS")) {
       sendJsonData(client, getRemainingTime());
    }
-   else if (requestHasString(currentLine, "GET /API/RESETALARM") &&
-      settingsUnlocked) {
+   else if (requestHasString(currentLine, "GET /API/RESETALARM") && settingsUnlocked) {
       apiResetAlarms(client);
    }
    else if (requestHasString(currentLine, "GET /API/TURNPRESET")) {
@@ -119,17 +110,8 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
 
       sendJsonData(client, getTiltPresetPositions(monthIndex));
    }
-   else if (requestHasString(currentLine, "POST /API/SETTINGS")) {
-      String body = client.readStringUntil('\r');
-      unlockSettings(client, body);
-   }
-   else if (requestHasString(currentLine, "POST /API/CONTROL")) {
-      String body = client.readStringUntil('\r');
-      control(client, body);
-   }
-   else if (requestHasString(currentLine, "POST /API/UNLOCK")) {
-      String body = client.readStringUntil('\r');
-      unlockSettings(client, body);
+   else if (requestHasString(currentLine, "GET /API/WIFIDATA")) {
+      sendJsonData(client, getWifiData());
    }
    else if (requestHasString(currentLine, "GET /API/CLIENTCONNECTED")) {
       setClientConnectedTimer();

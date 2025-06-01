@@ -81,6 +81,7 @@ void control(WiFiClient& client, const String& body) {
       //check if jsonBody["SAFE_MODE"] is a boolean
       if (JSON.typeof(jsonBody["SAFE_MODE"]) == "boolean") {
          SAFE_MODE = (bool)jsonBody["SAFE_MODE"];
+         sendJsonData(client, jsonBody);
          return;
       }
 
@@ -157,6 +158,35 @@ void setTimerFromJson(JSONVar& json, const char* key, unsigned long& var) {
 }
 
 
+void setArrayFromJson(JSONVar& json, const char* key, char var[][15]) {
+   if (json.hasOwnProperty(key)) {
+      JSONVar mqttArray = json[key];
+      int newSize = mqttArray.length();
+      Serial.print("New array size: ");
+      Serial.println(newSize);
+      Serial.print("Current array size: ");
+      Serial.println(sizeof(var) / sizeof(var[0]));
+
+      if (newSize > sizeof(var) / sizeof(var[0])) {
+         Serial.println("Array size exceeds the allocated size");
+         return;
+      }
+
+      // Leeg de oude array voordat je nieuwe data toevoegt
+      memset(var, 0, sizeof(var));
+      // Zet de array op basis van de nieuwe grootte
+      for (int i = 0; i < newSize; i++) {
+         String topic = mqttArray[i];
+         if (topic.length() > 15) {
+            Serial.println("Invalid array topic length: [" + topic + "]");
+            return;
+         }
+         strncpy(var[i], topic.c_str(), sizeof(var[i]) - 1);
+         var[i][sizeof(var[i]) - 1] = '\0';  // Zorg voor null terminatie
+      }
+   }
+}
+
 void setValues(WiFiClient& client, const String& body) {
    if (settingsAreLocked(client)) return;
 
@@ -226,6 +256,11 @@ void setValues(WiFiClient& client, const String& body) {
       }
       setTurnPercentage_Presets(newturnPresets);
    }
+
+
+   // MQTT TOPICS
+   setArrayFromJson(jsonBody, "mqtt_allData", mqtt_allData);
+   setArrayFromJson(jsonBody, "mqtt_Logbook", mqtt_Logbook);
 
    sendJsonData(client, jsonBody);
 }
