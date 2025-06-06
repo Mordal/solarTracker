@@ -31,8 +31,6 @@ void wifi_Setup() {
    else {
       Serial.println("\nWiFi connection FAILED!");
    }
-
-   print_WifiData();
 }
 
 void wiFiLoop() {
