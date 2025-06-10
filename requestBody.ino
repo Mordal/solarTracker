@@ -257,6 +257,35 @@ void setValues(WiFiClient& client, const String& body) {
       setTurnPercentage_Presets(newturnPresets);
    }
 
+   if (jsonBody.hasOwnProperty("setTime")) {
+      //   void setTimeManually(int day, int month, int year, int hour, int minute,
+      //    int second) {
+      // example JSON:
+      // {"setTime":[1,1,2025,12,0,0]}
+      // curl -X POST -d "{\"setTime\":[1,5,2025,12,0,0]}" http://192.168.0.205:90/SETTINGS
+
+      JSONVar setTime = jsonBody["setTime"];
+      if (setTime.length() != 6) {
+         sendInvalidRequest(client, "Invalid setTime array length");
+         return;
+      }
+      int day = (int)setTime[0];
+      int month = (int)setTime[1];
+      int year = (int)setTime[2];
+      int hour = (int)setTime[3];
+      int minute = (int)setTime[4];
+      int second = (int)setTime[5];
+
+      if (day < 1 || day > 31 || month < 1 || month > 12 || year < 2000 ||
+         hour < 0 || hour > 23 || minute < 0 || minute > 59 ||
+         second < 0 || second > 59) {
+         sendInvalidRequest(client, "Invalid date/time values");
+         return;
+      }
+      setTimeManually(day, month, year, hour, minute, second);
+   }
+
+
 
    // MQTT TOPICS
    setArrayFromJson(jsonBody, "mqtt_allData", mqtt_allData);

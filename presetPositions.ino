@@ -52,6 +52,7 @@ byte getExpectedTurnPosition(byte hour) {
    }
 
    byte turnPercentage = turnPercentage_Presets[hour - 6];
+   Serial.println("Going to turn percentage: " + String(turnPercentage) + "% at hour: " + String(hour));
    return turnPercentage;
 }
 
@@ -150,8 +151,9 @@ byte getExpectedTiltPosition(byte hour, byte month) {
 
 
    // Retourneer het bijbehorende percentage
-   Serial.println("month: " + String(month));
-   Serial.println("hour: " + String(hour));
+   Serial.println("Getting expected tilt position for month: " + String(month) + ", hour: " + String(hour));
+   Serial.println("Tilt percentage: " + String(tiltPercentage_Presets[month][hour - 6]) + "%");
+
    return tiltPercentage_Presets[month]
       [hour - 6];  // Indexering voor uur 6 tot 19
 }

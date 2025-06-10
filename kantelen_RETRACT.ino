@@ -23,7 +23,9 @@ bool inschuiven_activate() {
    if (SAFE_MODE) {
       return false;
    }
-
+   if (STOP_MODE && !inschuiven_FORCE) {
+      return false;
+   }
    if (kantelenTooLong && !inschuiven_FORCE) {
       return false;
    }
@@ -35,10 +37,6 @@ bool inschuiven_activate() {
    if (einde_Inschuiven) {
       return false;
    };
-
-   if (STOP_MODE && !inschuiven_FORCE) {
-      return false;
-   }
 
    inschuiven = true;
    einde_Uitschuiven = false;

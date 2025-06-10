@@ -25,6 +25,11 @@ bool uitschuiven_activate() {
       return false;
    }
 
+   if (STOP_MODE && !uitschuiven_FORCE) {
+      // print("STOP_MODE activated");
+      return false;
+   }
+
    if (kantelenTooLong && !uitschuiven_FORCE) {
       // print("Kantelen in ALARM - RETURN");
       return false;
@@ -40,10 +45,7 @@ bool uitschuiven_activate() {
       return false;
    };
 
-   if (STOP_MODE && !uitschuiven_FORCE) {
-      // print("STOP_MODE activated");
-      return false;
-   }
+
 
    // print("EXTEND");
    uitschuiven = true;

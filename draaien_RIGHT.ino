@@ -23,6 +23,10 @@ bool rechtsDraaien_activate() {
       return false;
    }
 
+   if (STOP_MODE && !rechtsDraaien_FORCE) {
+      return false;
+   }
+
    if (draaienTooLong && !rechtsDraaien_FORCE) {
       return false;
    }
@@ -34,10 +38,6 @@ bool rechtsDraaien_activate() {
    if (einde_Rechtsdraaien) {
       return false;
    };
-
-   if (STOP_MODE && !rechtsDraaien_FORCE) {
-      return false;
-   }
 
    rechtsDraaien = true;
    einde_Linksdraaien = false;

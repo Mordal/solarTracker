@@ -7,6 +7,28 @@ void RTC_Setup() {
    checkCorrectTime();
 }
 
+
+void setTimeManually(int day, int month, int year, int hour, int minute,
+   int second) {
+   // Zet de tijdstructuur
+   RTCTime newTime;
+   newTime.setDayOfMonth(day);
+   newTime.setMonthOfYear((Month)(month - 1));
+   newTime.setYear(year);
+   newTime.setHour(hour);
+   newTime.setMinute(minute);
+   newTime.setSecond(second);
+
+
+   // Stel de RTC tijd in
+   setRTC(newTime.getUnixTime());
+   print("RTC time set manually");
+   printTime();
+}
+
+
+
+
 void setTimeFromNet() {
    if (wifiConnected == false) {
       Serial.println("No internet connection, can't set time");

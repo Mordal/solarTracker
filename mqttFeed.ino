@@ -5,21 +5,11 @@
 
 
 bool setLogbook(void*) {
-
-   Serial.println("Sending logbook data to MQTT...");
    // loop through char mqtt_Data[][10]
    for (int i = 0; i < sizeof(mqtt_Logbook) / sizeof(mqtt_Logbook[0]); i++) {
       char* topic = mqtt_Logbook[i];
-      Serial.print("Sending topic: ");
-      Serial.println(topic);
       mqtt_sendData(topic);
    }
-
-   // mqtt_getFlags();
-   // mqtt_getLightSensorData();
-   // mqtt_getTurnMovementData();
-   // mqtt_getTiltMovementData();
-   // mqtt_getOtherData();
    return true;
 }
 
@@ -27,34 +17,16 @@ bool sendAllPageData(void*) {
    if (clientConnectedTimer.empty()) {
       return false;
    }
-   Serial.println("Sending all page data to MQTT...");
 
    // loop through char mqtt_Data[][10]
    for (int i = 0; i < sizeof(mqtt_allData) / sizeof(mqtt_allData[0]); i++) {
       char* topic = mqtt_allData[i];
-      Serial.print("Sending topic: ");
-      Serial.println(topic);
       mqtt_sendData(topic);
    }
-
-   // mqtt_getFlags();
-   // mqtt_getTiltMovementData();
-   // mqtt_getTurnMovementData();
-   // mqtt_getForceMovements();
-   // mqtt_getRemainingTime();
-   // mqtt_getLightSensorData();
    return true;
 }
 
-// enum mqtt_data {
-//    flags,
-//    tilt,
-//    turn,
-//    force,
-//    timeRemaining,
-//    sensors,
-//    other
-// };
+
 void mqtt_sendData(char* topic) {
    if (strcmp(topic, "flags") == 0) {
       mqtt_getFlags();

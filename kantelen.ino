@@ -156,22 +156,22 @@ bool reset_antiPendel_Kantelen(void*) {
 }
 
 void read_EindeLoop_Kantelen() {
-   if (!einde_Uitschuiven) {
-      einde_Uitschuiven = digitalRead(PIN_Einde_Uitschuiven);
-      if (einde_Uitschuiven) {
-         deactivate_Kantelen();
-         currentTiltPercentage = 10000;
-         inschuivenWhenEindeLoopUitschuiven();
-      };
-   }
-
-   if (!einde_Inschuiven) {
+   if (inschuiven || !einde_Inschuiven) {
       einde_Inschuiven = digitalRead(PIN_Einde_Inschuiven);
       if (einde_Inschuiven) {
          deactivate_Kantelen();
          currentTiltPercentage = 0;
          uitschuivenWhenEindeLoopInschuiven();
-      };
+      }
+   }
+
+   if (uitschuiven || !einde_Uitschuiven) {
+      einde_Uitschuiven = digitalRead(PIN_Einde_Uitschuiven);
+      if (einde_Uitschuiven) {
+         deactivate_Kantelen();
+         currentTiltPercentage = 10000;
+         inschuivenWhenEindeLoopUitschuiven();
+      }
    }
 }
 

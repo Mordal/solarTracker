@@ -22,6 +22,10 @@ bool linksDraaien_activate() {
    if (SAFE_MODE) {
       return false;
    }
+   if (STOP_MODE && !linksDraaien_FORCE) {
+      // print("STOP_MODE activated");
+      return false;
+   }
 
    if (draaienTooLong && !linksDraaien_FORCE) {
       // print("Draaien in ALARM - RETURN");
@@ -37,11 +41,6 @@ bool linksDraaien_activate() {
       // print("Eindeloop LINKS activated");
       return false;
    };
-
-   if (STOP_MODE && !linksDraaien_FORCE) {
-      // print("STOP_MODE activated");
-      return false;
-   }
 
    // print("TURN LEFT");
    linksDraaien = true;
