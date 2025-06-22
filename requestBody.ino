@@ -217,19 +217,24 @@ void setValues(WiFiClient& client, const String& body) {
       // curl -X POST -d "{\"tilt_Presets\":{\"monthIndex\":2,\"presets\":[0,0,0,0,0,0,10,10,5,0,0,0,0,0]}}}" http://192.168.0.205:90/SETTINGS
 
       JSONVar tilt_Presets = jsonBody["tilt_Presets"];
+
+      if (!tilt_Presets.hasOwnProperty("monthIndex") || !tilt_Presets.hasOwnProperty("presets")) {
+         sendInvalidRequest(client, "Missing monthIndex or presets property in tilt_Presets");
+         return;
+      }
+
       byte monthIndex = (byte)tilt_Presets["monthIndex"];
       JSONVar arr = tilt_Presets["presets"];
       byte newtiltPresets[14];
 
-      if (!validMonthIndex(monthIndex)) {
+      if (!validMonthIndex(monthIndex) || JSON.typeof(monthIndex) != "number") {
          sendInvalidRequest(client, "Invalid month index");
          return;
       }
 
-
       for (int i = 0; i < 14; i++) {
-         if (!validPresetValue(arr[i])) {
-            sendInvalidRequest(client, "Invalid tilt preset value");
+         if (!validPresetValue(arr[i]) || JSON.typeof(arr[i]) != "number") {
+            sendInvalidRequest(client, "Invalid tilt preset value [#" + String(i + 1) + "]");
             return;
          }
          newtiltPresets[i] = (byte)arr[i];
@@ -241,14 +246,20 @@ void setValues(WiFiClient& client, const String& body) {
 
       //example JSON :
       // {"turn_Presets":{"turnPresets":[0,5,10,19,28,35,42,52,61,70,75,80,88,100]}}
-      // curl -X POST -d "{\"turn_Presets\":{\"turnPresets\":[0,5,10,19,28,35,42,52,61,70,75,80,88,100]}}" http://192.168.0.205:90/SETTINGS
+      // curl -X POST -d "{\"turn_Presets\":{\"presets\":[0,5,10,19,28,35,42,52,61,70,75,80,88,100]}}" http://192.168.0.205:90/SETTINGS
 
       JSONVar turn_Presets = jsonBody["turn_Presets"];
-      JSONVar arr = turn_Presets["turnPresets"];
+      if (!turn_Presets.hasOwnProperty("presets")) {
+         sendInvalidRequest(client, "Missing presets property in turn_Presets");
+         return;
+      }
+
+      JSONVar arr = turn_Presets["presets"];
       byte newturnPresets[14];
       for (int i = 0; i < 14; i++) {
-         if (!validPresetValue(arr[i])) {
-            sendInvalidRequest(client, "Invalid turn preset value");
+
+         if (!validPresetValue(arr[i]) || JSON.typeof(arr[i]) != "number") {
+            sendInvalidRequest(client, "Invalid turn preset value [#" + String(i + 1) + "]");
             return;
          }
 
@@ -285,8 +296,6 @@ void setValues(WiFiClient& client, const String& body) {
       setTimeManually(day, month, year, hour, minute, second);
    }
 
-
-
    // MQTT TOPICS
    setArrayFromJson(jsonBody, "mqtt_allData", mqtt_allData);
    setArrayFromJson(jsonBody, "mqtt_Logbook", mqtt_Logbook);
@@ -295,6 +304,7 @@ void setValues(WiFiClient& client, const String& body) {
 }
 
 bool validPresetValue(int value) {
+   bool isValid = (value >= 0 && value <= 100);
    return (value >= 0 && value <= 100);
 }
 
