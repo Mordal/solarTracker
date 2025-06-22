@@ -6,7 +6,7 @@
 
 bool setLogbook(void*) {
    // loop through char mqtt_Data[][10]
-   for (int i = 0; i < sizeof(mqtt_Logbook) / sizeof(mqtt_Logbook[0]); i++) {
+   for (int i = 0; i < 12; i++) {
       char* topic = mqtt_Logbook[i];
       mqtt_sendData(topic);
    }
@@ -19,16 +19,32 @@ bool sendAllPageData(void*) {
    }
 
    // loop through char mqtt_Data[][10]
-   for (int i = 0; i < sizeof(mqtt_allData) / sizeof(mqtt_allData[0]); i++) {
+   for (int i = 0; i < 12; i++) {
       char* topic = mqtt_allData[i];
       mqtt_sendData(topic);
    }
    return true;
 }
 
+JSONVar getMqttSettings() {
+   //fill mqttSettings with the topics
+   JSONVar mqttSettings;
+   for (int i = 0; i < 12; i++) {
+      char* topic = mqtt_Logbook[i];
+      mqttSettings["mqtt_Logbook"][i] = topic;
+   }
+   for (int i = 0; i < 12; i++) {
+      char* topic = mqtt_allData[i];
+      mqttSettings["mqtt_allData"][i] = topic;
+   }
+   return mqttSettings;
+}
 
 void mqtt_sendData(char* topic) {
-   if (strcmp(topic, "flags") == 0) {
+   if (strcmp(topic, "") == 0) {
+      return; // skip empty topics
+   }
+   else if (strcmp(topic, "flags") == 0) {
       mqtt_getFlags();
    }
    else if (strcmp(topic, "sensors") == 0) {

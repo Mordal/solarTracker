@@ -158,31 +158,21 @@ void setTimerFromJson(JSONVar& json, const char* key, unsigned long& var) {
 }
 
 
-void setArrayFromJson(JSONVar& json, const char* key, char var[][15]) {
+void setArrayFromJson(JSONVar& json, const char* key, char var[12][15]) {
    if (json.hasOwnProperty(key)) {
       JSONVar mqttArray = json[key];
       int newSize = mqttArray.length();
-      Serial.print("New array size: ");
-      Serial.println(newSize);
-      Serial.print("Current array size: ");
-      Serial.println(sizeof(var) / sizeof(var[0]));
+      if (newSize > 12) newSize = 12;
 
-      if (newSize > sizeof(var) / sizeof(var[0])) {
-         Serial.println("Array size exceeds the allocated size");
-         return;
-      }
+      // Leeg de oude array
+      for (int i = 0; i < 12; i++) var[i][0] = '\0';
 
-      // Leeg de oude array voordat je nieuwe data toevoegt
-      memset(var, 0, sizeof(var));
       // Zet de array op basis van de nieuwe grootte
       for (int i = 0; i < newSize; i++) {
          String topic = mqttArray[i];
-         if (topic.length() > 15) {
-            Serial.println("Invalid array topic length: [" + topic + "]");
-            return;
-         }
-         strncpy(var[i], topic.c_str(), sizeof(var[i]) - 1);
-         var[i][sizeof(var[i]) - 1] = '\0';  // Zorg voor null terminatie
+         if (topic.length() > 14) continue; // max 14 + '\0'
+         strncpy(var[i], topic.c_str(), 14);
+         var[i][14] = '\0';
       }
    }
 }
@@ -298,7 +288,9 @@ void setValues(WiFiClient& client, const String& body) {
 
    // MQTT TOPICS
    setArrayFromJson(jsonBody, "mqtt_allData", mqtt_allData);
+   //curl -X POST -d "{\"mqtt_allData\":[\"flags\",\"sensors\",\"tilt\"]}" http://192.168.0.205:90/SETTINGS
    setArrayFromJson(jsonBody, "mqtt_Logbook", mqtt_Logbook);
+   //curl -X POST -d "{\"mqtt_Logbook\":[\"flags\",\"sensors\",\"tilt\"]}" http://192.168.0.205:90/SETTINGS
 
    sendJsonData(client, jsonBody);
 }

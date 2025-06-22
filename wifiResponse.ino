@@ -116,8 +116,18 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
    else if (requestHasString(currentLine, "GET /API/CLIENTCONNECTED")) {
       setClientConnectedTimer();
       sendOk(client);
+   }
+   else if (requestHasString(currentLine, "GET /API/MQTTSETTINGS")) {
+      sendJsonData(client, getMqttSettings());
+   }
 
-      // deze moet als laatste
+   else if (requestHasString(currentLine, "POST /API/UNLOCK")) {
+      String body = readBody(client, client.readStringUntil('\n').toInt());
+      unlockSettings(client, body);
+   }
+   else if (requestHasString(currentLine, "POST /API/CONTROL")) {
+      String body = readBody(client, client.readStringUntil('\n').toInt());
+      control(client, body);
    }
    else if (requestHasString(currentLine, "GET /API")) {
       sendEndpoints(client);
