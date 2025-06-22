@@ -1,4 +1,3 @@
-
 void RTC_Setup() {
    RTC.begin();
    setTimeFromNet();
@@ -77,34 +76,47 @@ time_t calculateLocalTime(unsigned long epochTime) {
    setTime(epochTime);
 
    // Bepaal of het zomertijd is
-   bool isDST = summertime(year(), month(), day(), hour(), 1);
+   bool isDST = summertime(year(), month(), day(), hour());
 
    // Bereken de lokale tijd (CET is UTC+1, CEST is UTC+2)
    return isDST ? epochTime + 7200 : epochTime + 3600;
 }
 
 // Zomertijd berekenen (laatste zondag van maart tot laatste zondag van oktober)
-bool summertime(int year, byte month, byte day, byte hour, byte tzHours) {
+bool summertime(int year, byte month, byte day, byte hour) {
+   // Geen zomertijd in Jan, Feb, Nov, Dec
    if (month < 3 || month > 10)
-      return false;  // geen zomertijd in Jan, Feb, Nov, Dec
+      return false;
+   // Zomertijd in Apr, May, Jun, Jul, Aug, Sep
    if (month > 3 && month < 10)
-      return true;  // zomertijd in Apr, May, Jun, Jul, Aug, Sep
+      return true;
 
-   int lastSunday =
-      (31 - ((5 * year / 4 + 4) % 7));  // Bereken laatste zondag van de maand
-
-   if (month == 3)
-      return (day > lastSunday || (day == lastSunday && hour >= 2));
-   if (month == 10)
-      return (day < lastSunday || (day == lastSunday && hour < 2));
-   return false;  // Deze regel zou nooit moeten worden bereikt
+   int lastSunday;
+   if (month == 3) {
+      // Laatste zondag van maart
+      lastSunday = 31 - ((5 * year / 4 + 4) % 7);
+      bool isSummerTime = (day > lastSunday) || (day == lastSunday && hour >= 2);
+      return isSummerTime;
+   }
+   if (month == 10) {
+      // Laatste zondag van oktober
+      lastSunday = 31 - ((5 * year / 4 + 1) % 7);
+      bool isSummerTime = (day < lastSunday) || (day == lastSunday && hour < 2);
+      return isSummerTime;
+   }
+   return false; // Fallback, zou niet bereikt moeten worden
 }
 
 bool isSummerTimeRTC() {
    RTCTime currentTime = getRTCTime();
-   return summertime(currentTime.getYear(), (byte)currentTime.getMonth(),
-      (byte)currentTime.getDayOfMonth(),
-      (byte)currentTime.getHour(), 1);
+   int currentYear = currentTime.getYear();
+   byte currentMonth = (byte)Month2int(currentTime.getMonth());
+   byte currentDay = (byte)currentTime.getDayOfMonth();
+   byte currentHour = (byte)currentTime.getHour();
+
+   bool isSummer = summertime(currentYear, currentMonth, currentDay, currentHour);
+   return isSummer;
+
 }
 
 byte getHourNumber() {

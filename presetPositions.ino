@@ -170,6 +170,9 @@ bool gotoPresetPosition(void*) {
    byte monthNumber = getMonthNumber();
    byte hourNumber = getHourNumber();
 
+   Serial.println("Previous monthNumer: " + String(previousMonth));
+   Serial.println("Currrunt monthNumer: " + String(monthNumber));
+
    if (previousMonth != monthNumber) {
       previousMonth = monthNumber;
       setTimeFromNet();

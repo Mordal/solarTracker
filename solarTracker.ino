@@ -158,7 +158,7 @@ int wantedTiltPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 // Settings
 unsigned int antiPendelTime = 5000;        //= 5 sec. = 5000 ms  ;  MAX = 65535
 unsigned int maxMovementTime = 50000;      // 50 sec. = 50000 ms ;  MAX = 65535
-unsigned long periodicalTime = 300000;          // 5 min. = 300000 ms
+unsigned long periodicalTime = 100000;          // 5 min. = 300000 ms
 unsigned long settingsUnlockedTime = 1200000;  // 20 min. = 1200000 ms
 unsigned int logbookTime = 10000;  // 10 sec. = 10000 ms
 unsigned int sendAllDataTime = 1000;  // 1 sec. = 1000 ms

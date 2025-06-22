@@ -69,7 +69,9 @@ bool periodicalFunction(void*) {
 
     //SET Preset Positions Timer
     if (gotoPosition_Timer.size() == 0 && getMinuteNumber() >= 27) {
-        gotoPosition_Timer.every(3600000, gotoPresetPosition);          // 1 uur
+        // gotoPosition_Timer.every(3600000, gotoPresetPosition);          // 1 uur
+        gotoPosition_Timer.every(20000, gotoPresetPosition);          // 20 seconden
+
     }
 
     if (isNight() && !NIGHT_MODE) {
