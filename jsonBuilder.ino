@@ -177,6 +177,20 @@ JSONVar getWifiData() {
    return wifiDataObject;
 }
 
+JSONVar getMqttSettings() {
+   //fill mqttSettings with the topics
+   JSONVar mqttSettings;
+   for (int i = 0; i < 12; i++) {
+      char* topic = mqtt_Logbook[i];
+      mqttSettings["mqtt_Logbook"][i] = topic;
+   }
+   for (int i = 0; i < 12; i++) {
+      char* topic = mqtt_allData[i];
+      mqttSettings["mqtt_allData"][i] = topic;
+   }
+   return mqttSettings;
+}
+
 
 void getPageData() {
    return;   // DEPRECATED

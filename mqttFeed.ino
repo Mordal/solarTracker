@@ -26,19 +26,6 @@ bool sendAllPageData(void*) {
    return true;
 }
 
-JSONVar getMqttSettings() {
-   //fill mqttSettings with the topics
-   JSONVar mqttSettings;
-   for (int i = 0; i < 12; i++) {
-      char* topic = mqtt_Logbook[i];
-      mqttSettings["mqtt_Logbook"][i] = topic;
-   }
-   for (int i = 0; i < 12; i++) {
-      char* topic = mqtt_allData[i];
-      mqttSettings["mqtt_allData"][i] = topic;
-   }
-   return mqttSettings;
-}
 
 void mqtt_sendData(char* topic) {
    if (strcmp(topic, "") == 0) {

@@ -204,7 +204,7 @@ bool NIGHT_MODE = false;
 bool draaienTooLong = false;
 bool kantelenTooLong = false;
 bool settingsUnlocked = false;
-bool dailyTest_Active = false;
+bool dailyTest_Active = true;
 
 // WIFI CONFIG
 char ssid[] = SECRET_SSID;

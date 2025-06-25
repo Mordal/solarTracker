@@ -42,7 +42,8 @@ JSONVar getEndpoints() {
       "/API/TURNPRESET",
       "/API/TILTPRESET-monthIndex",
       "/API/WIFIDATA",
-      "/API/CLIENTCONNECTED"
+      "/API/CLIENTCONNECTED",
+      "/API/MQTTSETTINGS"
    };
 
    JSONVar endpointsJson = undefined;
@@ -121,14 +122,14 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
       sendJsonData(client, getMqttSettings());
    }
 
-   else if (requestHasString(currentLine, "POST /API/UNLOCK")) {
-      String body = readBody(client, client.readStringUntil('\n').toInt());
-      unlockSettings(client, body);
-   }
-   else if (requestHasString(currentLine, "POST /API/CONTROL")) {
-      String body = readBody(client, client.readStringUntil('\n').toInt());
-      control(client, body);
-   }
+   // else if (requestHasString(currentLine, "POST /API/UNLOCK")) {
+   //    String body = readBody(client, client.readStringUntil('\n').toInt());
+   //    unlockSettings(client, body);
+   // }
+   // else if (requestHasString(currentLine, "POST /API/CONTROL")) {
+   //    String body = readBody(client, client.readStringUntil('\n').toInt());
+   //    control(client, body);
+   // }
    else if (requestHasString(currentLine, "GET /API")) {
       sendEndpoints(client);
    }
