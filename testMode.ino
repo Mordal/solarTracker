@@ -1,10 +1,37 @@
 void testMode() {
    TEST_MODE = true;
    stopMomevement();
+
+
+   unsigned long previousMillis = 0;
+   const long interval = 60; // 1 minute in seconds
+   int count = 0;
+
+   unsigned long previousUnixTime = getEpochTime();
+
+
    while (true) {
-      testMode_Output();
-      delay(1000);
+      tickTimers();
+      unsigned long currentUnixTime = getEpochTime();
+      if (currentUnixTime - previousUnixTime >= interval) {
+
+         RTCTime currentTime = getRTCTime();
+         Serial.print(currentTime.getHour());
+         Serial.print(":");
+         Serial.print(currentTime.getMinutes());
+         Serial.print(":");
+         Serial.println(currentTime.getSeconds());
+
+         previousUnixTime = currentUnixTime;
+         count++;
+      }
+
    }
+}
+
+void testTime() {
+   return;
+
 }
 
 void testMode_Output() {

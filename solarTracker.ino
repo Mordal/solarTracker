@@ -163,6 +163,7 @@ unsigned long settingsUnlockedTime = 1200000;  // 20 min. = 1200000 ms
 unsigned int logbookTime = 10000;  // 10 sec. = 10000 ms
 unsigned int sendAllDataTime = 1000;  // 1 sec. = 1000 ms
 unsigned int clientConnectedTimeOut = 30000;  // 30 sec. = 30000 ms
+unsigned int RTCcorrectionTime = 270000;  // 270 sec.  = 270000 ms
 
 // Draaien
 Timer<1> antiPendel_Draaien_Timer;
@@ -180,6 +181,7 @@ Timer<1> periodicalTimer;
 Timer<1> settingsUnlockedTimer;
 Timer<1> gotoPosition_Timer;
 Timer<1> setMovementPercentage_Timer;
+Timer<1> RTCcorrection_Timer;
 
 // Time Remaining
 unsigned int antiPendel_Draaien_Timer_Remaining = 0;
@@ -191,6 +193,7 @@ unsigned int clientConnectedTimer_Remaining = 0;
 unsigned long periodicalTimer_Remaining = 0;
 unsigned long settingsUnlockedTimer_Remaining = 0;
 unsigned long gotoPosition_Timer_Remaining = 0;
+unsigned long RTCcorrection_Timer_Remaining = 0;
 
 // FLAGS
 bool wifiConnected = false;
@@ -204,7 +207,7 @@ bool NIGHT_MODE = false;
 bool draaienTooLong = false;
 bool kantelenTooLong = false;
 bool settingsUnlocked = false;
-bool dailyTest_Active = true;
+bool dailyTest_Active = false;
 
 // WIFI CONFIG
 char ssid[] = SECRET_SSID;
@@ -274,11 +277,12 @@ void setup() {
    RTC_Setup();
    resetTime = getRTCTime();
 
-   // TESTMODE
-   //  testMode();
-
    // setup Timers
    setTimers();
+
+   // TESTMODE
+   testMode();
+
 
    initializeNeededTime();
 

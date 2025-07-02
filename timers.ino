@@ -11,6 +11,7 @@ void tickTimers() {
     settingsUnlockedTimer_Remaining = settingsUnlockedTimer.tick();
     gotoPosition_Timer_Remaining = gotoPosition_Timer.tick();
     sendAllData_Timer.tick();
+    RTCcorrection_Timer_Remaining = RTCcorrection_Timer.tick();
 }
 
 
@@ -20,6 +21,7 @@ void setTimers() {
     start_Logbook_Timer();
     setMovementPercentage_Timer.every(1000, setCurrentMovementPercentage);  // 1 sec
     gotoPosition_Timer.cancel();  // reset gotoPosition_Timer
+    RTCcorrection_Timer.every(RTCcorrectionTime, RTCcorrectionFunction);
 }
 
 void restartTimers() {
@@ -82,5 +84,17 @@ bool periodicalFunction(void*) {
         NIGHT_MODE = false;
         stopMomevement();
     }
+    return true;
+}
+
+
+bool RTCcorrectionFunction(void*) {
+    //RTC runs to fast 
+    //   -> (1,556 sec/min)
+    //   -> (0,025933333 sec/sec
+
+    unsigned long epochTime = getEpochTime();
+    epochTime -= 7;
+    setRTC(epochTime);
     return true;
 }
