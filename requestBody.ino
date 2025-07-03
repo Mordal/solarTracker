@@ -194,6 +194,7 @@ void setValues(WiFiClient& client, const String& body) {
    setFromJson(jsonBody, "timeNeededToTurn", timeNeededToTurn);
    setFromJson(jsonBody, "timeNeededToTilt", timeNeededToTilt);
    setFromJson(jsonBody, "dailyTest_Active", dailyTest_Active);
+   setFromJson(jsonBody, "syncTime", syncTime);
 
    setTimerFromJson(jsonBody, "logbookTime", logbookTime);
    setTimerFromJson(jsonBody, "periodicalTime", periodicalTime);

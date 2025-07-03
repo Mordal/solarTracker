@@ -17,14 +17,15 @@ void tickTimers() {
 
 // set permanent timers
 void setTimers() {
+    RTCcorrection_Timer.every(RTCcorrectionTime, RTCcorrectionFunction);
     periodicalTimer.every(periodicalTime, periodicalFunction);
     start_Logbook_Timer();
     setMovementPercentage_Timer.every(1000, setCurrentMovementPercentage);  // 1 sec
     gotoPosition_Timer.cancel();  // reset gotoPosition_Timer
-    RTCcorrection_Timer.every(RTCcorrectionTime, RTCcorrectionFunction);
 }
 
 void restartTimers() {
+    RTCcorrection_Timer.cancel();
     periodicalTimer.cancel();
     setMovementPercentage_Timer.cancel();
     gotoPosition_Timer.cancel();
@@ -72,7 +73,6 @@ bool periodicalFunction(void*) {
     //SET Preset Positions Timer
     if (gotoPosition_Timer.size() == 0 && getMinuteNumber() >= 27) {
         gotoPosition_Timer.every(3600000, gotoPresetPosition);          // 1 uur
-
     }
 
     if (isNight() && !NIGHT_MODE) {
@@ -84,6 +84,9 @@ bool periodicalFunction(void*) {
         NIGHT_MODE = false;
         stopMomevement();
     }
+
+    setTimeFromNet();
+
     return true;
 }
 

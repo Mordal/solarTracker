@@ -5,12 +5,12 @@ JSONVar getFlags() {
    flagsObject["Flags"]["SAFE_MODE"] = SAFE_MODE;
    flagsObject["Flags"]["STOP_MODE"] = STOP_MODE;
    flagsObject["Flags"]["isNight"] = isNight();
-   flagsObject["Flags"]["Draaien_too_long"] = draaienTooLong;
-   flagsObject["Flags"]["Kantelen_too_long"] = kantelenTooLong;
-   flagsObject["Flags"]["Wifi_connected"] = wifiConnected;
-   flagsObject["Flags"]["Mqtt_connected"] = mqttConnected;
+   flagsObject["Flags"]["Draaien_TL"] = draaienTooLong;
+   flagsObject["Flags"]["Kantelen_TL"] = kantelenTooLong;
+   flagsObject["Flags"]["Wifi_con"] = wifiConnected;
+   flagsObject["Flags"]["Mqtt_con"] = mqttConnected;
    flagsObject["Flags"]["Reset"] = resetHappend;
-   flagsObject["Flags"]["SettingsUnlocked"] = settingsUnlocked;
+   flagsObject["Flags"]["SettingsUnlock"] = settingsUnlocked;
 
    return flagsObject;
 }
@@ -76,6 +76,8 @@ JSONVar getOtherData() {
    otherDataObject["Turn_Time"] = timeNeededToTurn;
    otherDataObject["Tilt_Time"] = timeNeededToTilt;
    otherDataObject["settingsUnlocked"] = settingsUnlocked;
+   otherDataObject["resetTime"] = resetTime.toString();
+   otherDataObject["syncTime"] = syncTime;
    return otherDataObject;
 }
 
@@ -133,7 +135,7 @@ JSONVar getSettings_TimeOuts() {
    settingsObject["TimeOuts"]["logbookTime"] = logbookTime;
    settingsObject["TimeOuts"]["clientConTimeOut"] = clientConnectedTimeOut;
    settingsObject["TimeOuts"]["sendAllDataTime"] = sendAllDataTime;
-   settingsObject["TimeOuts"]["settingsUnlockedTime"] = settingsUnlockedTime;
+   settingsObject["TimeOuts"]["settingsUnlockTime"] = settingsUnlockedTime;
    return settingsObject;
 }
 
@@ -155,18 +157,6 @@ JSONVar getRemainingTime() {
       gotoPosition_Timer_Remaining;
    return remainingTimeObject;
 }
-
-//  IPAddress ip = WiFi.localIP();
-//    Serial.print("IP Address: ");
-//    Serial.println(ip);
-
-//    // print the SSID of the network you're attached to:
-//    Serial.print("Network name: ");
-//    Serial.println(WiFi.SSID());
-
-//    // print the received signal strength:
-//    long rssi = WiFi.RSSI();
-//    Serial.print("signal strength (RSSI):");
 
 JSONVar getWifiData() {
    JSONVar wifiDataObject = undefined;

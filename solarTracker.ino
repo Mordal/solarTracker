@@ -208,6 +208,7 @@ bool draaienTooLong = false;
 bool kantelenTooLong = false;
 bool settingsUnlocked = false;
 bool dailyTest_Active = false;
+bool syncTime = true;
 
 // WIFI CONFIG
 char ssid[] = SECRET_SSID;
@@ -281,8 +282,7 @@ void setup() {
    setTimers();
 
    // TESTMODE
-   testMode();
-
+   // testMode();
 
    initializeNeededTime();
 

@@ -34,6 +34,11 @@ void setTimeFromNet() {
       return;
    }
 
+   if (!syncTime) {
+      Serial.println("Sync time is disabled, skipping time update");
+      return;
+   }
+
    // Start de NTP client
    timeClient.begin();
    // Update de tijd
@@ -47,8 +52,10 @@ void setTimeFromNet() {
 
    // Stel de RTC tijd in
    setRTC(localTime);
-   print("RTC time set from internet");
-   printTime();
+
+   //Reset the RTC correction timer
+   RTCcorrection_Timer.cancel();
+   RTCcorrection_Timer.every(RTCcorrectionTime, RTCcorrectionFunction);
 }
 
 void checkCorrectTime() {
