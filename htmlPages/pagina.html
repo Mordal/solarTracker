@@ -435,20 +435,20 @@
 
 					<!-- Timer 5 -->
 					<div class="form-group">
-						<label for="LogbookTimer">Logbook timer</label>
+						<label for="LogbookTime">Logbook timer</label>
 						<div class="progress-bar">
-							<div class="progress" id="LogbookTimerProgress">
-								<span class="progress-text" id="LogbookTimerProgressText"></span>
+							<div class="progress" id="LogbookTimeProgress">
+								<span class="progress-text" id="LogbookTimeProgressText"></span>
 							</div>
 						</div>
 						<input
 							type="number"
-							id="LogbookTimerTimeout"
-							name="LogbookTimerTimeout"
+							id="LogbookTimeTimeout"
+							name="LogbookTimeTimeout"
 							placeholder="Timeout (seconden)"
 							aria-label="Timeout tijd voor Timer 4"
 						/>
-						<button type="button" class="save-btn" onclick="NewSettingTimer('LogbookTimer')">
+						<button type="button" class="save-btn" onclick="NewSettingTimer('LogbookTime')">
 							Set
 						</button>
 					</div>
@@ -548,9 +548,10 @@
 			</div>
 		</section>
 		<footer><p>Footer</p></footer>
-		<!-- <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script> -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
-		<script src="pageData.js"></script>
+		<script src="loadScript.js"></script>
+		<script src="getData.js"></script>
+		<script src="setPageData.js"></script>
+		<script src="eventListeners.js"></script>
 		<script src="script.js"></script>
 	</body>
 </html>

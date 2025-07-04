@@ -132,10 +132,10 @@ JSONVar getSettings_TimeOuts() {
    settingsObject["TimeOuts"]["APTime"] = antiPendelTime;
    settingsObject["TimeOuts"]["maxMoveTime"] = maxMovementTime;
    settingsObject["TimeOuts"]["periodicalTime"] = periodicalTime;
-   settingsObject["TimeOuts"]["logbookTime"] = logbookTime;
-   settingsObject["TimeOuts"]["clientConTimeOut"] = clientConnectedTimeOut;
-   settingsObject["TimeOuts"]["sendAllDataTime"] = sendAllDataTime;
    settingsObject["TimeOuts"]["settingsUnlockTime"] = settingsUnlockedTime;
+   settingsObject["TimeOuts"]["logbookTime"] = logbookTime;
+   settingsObject["TimeOuts"]["sendAllDataTime"] = sendAllDataTime;
+   settingsObject["TimeOuts"]["clientConTimeOut"] = clientConnectedTimeOut;
    return settingsObject;
 }
 
@@ -147,7 +147,7 @@ JSONVar getRemainingTime() {
       antiPendel_Kantelen_Timer_Remaining;
    remainingTimeObject["TimeRem"]["draaien_TO"] = draaien_TimeOut_Remaining;
    remainingTimeObject["TimeRem"]["kantelen_TO"] = kantelen_TimeOut_Remaining;
-   remainingTimeObject["TimeRem"]["logBookTimer"] = logBook_Timer_Remaining;
+   remainingTimeObject["TimeRem"]["logBookTime"] = logBook_Timer_Remaining;
    remainingTimeObject["TimeRem"]["clientTimer"] =
       clientConnectedTimer_Remaining;
    remainingTimeObject["TimeRem"]["periodicalTimer"] = periodicalTimer_Remaining;
@@ -244,7 +244,8 @@ void getPageData() {
       antiPendel_Kantelen_Timer_Remaining;
    pageData["TimeRem"]["draaien_TimeOut"] = draaien_TimeOut_Remaining;
    pageData["TimeRem"]["kantelen_TimeOut"] = kantelen_TimeOut_Remaining;
-   pageData["TimeRem"]["logBook_Timer"] = logBook_Timer_Remaining;
+   pageData["TimeRem"]["logBook_Timer"] = logBook_Timer.size() > 0 ?
+      logBook_Timer_Remaining : sendAllData_Timer_Remaining;
    pageData["TimeRem"]["periodicalTimer"] = periodicalTimer_Remaining;
    pageData["TimeRem"]["settingsUnlockedTimer"] =
       settingsUnlockedTimer_Remaining;

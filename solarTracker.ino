@@ -1,4 +1,3 @@
-
 // TODO
 
 #include <NTPClient.h>
@@ -115,7 +114,7 @@ bool einde_Rechtsdraaien = false;
 bool antiPendel_Draaien = false;
 
 // turning percentage
-unsigned int timeNeededToTurn = 42400;
+unsigned int timeNeededToTurn = 40000;
 int currentTurnPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 unsigned long turnStartTime = 0;
 int wantedTurnPercentage = 0;  // moet nog delen door 100 = 2 decimalen
@@ -149,7 +148,7 @@ bool einde_Inschuiven = false;
 bool antiPendel_Kantelen = false;
 
 // tilt percentage
-unsigned int timeNeededToTilt = 35400;
+unsigned int timeNeededToTilt = 30000;
 int currentTiltPercentage = 0;  // moet nog delen door 100 = 2 decimalen
 unsigned long tiltStartTime = 0;
 int wantedTiltPercentage = 0;  // moet nog delen door 100 = 2 decimalen
@@ -189,6 +188,7 @@ unsigned int antiPendel_Kantelen_Timer_Remaining = 0;
 unsigned int draaien_TimeOut_Remaining = 0;
 unsigned int kantelen_TimeOut_Remaining = 0;
 unsigned int logBook_Timer_Remaining = 0;
+unsigned int sendAllData_Timer_Remaining = 0;
 unsigned int clientConnectedTimer_Remaining = 0;
 unsigned long periodicalTimer_Remaining = 0;
 unsigned long settingsUnlockedTimer_Remaining = 0;
@@ -207,7 +207,7 @@ bool NIGHT_MODE = false;
 bool draaienTooLong = false;
 bool kantelenTooLong = false;
 bool settingsUnlocked = false;
-bool dailyTest_Active = false;
+bool dailyTest_Active = true;
 bool syncTime = true;
 
 // WIFI CONFIG
@@ -218,8 +218,7 @@ WiFiServer server(80);
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
-char mqtt_Logbook[12][15] =
-{
+char mqtt_Logbook[12][15] = {
    "flags",
    "sensors",
    "tilt",

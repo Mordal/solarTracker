@@ -10,7 +10,7 @@ void tickTimers() {
     setMovementPercentage_Timer.tick();
     settingsUnlockedTimer_Remaining = settingsUnlockedTimer.tick();
     gotoPosition_Timer_Remaining = gotoPosition_Timer.tick();
-    sendAllData_Timer.tick();
+    sendAllData_Timer_Remaining = sendAllData_Timer.tick();
     RTCcorrection_Timer_Remaining = RTCcorrection_Timer.tick();
 }
 

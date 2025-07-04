@@ -103,6 +103,7 @@ void clientConnection(WiFiClient& client) {
 
                // response_WiFi_BASIC(client);  //send a response:
             };
+            sendInvalidRequest(client, "NO BODY");
             break;
          }
          else {  // if you got a newline, then clear currentLine:
