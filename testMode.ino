@@ -5,7 +5,7 @@ void testMode() {
 
 
    while (true) {
-      testMode_LichtSensoren();
+      testMode_EindeLoop();
    }
 }
 

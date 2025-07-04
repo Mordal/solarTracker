@@ -49,7 +49,7 @@ void mqtt_sendData(char* topic) {
    else if (strcmp(topic, "timeRemaining") == 0) {
       mqtt_getRemainingTime();
    }
-   else if (strcmp(topic, "other") == 0) {
+   else if (strcmp(topic, "otherData") == 0) {
       mqtt_getOtherData();
    }
    else if (strcmp(topic, "wifi") == 0) {

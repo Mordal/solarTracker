@@ -25,10 +25,7 @@
 							<th>Mqtt Connected</th>
 							<td id="Mqtt_connected" class="status grey"></td>
 						</tr>
-						<tr>
-							<th>isNight</th>
-							<td id="isNight" class="status grey"></td>
-						</tr>
+						
 					</table>
 				</div>
 				<div class="grid-item">
@@ -53,12 +50,8 @@
 					<h3 class="section-title">Modes</h3>
 					<table class="status-table">
 						<tr>
-							<th>Test Mode</th>
-							<td id="TEST_MODE" class="status grey"></td>
-						</tr>
-						<tr>
-							<th>Safe Mode</th>
-							<td id="SAFE_MODE" class="status grey"></td>
+							<th>Night Mode</th>
+							<td id="NIGHT_MODE" class="status grey"></td>
 						</tr>
 						<tr>
 							<th>Stop Mode</th>
@@ -68,6 +61,15 @@
 							<th>Force Mode</th>
 							<td id="FORCE_MODE" class="status grey"></td>
 						</tr>
+						<tr>
+							<th>Test Mode</th>
+							<td id="TEST_MODE" class="status grey"></td>
+						</tr>
+						<tr>
+							<th>Safe Mode</th>
+							<td id="SAFE_MODE" class="status grey"></td>
+						</tr>
+			
 					</table>
 				</div>
 			</nav>
@@ -361,16 +363,7 @@
 								<span class="progress-text" id="draaien_APProgressText"></span>
 							</div>
 						</div>
-						<input
-							type="number"
-							id="draaien_APTimeout"
-							name="draaien_APTimeout"
-							placeholder="Default: 50"
-							aria-label="Timeout tijd voor Timer 1"
-						/>
-						<button type="button" class="save-btn" onclick="NewSettingTimer('draaien_AP')">
-							Set
-						</button>
+						
 					</div>
 
 					<!-- Timer 2 -->
@@ -381,16 +374,7 @@
 								<span class="progress-text" id="kantelen_APProgressText"></span>
 							</div>
 						</div>
-						<input
-							type="number"
-							id="kantelen_APTimeout"
-							name="kantelen_APTimeout"
-							placeholder="Timeout (seconden)"
-							aria-label="Timeout tijd voor Timer 2"
-						/>
-						<button type="button" class="save-btn" onclick="NewSettingTimer('kantelen_AP')">
-							Set
-						</button>
+	
 					</div>
 
 					<!-- Timer 3 -->
@@ -401,16 +385,7 @@
 								<span class="progress-text" id="Draaien_TOProgressText"></span>
 							</div>
 						</div>
-						<input
-							type="number"
-							id="Draaien_TOTimeout"
-							name="Draaien_TOTimeout"
-							placeholder="Timeout (seconden)"
-							aria-label="Timeout tijd voor Timer 3"
-						/>
-						<button type="button" class="save-btn" onclick="NewSettingTimer('Draaien_TO')">
-							Set
-						</button>
+					
 					</div>
 
 					<!-- Timer 4 -->
@@ -421,16 +396,7 @@
 								<span class="progress-text" id="Kantelen_TOProgressText"></span>
 							</div>
 						</div>
-						<input
-							type="number"
-							id="Kantelen_TOTimeout"
-							name="Kantelen_TOTimeout"
-							placeholder="Timeout (seconden)"
-							aria-label="Timeout tijd voor Timer 4"
-						/>
-						<button type="button" class="save-btn" onclick="NewSettingTimer('Kantelen_TO')">
-							Set
-						</button>
+		
 					</div>
 
 					<!-- Timer 5 -->
@@ -441,16 +407,7 @@
 								<span class="progress-text" id="LogbookTimeProgressText"></span>
 							</div>
 						</div>
-						<input
-							type="number"
-							id="LogbookTimeTimeout"
-							name="LogbookTimeTimeout"
-							placeholder="Timeout (seconden)"
-							aria-label="Timeout tijd voor Timer 4"
-						/>
-						<button type="button" class="save-btn" onclick="NewSettingTimer('LogbookTime')">
-							Set
-						</button>
+						
 					</div>
 
 					<!-- Timer 6 -->
@@ -461,16 +418,7 @@
 								<span class="progress-text" id="Retry_TimerProgressText"></span>
 							</div>
 						</div>
-						<input
-							type="number"
-							id="Retry_TimerTimeout"
-							name="Retry_TimerTimeout"
-							placeholder="Timeout (seconden)"
-							aria-label="Timeout tijd voor Timer 4"
-						/>
-						<button type="button" class="save-btn" onclick="NewSettingTimer('Retry_Timer')">
-							Set
-						</button>
+						
 					</div>
 
 					<!-- Timer 7 -->
@@ -481,16 +429,7 @@
 								<span class="progress-text" id="Settings_UnlockProgressText"></span>
 							</div>
 						</div>
-						<input
-							type="number"
-							id="Settings_UnlockTimeout"
-							name="Settings_UnlockTimeout"
-							placeholder="Timeout (seconden)"
-							aria-label="Timeout tijd voor Timer 4"
-						/>
-						<button type="button" class="save-btn" onclick="startTimer('Settings_Unlock')">
-							Set
-						</button>
+						
 					</div>
 
 					<!-- Timer 8 -->
@@ -501,16 +440,7 @@
 								<span class="progress-text" id="goToPositionProgressText"></span>
 							</div>
 						</div>
-						<input
-							type="number"
-							id="goToPositionTimeout"
-							name="goToPositionTimeout"
-							placeholder="Timeout (seconden)"
-							aria-label="Timeout tijd voor Timer 4"
-						/>
-						<button type="button" class="save-btn" onclick="NewSettingTimer('goToPosition')">
-							Set
-						</button>
+						
 					</div>
 				</div>
 			</div>
@@ -548,10 +478,11 @@
 			</div>
 		</section>
 		<footer><p>Footer</p></footer>
-		<script src="loadScript.js"></script>
+		<script src="mqtt.js"></script>
 		<script src="getData.js"></script>
 		<script src="setPageData.js"></script>
 		<script src="eventListeners.js"></script>
+		<script src="settings.js"></script>
 		<script src="script.js"></script>
 	</body>
 </html>

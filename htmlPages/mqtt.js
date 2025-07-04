@@ -2,7 +2,8 @@
 // Probeer deze CDNs in volgorde
 const mqttCDNs = [
   'https://unpkg.com/mqtt/dist/mqtt.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js',
+  'https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.13.1/mqtt.min.js',
   'https://cdn.jsdelivr.net/npm/mqtt@5.10.3/dist/mqtt.min.js',
 ];
 const topics = {
@@ -12,6 +13,7 @@ const topics = {
   FORCE: 'forceMovement',
   TIME: 'timeRemaining',
   SENSORS: 'sensorData',
+  OTHERDATA: 'otherData',
 };
 
 function loadMqttScript(urls, callback) {
@@ -64,6 +66,10 @@ loadMqttScript(mqttCDNs, () => {
 
       if (topic == 'sensorData') {
         setSensors(JSON.parse(message));
+      }
+
+      if (topic == 'otherData') {
+        setOtherData(JSON.parse(message));
       }
 
       if (topic == 'forceMovement') {

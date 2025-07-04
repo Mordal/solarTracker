@@ -4,13 +4,16 @@ JSONVar getFlags() {
    flagsObject["Flags"]["TEST_MODE"] = TEST_MODE;
    flagsObject["Flags"]["SAFE_MODE"] = SAFE_MODE;
    flagsObject["Flags"]["STOP_MODE"] = STOP_MODE;
-   flagsObject["Flags"]["isNight"] = isNight();
+   bool forceMode = linksDraaien_FORCE || rechtsDraaien_FORCE ||
+      uitschuiven_FORCE || inschuiven_FORCE || gotoTurnPosition ||
+      gotoTiltPosition;
+   flagsObject["Flags"]["FORCE_MODE"] = forceMode;
+   flagsObject["Flags"]["NIGHT_MODE"] = NIGHT_MODE;
    flagsObject["Flags"]["Draaien_TL"] = draaienTooLong;
    flagsObject["Flags"]["Kantelen_TL"] = kantelenTooLong;
    flagsObject["Flags"]["Wifi_con"] = wifiConnected;
    flagsObject["Flags"]["Mqtt_con"] = mqttConnected;
-   flagsObject["Flags"]["Reset"] = resetHappend;
-   flagsObject["Flags"]["SettingsUnlock"] = settingsUnlocked;
+
 
    return flagsObject;
 }
@@ -25,8 +28,6 @@ JSONVar getLightSensorData() {
    sensorDataObject["Sensors"]["rechts"] = lichtSensors_Rechts;
    sensorDataObject["Sensors"]["boven"] = lichtSensors_Boven;
    sensorDataObject["Sensors"]["onder"] = lichtSensors_Onder;
-   sensorDataObject["Sensors"]["isNight"] = isNight();
-
    return sensorDataObject;
 }
 
@@ -75,9 +76,10 @@ JSONVar getOtherData() {
    otherDataObject["unixTime"] = getEpochTime();
    otherDataObject["Turn_Time"] = timeNeededToTurn;
    otherDataObject["Tilt_Time"] = timeNeededToTilt;
-   otherDataObject["settingsUnlocked"] = settingsUnlocked;
-   otherDataObject["resetTime"] = resetTime.toString();
    otherDataObject["syncTime"] = syncTime;
+   otherDataObject["Reset"] = resetHappend;
+   otherDataObject["resetTime"] = resetTime.toString();
+   otherDataObject["SettingsUnlock"] = settingsUnlocked;
    return otherDataObject;
 }
 
@@ -181,92 +183,6 @@ JSONVar getMqttSettings() {
    return mqttSettings;
 }
 
-
-void getPageData() {
-   return;   // DEPRECATED
-
-   JSONVar pageData = undefined;
-   pageData["Flags"]["TEST_MODE"] = TEST_MODE;
-   pageData["Flags"]["SAFE_MODE"] = SAFE_MODE;
-   pageData["Flags"]["STOP_MODE"] = STOP_MODE;
-   pageData["Flags"]["isNight"] = isNight();
-   pageData["Flags"]["Draaien_too_long"] = draaienTooLong;
-   pageData["Flags"]["Kantelen_too_long"] = kantelenTooLong;
-   pageData["Flags"]["Wifi_connected"] = wifiConnected;
-   pageData["Flags"]["Mqtt_connected"] = mqttConnected;
-   pageData["Flags"]["Reset"] = resetHappend;
-   pageData["Flags"]["SettingsUnlocked"] = settingsUnlocked;
-
-   // print(" - Flags added");
-
-   pageData["Tilt"]["percentage"] = currentTiltPercentage;
-   pageData["Tilt"]["antiPendel"] = antiPendel_Kantelen;
-   pageData["Tilt"]["goToPosition"] = gotoTiltPosition;
-
-   pageData["Extend"]["sensors"] = uitschuiven_Sensors;
-   pageData["Extend"]["moving"] = uitschuiven;
-   pageData["Extend"]["eindeloop"] = einde_Uitschuiven;
-   pageData["Extend"]["force"] = uitschuiven_FORCE;
-
-   pageData["Retract"]["sensors"] = inschuiven_Sensors;
-   pageData["Retract"]["moving"] = inschuiven;
-   pageData["Retract"]["eindeloop"] = einde_Inschuiven;
-   pageData["Retract"]["force"] = inschuiven_FORCE;
-
-   // print(" - Tilt added");
-
-   pageData["Turn"]["percentage"] = currentTurnPercentage;
-   pageData["Turn"]["antiPendel"] = antiPendel_Draaien;
-   pageData["Turn"]["goToPosition"] = gotoTurnPosition;
-
-   pageData["Left"]["sensors"] = linksDraaien_Sensors;
-   pageData["Left"]["moving"] = linksDraaien;
-   pageData["Left"]["eindeloop"] = einde_Linksdraaien;
-   pageData["Left"]["force"] = linksDraaien_FORCE;
-
-   pageData["Right"]["sensors"] = rechtsDraaien_Sensors;
-   pageData["Right"]["moving"] = rechtsDraaien;
-   pageData["Right"]["eindeloop"] = einde_Rechtsdraaien;
-   pageData["Right"]["force"] = rechtsDraaien_FORCE;
-
-   // print(" - Turn added");
-
-   pageData["ForceMovement"]["LEFT_Force"] = linksDraaien_FORCE;
-   pageData["ForceMovement"]["RIGHT_Force"] = rechtsDraaien_FORCE;
-   pageData["ForceMovement"]["OUT_Force"] = uitschuiven_FORCE;
-   pageData["ForceMovement"]["IN_Force"] = inschuiven_FORCE;
-
-   // print(" - ForceMovement added");
-
-   pageData["TimeRem"]["antiPendel_Draaien_Timer"] =
-      antiPendel_Draaien_Timer_Remaining;
-   pageData["TimeRem"]["antiPendel_Kantelen_Timer"] =
-      antiPendel_Kantelen_Timer_Remaining;
-   pageData["TimeRem"]["draaien_TimeOut"] = draaien_TimeOut_Remaining;
-   pageData["TimeRem"]["kantelen_TimeOut"] = kantelen_TimeOut_Remaining;
-   pageData["TimeRem"]["logBook_Timer"] = logBook_Timer.size() > 0 ?
-      logBook_Timer_Remaining : sendAllData_Timer_Remaining;
-   pageData["TimeRem"]["periodicalTimer"] = periodicalTimer_Remaining;
-   pageData["TimeRem"]["settingsUnlockedTimer"] =
-      settingsUnlockedTimer_Remaining;
-   pageData["TimeRem"]["gotoPosition_Timer"] = gotoPosition_Timer_Remaining;
-
-   // print(" - TimeRemaining added");
-
-   pageData["Sensors"]["lichtSensor_LB"] = lichtSensor_LB;
-   pageData["Sensors"]["lichtSensor_LO"] = lichtSensor_LO;
-   pageData["Sensors"]["lichtSensor_RB"] = lichtSensor_RB;
-   pageData["Sensors"]["lichtSensor_RO"] = lichtSensor_RO;
-   pageData["Sensors"]["links"] = lichtSensors_Links;
-   pageData["Sensors"]["rechts"] = lichtSensors_Rechts;
-   pageData["Sensors"]["boven"] = lichtSensors_Boven;
-   pageData["Sensors"]["onder"] = lichtSensors_Onder;
-   pageData["Sensors"]["isNight"] = isNight();
-
-   // print(" - Sensors added");
-
-   // return pageData;
-}
 
 void sendJson(WiFiClient& client, const JSONVar& object) {
    client.print(JSON.stringify(object));

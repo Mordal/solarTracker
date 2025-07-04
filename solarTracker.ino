@@ -223,7 +223,7 @@ char mqtt_Logbook[12][15] = {
    "sensors",
    "tilt",
    "turn",
-   "other","","","","","","","",
+   "otherData","","","","","","","",
 };
 
 
@@ -235,7 +235,7 @@ char mqtt_allData[12][15] =
    "turn",
    "force",
    "timeRemaining",
-   "other",
+   "otherData",
    "wifi","","","","",
 };
 
@@ -267,7 +267,7 @@ void setup() {
    pinMode(PIN_Force_Inschuiven, INPUT);
 
    // START INITIALIZE
-   Serial.begin(9600);
+   // Serial.begin(9600);
 
    // setup WIFI
    wifi_Setup();
@@ -280,7 +280,7 @@ void setup() {
    // setup Timers
    setTimers();
 
-   // TESTMODE
+   //TESTMODE
    // testMode();
 
    initializeNeededTime();

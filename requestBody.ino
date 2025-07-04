@@ -65,8 +65,10 @@ void control(WiFiClient& client, const String& body) {
    setFromJson(jsonBody, "IN_Force", inschuiven_FORCE_EXT);
 
    if (jsonBody.hasOwnProperty("initializeNeededTime")) {
+      // curl -X POST -d "{\"initializeNeededTime\":true}" http://192.168.0.205:90/CONTROL
       if (dailyTest_Active) {
          initializeNeededTime();
+         sendJsonData(client, jsonBody);
          return;
       }
       dailyTest_Active = true;

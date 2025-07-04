@@ -50,7 +50,7 @@ bool inschuiven_activate() {
 
 void goToRetractEnd(bool includeUitschuiven = true) {
    if (kantelenTooLong) return;
-   tiltStartTime = millis();
+   unsigned long tiltTime = millis();
    while (!digitalRead(PIN_Einde_Inschuiven)) {
       inschuiven = true;
       einde_Uitschuiven = false;
@@ -58,7 +58,7 @@ void goToRetractEnd(bool includeUitschuiven = true) {
       delay(100);
 
       //SAFETY CHECK
-      if (movementTooLong(tiltStartTime)) {
+      if (movementTooLong(tiltTime)) {
          kantelenTooLong = true;
          digitalWrite(PIN_Inschuiven, !false);
          deactivate_Kantelen();

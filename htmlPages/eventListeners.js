@@ -5,8 +5,10 @@ button.addEventListener('click', function () {
   // Toggle de klasse 'active' + de tekst van de knop
   if (button.innerHTML === 'STOP') {
     button.innerHTML = 'START';
+    setStopMode(true);
   } else {
     button.innerHTML = 'STOP';
+    setStopMode(false);
   }
   button.classList.toggle('active');
 });

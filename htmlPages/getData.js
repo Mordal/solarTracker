@@ -33,4 +33,10 @@ async function getTimeoutSetting(timerId) {
   }
 }
 
+async function getFlags() {
+  const response = await fetch(`${baseUrl}/API/FLAGS`);
+  flags = await response.json();
+  setFlags(flags);
+}
+
 

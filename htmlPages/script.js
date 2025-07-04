@@ -1,5 +1,6 @@
 window.onload = async function () {
   getTimeoutSettings();
+  getFlags()
   registerClient();
   setInterval(registerClient, 25000); // 25000 milliseconden = 25 seconden
 };

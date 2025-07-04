@@ -35,20 +35,27 @@ function setStatusColorGreen(id, isOk) {
 }
 
 function setFlags(pageData) {
-  setGreenSquare('colorSquare', !!pageData.Flags.SettingsUnlocked);
-  setStatusColorGreenRed('Wifi_connected', !!pageData.Flags.Wifi_connected);
-  setStatusColorGreenRed('Mqtt_connected', !!pageData.Flags.Mqtt_connected);
-  setStatusColorRed('isNight', !!pageData.Flags.isNight);
-  setStatusColorRed('Draaien_too_long', !!pageData.Flags.Draaien_too_long);
-  setStatusColorRed('LEFT_Alarm', !!pageData.Flags.Draaien_too_long);
-  setStatusColorRed('RIGHT_Alarm', !!pageData.Flags.Draaien_too_long);
-  setStatusColorRed('Kantelen_too_long', !!pageData.Flags.Kantelen_too_long);
-  setStatusColorRed('OUT_Alarm', !!pageData.Flags.Kantelen_too_long);
-  setStatusColorRed('IN_Alarm', !!pageData.Flags.Kantelen_too_long);
-  setStatusColorRed('reset', !!pageData.Flags.Reset);
-  setStatusColorRed('TEST_MODE', !!pageData.Flags.testMode);
-  setStatusColorRed('SAFE_MODE', !!pageData.Flags.safeMode);
-  setStatusColorRed('STOP_MODE', !!pageData.Flags.stopMode);
+  
+  setStatusColorGreenRed('Wifi_connected', !!pageData.Flags.Wifi_con);
+  setStatusColorGreenRed('Mqtt_connected', !!pageData.Flags.Mqtt_con);
+
+  setStatusColorRed('Draaien_too_long', !!pageData.Flags.Draaien_TL);
+  setStatusColorRed('LEFT_Alarm', !!pageData.Flags.Draaien_TL);
+  setStatusColorRed('RIGHT_Alarm', !!pageData.Flags.Draaien_TL);
+  setStatusColorRed('Kantelen_too_long', !!pageData.Flags.Kantelen_TL);
+  setStatusColorRed('OUT_Alarm', !!pageData.Flags.Kantelen_TL);
+  setStatusColorRed('IN_Alarm', !!pageData.Flags.Kantelen_TL);
+  setStatusColorRed('NIGHT_MODE', !!pageData.Flags.NIGHT_MODE);
+  setStatusColorRed('STOP_MODE', !!pageData.Flags.STOP_MODE);
+  setStatusColorGreen('FORCE_MODE', !!pageData.Flags.FORCE_MODE);
+  setStatusColorRed('TEST_MODE', !!pageData.Flags.TEST_MODE);
+  setStatusColorRed('SAFE_MODE', !!pageData.Flags.SAFE_MODE);
+ 
+}
+
+function setOtherData (pageData)  {
+ setGreenSquare('colorSquare', !!pageData.SettingsUnlock);
+ setStatusColorRed('reset', !!pageData.Reset);
 }
 
 function setSensors(pageData) {

@@ -137,24 +137,26 @@ bool reset_antiPendel_Draaien(void*) {
 }
 
 void read_EindeLoop_Draaien() {
+
    if (linksDraaien || !einde_Linksdraaien) {
       einde_Linksdraaien = digitalRead(PIN_Einde_Linksdraaien);
       if (einde_Linksdraaien) {
          deactivate_Draaien();
          currentTurnPercentage = 0;
          turnRightWhenEindeLoopLeft();
+         return;
       }
-      return;
    }
 
    if (rechtsDraaien || !einde_Rechtsdraaien) {
       einde_Rechtsdraaien = digitalRead(PIN_Einde_Rechtsdraaien);
+
       if (einde_Rechtsdraaien) {
          deactivate_Draaien();
          currentTurnPercentage = 10000;
          turnLeftWhenEindeLoopRight();
+         return;
       }
-      return;
    }
 }
 

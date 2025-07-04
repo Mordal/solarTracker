@@ -4,6 +4,7 @@ void forceRechtsDraaien() {
       deactivate_Draaien();
    }
    if (!rechtsDraaien_activate()) {
+      Serial.println("--->rechtsDraaien_activate() returned false");
       deactivate_Draaien();
    }
 }
@@ -51,16 +52,17 @@ bool rechtsDraaien_activate() {
 
 void goToRightEnd(bool includeTurnLeft = true) {
    if (draaienTooLong) return;
-   turnStartTime = millis();
+   unsigned long turnTime = millis();
+
+   rechtsDraaien = true;
+   einde_Linksdraaien = false;
+   digitalWrite(PIN_RechtsDraaien, !true);
 
    while (!digitalRead(PIN_Einde_Rechtsdraaien)) {
-      rechtsDraaien = true;
-      einde_Linksdraaien = false;
-      digitalWrite(PIN_RechtsDraaien, !true);
       delay(100);
 
       //SAFETY CHECK
-      if (movementTooLong(turnStartTime)) {
+      if (movementTooLong(turnTime)) {
          draaienTooLong = true;
          digitalWrite(PIN_RechtsDraaien, !false);
          deactivate_Draaien();

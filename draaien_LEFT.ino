@@ -55,15 +55,16 @@ bool linksDraaien_activate() {
 
 void goToLeftEnd(bool includeTurnRight = true) {
    if (draaienTooLong) return;
-   turnStartTime = millis();
+   unsigned long turnTime = millis();
+
+   linksDraaien = true;
+   einde_Rechtsdraaien = false;
+   digitalWrite(PIN_LinksDraaien, true);
    while (!digitalRead(PIN_Einde_Linksdraaien)) {
-      linksDraaien = true;
-      einde_Rechtsdraaien = false;
-      digitalWrite(PIN_LinksDraaien, true);
       delay(100);
 
       //SAFETY CHECK
-      if (movementTooLong(turnStartTime)) {
+      if (movementTooLong(turnTime)) {
          draaienTooLong = true;
          digitalWrite(PIN_LinksDraaien, false);
          deactivate_Draaien();

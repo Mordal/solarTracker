@@ -11,7 +11,7 @@ void sendJsonData(WiFiClient& client, const JSONVar& jsonData) {
    sendStartData(client);
    client.println("Content-type:application/json");
    client.println();
-   Serial.println("Sending JSON data to client...");
+   // Serial.println("Sending JSON data to client...");
    sendJson(client, jsonData);
    client.println();
 }

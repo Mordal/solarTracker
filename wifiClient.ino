@@ -66,7 +66,7 @@ void print_WifiData() {
 }
 
 void clientConnection(WiFiClient& client) {
-   Serial.println("new client");  // print a message out the serial port
+   // Serial.println("new client");  // print a message out the serial port
 
    // String to hold incoming data from the client
    String currentLine = "";
@@ -91,14 +91,17 @@ void clientConnection(WiFiClient& client) {
                if (unlockRequest) {
                   unlockSettings(
                      client, body);  // Passeer de body naar je unlock functie
+                  break;
                }
 
                if (settingsRequest) {
                   setValues(client, body);
+                  break;
                }
 
                if (controlRequest) {
                   control(client, body);
+                  break;
                }
 
                // response_WiFi_BASIC(client);  //send a response:
