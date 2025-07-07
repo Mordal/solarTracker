@@ -82,15 +82,21 @@ void control(WiFiClient& client, const String& body) {
    if (jsonBody.hasOwnProperty("SAFE_MODE")) {
       //check if jsonBody["SAFE_MODE"] is a boolean
       if (JSON.typeof(jsonBody["SAFE_MODE"]) == "boolean") {
+         // curl -X POST -d "{\"SAFE_MODE\":true}" http://192.168.0.205:90/CONTROL
          SAFE_MODE = (bool)jsonBody["SAFE_MODE"];
-         sendJsonData(client, jsonBody);
-         return;
+         if (SAFE_MODE) {
+            gotoSafePosition();
+         }
       }
-
-      int turnPosition = normalizePosition((int)jsonBody["SAFE_MODE"]["TURN_Position"]) || undefined;
-      int tiltPosition = normalizePosition((int)jsonBody["SAFE_MODE"]["TILT_Position"]) || undefined;
-      gotoSafePosition(turnPosition, tiltPosition);
-      clearForceSignals();
+      else {
+         // curl -X POST -d "{\"SAFE_MODE\":{\"TURN_Position\":50,\"TILT_Position\":50}}" http://192.168.0.205:90/CONTROL
+         int turnPosition = normalizePosition((int)jsonBody["SAFE_MODE"]["TURN_Position"]) || undefined;
+         int tiltPosition = normalizePosition((int)jsonBody["SAFE_MODE"]["TILT_Position"]) || undefined;
+         gotoSafePosition(turnPosition, tiltPosition);
+         clearForceSignals();
+      }
+      sendJsonData(client, jsonBody);
+      return;
    }
 
    if (jsonBody.hasOwnProperty("STOP_MODE")) {
