@@ -86,7 +86,11 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
    else if (requestHasString(currentLine, "GET /API/TIMERS")) {
       sendJsonData(client, getRemainingTime());
    }
-   else if (requestHasString(currentLine, "GET /API/RESETALARM") && settingsUnlocked) {
+   else if (requestHasString(currentLine, "GET /API/RESETALARM")) {
+      if (!settingsUnlocked) {
+         sendInvalidRequest(client, "Settings are locked");
+         return;
+      }
       apiResetAlarms(client);
    }
    else if (requestHasString(currentLine, "GET /API/TURNPRESET")) {
