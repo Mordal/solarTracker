@@ -14,7 +14,7 @@ let forceInButton = false;
 let forceOutButton = false;
 
 const baseUrl = 'http://pieserver.myds.me:90';
-const mqttUrl = 'ws://pieserver.myds.me:9001'
+
 
 // const client = mqtt.connect('ws://pieserver.myds.me:9001');
 

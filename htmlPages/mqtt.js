@@ -6,6 +6,9 @@ const mqttCDNs = [
   'https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.13.1/mqtt.min.js',
   'https://cdn.jsdelivr.net/npm/mqtt@5.10.3/dist/mqtt.min.js',
 ];
+
+const mqttUrl = 'ws://pieserver.myds.me:9001'
+
 const topics = {
   FLAGS: 'flags',
   TILT: 'tiltMovementData',
