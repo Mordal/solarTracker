@@ -191,6 +191,8 @@ void setValues(WiFiClient& client, const String& body) {
    JSONVar jsonBody = JSON.parse(body);
    if (!validateJson(client, jsonBody)) return;
 
+   //example offset LB
+   // curl -X POST -d "{\"LB_Offset\":100}" http://192.168.0.205:90/SETTINGS
 
    setFromJson(jsonBody, "LB_Offset", lichtSensor_LB_offset);
    setFromJson(jsonBody, "RB_Offset", lichtSensor_RB_offset);

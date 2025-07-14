@@ -202,12 +202,12 @@ bool resetHappend = false;
 RTCTime resetTime;
 bool TEST_MODE = false;
 bool SAFE_MODE = false;
-bool STOP_MODE = false;
+bool STOP_MODE = true;
 bool NIGHT_MODE = false;
 bool draaienTooLong = false;
 bool kantelenTooLong = false;
 bool settingsUnlocked = false;
-bool dailyTest_Active = true;
+bool dailyTest_Active = false;
 bool syncTime = true;
 
 // WIFI CONFIG
@@ -283,7 +283,7 @@ void setup() {
    //TESTMODE
    // testMode();
 
-   initializeNeededTime();
+   // initializeNeededTime();
 
    print("Setup done!");
 }
