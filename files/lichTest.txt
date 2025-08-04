@@ -1,0 +1,16 @@
+volle zon:
+1800+
+1900+ MAX
+
+
+schaduw -> 
+L: 1450
+R:1600
+B:1540
+O:1500
+
+schaduw
+boven: 1600
+onder: 1460
+links 1420
+rechts 1600
