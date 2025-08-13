@@ -9,6 +9,8 @@ void readLichtSensors() {
   lichtSensors_Rechts = lichtSensor_RB + lichtSensor_RO;
   lichtSensors_Boven = lichtSensor_LB + lichtSensor_RB;
   lichtSensors_Onder = lichtSensor_LO + lichtSensor_RO;
+
+  ignoreLightSensors = toggleLightSensors();
 }
 
 //onder de 300 is donker (??)
@@ -18,4 +20,12 @@ bool isNight() {
     currentHour--;
   }
   return (currentHour >= 21 || currentHour < 6);
+}
+
+bool toggleLightSensors() {
+  if (lichtSensors_Links > licht_fullSun_treshold) return false;
+  if (lichtSensors_Rechts > licht_fullSun_treshold) return false;
+  if (lichtSensors_Boven > licht_fullSun_treshold) return false;
+  if (lichtSensors_Onder > licht_fullSun_treshold) return false;
+  return true;
 }

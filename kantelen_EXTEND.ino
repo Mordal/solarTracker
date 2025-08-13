@@ -11,6 +11,9 @@ void forceExtend() {
 }
 
 bool needToExtend() {
+   if (ignoreLightSensors || forceIgnoreLightSensors) {
+      return false;
+   }
    if (lichtSensors_Boven > (lichtSensors_Onder + licht_marge)) {
       uitschuiven_Sensors = true;
       inschuiven_Sensors = false;

@@ -13,7 +13,8 @@ JSONVar getFlags() {
    flagsObject["Flags"]["Kantelen_TL"] = kantelenTooLong;
    flagsObject["Flags"]["Wifi_con"] = wifiConnected;
    flagsObject["Flags"]["Mqtt_con"] = mqttConnected;
-
+   flagsObject["Flags"]["ignoreLS"] = ignoreLightSensors;
+   flagsObject["Flags"]["forceIgnoreLS"] = forceIgnoreLightSensors;
 
    return flagsObject;
 }
@@ -125,6 +126,7 @@ JSONVar getSettings_Offsets() {
    settingsObject["Offsets"]["LO"] = lichtSensor_LO_offset;
    settingsObject["Offsets"]["RO"] = lichtSensor_RO_offset;
    settingsObject["Sensors"]["licht_marge"] = licht_marge;
+   settingsObject["Settings"]["licht_fullSun_treshold"] = licht_fullSun_treshold;
    return settingsObject;
 }
 

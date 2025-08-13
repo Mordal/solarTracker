@@ -199,6 +199,7 @@ void setValues(WiFiClient& client, const String& body) {
    setFromJson(jsonBody, "LO_Offset", lichtSensor_LO_offset);
    setFromJson(jsonBody, "RO_Offset", lichtSensor_RO_offset);
    setFromJson(jsonBody, "licht_marge", licht_marge);
+   setFromJson(jsonBody, "licht_fullSun_treshold", licht_fullSun_treshold);
    setFromJson(jsonBody, "antiPendelTime", antiPendelTime);
    setFromJson(jsonBody, "maxMovementTime", maxMovementTime);
    setFromJson(jsonBody, "timeNeededToTurn", timeNeededToTurn);

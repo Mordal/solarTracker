@@ -23,6 +23,7 @@ int lichtSensor_RB = 0;             // from 0 - 1023
 int lichtSensor_LO = 0;             // from 0 - 1023
 int lichtSensor_RO = 0;             // from 0 - 1023
 int licht_marge = 50;
+int licht_fullSun_treshold = 1790;  // threshold for full sun, above this value is considered full sun
 
 // offsets
 int lichtSensor_LB_offset = 0;
@@ -204,6 +205,8 @@ bool TEST_MODE = false;
 bool SAFE_MODE = false;
 bool STOP_MODE = true;
 bool NIGHT_MODE = false;
+bool ignoreLightSensors = false;
+bool forceIgnoreLightSensors = false;
 bool draaienTooLong = false;
 bool kantelenTooLong = false;
 bool settingsUnlocked = false;
