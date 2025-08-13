@@ -43,7 +43,8 @@ JSONVar getEndpoints() {
       "/API/TILTPRESET-monthIndex",
       "/API/WIFIDATA",
       "/API/CLIENTCONNECTED",
-      "/API/MQTTSETTINGS"
+      "/API/MQTTSETTINGS",
+      "/API/GOTOPRESET"
    };
 
    JSONVar endpointsJson = undefined;
@@ -87,10 +88,7 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
       sendJsonData(client, getRemainingTime());
    }
    else if (requestHasString(currentLine, "GET /API/RESETALARM")) {
-      if (!settingsUnlocked) {
-         sendInvalidRequest(client, "Settings are locked");
-         return;
-      }
+      if (settingsAreLocked(client)) return;
       apiResetAlarms(client);
    }
    else if (requestHasString(currentLine, "GET /API/TURNPRESET")) {
@@ -125,15 +123,11 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
    else if (requestHasString(currentLine, "GET /API/MQTTSETTINGS")) {
       sendJsonData(client, getMqttSettings());
    }
-
-   // else if (requestHasString(currentLine, "POST /API/UNLOCK")) {
-   //    String body = readBody(client, client.readStringUntil('\n').toInt());
-   //    unlockSettings(client, body);
-   // }
-   // else if (requestHasString(currentLine, "POST /API/CONTROL")) {
-   //    String body = readBody(client, client.readStringUntil('\n').toInt());
-   //    control(client, body);
-   // }
+   else if (requestHasString(currentLine, "GET /API/GOTOPRESET")) {
+      if (settingsAreLocked(client)) return;
+      gotoPresetPosition();
+      sendOk(client);
+   }
    else if (requestHasString(currentLine, "GET /API")) {
       sendEndpoints(client);
    }
