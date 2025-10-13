@@ -125,7 +125,7 @@ void response_API_Request(WiFiClient& client, const String& currentLine) {
    }
    else if (requestHasString(currentLine, "GET /API/GOTOPRESET")) {
       if (settingsAreLocked(client)) return;
-      gotoPresetPosition();
+      gotoPresetPosition(nullptr);
       sendOk(client);
    }
    else if (requestHasString(currentLine, "GET /API")) {
