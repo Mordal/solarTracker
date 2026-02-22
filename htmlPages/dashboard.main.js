@@ -16,6 +16,30 @@ function readNumericInput(inputId) {
   return number;
 }
 
+function readSettingValue(inputId, type) {
+  const el = document.getElementById(inputId);
+  if (!el) return { ok: false, error: 'Input niet gevonden.' };
+
+  if (type === 'boolean') {
+    return { ok: true, value: !!el.checked };
+  }
+
+  if (type === 'json') {
+    const raw = el.value?.trim();
+    if (!raw) return { ok: false, error: 'JSON invoer is leeg.' };
+
+    try {
+      return { ok: true, value: JSON.parse(raw) };
+    } catch {
+      return { ok: false, error: 'Ongeldige JSON invoer.' };
+    }
+  }
+
+  const number = Number(el.value);
+  if (Number.isNaN(number)) return { ok: false, error: 'Voer een geldig nummer in.' };
+  return { ok: true, value: number };
+}
+
 function bindStopButton() {
   const button = document.getElementById('StopButton');
   if (!button) return;
@@ -171,22 +195,29 @@ function bindSettingsButtons() {
       const key = button.getAttribute('data-setting-key');
       const customInputId = button.getAttribute('data-input-id');
       const inputId = customInputId || key;
-      const value = readNumericInput(inputId);
+      const valueType = button.getAttribute('data-setting-type') || 'number';
+      const parsed = readSettingValue(inputId, valueType);
 
-      if (value === null) {
-        alert('Voer een geldig nummer in.');
+      if (!parsed.ok) {
+        alert(parsed.error);
         return;
       }
 
       try {
-        await saveSetting(key, value);
+        await saveSetting(key, parsed.value);
+        button.classList.remove('save-error');
+        button.classList.add('save-success');
         button.textContent = 'Opgeslagen';
         setTimeout(() => {
+          button.classList.remove('save-success');
           button.textContent = 'Opslaan';
         }, 1200);
       } catch (error) {
+        button.classList.remove('save-success');
+        button.classList.add('save-error');
         button.textContent = 'Mislukt';
         setTimeout(() => {
+          button.classList.remove('save-error');
           button.textContent = 'Opslaan';
         }, 1200);
         console.error(`Saving ${key} failed:`, error.message);

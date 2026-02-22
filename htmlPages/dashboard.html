@@ -28,7 +28,7 @@
               <div><span>MQTT</span><span id="Mqtt_connected" class="dot red"></span></div>
               <div><span>Data</span><span id="Data_freshness" class="dot red"></span></div>
               <div><span>Laatste update</span><span id="Last_update" class="badge-time">--:--:--</span></div>
-              <div><span>Settings</span><span id="colorSquareHeader" class="unlock-dot"></span></div>
+              <div><span>Settings</span><span id="colorSquareHeader" class="dot red"></span></div>
             </div>
           </div>
 
@@ -137,28 +137,6 @@
               </div>
             </div>
           </article>
-
-          <!-- <article class="sensor-panel">
-            <div class="cross-balance-combined">
-              <div class="cross-value top"><strong id="topCombinedValue">-</strong></div>
-              <div class="cross-value right"><strong id="rightCombinedValue">-</strong></div>
-              <div class="cross-value bottom"><strong id="bottomCombinedValue">-</strong></div>
-              <div class="cross-value left"><strong id="leftCombinedValue">-</strong></div>
-
-              <div class="cross-horizontal-track">
-                <div id="leftBalanceFill" class="cross-horizontal-fill left"></div>
-                <div id="rightBalanceFill" class="cross-horizontal-fill right"></div>
-              </div>
-
-              <div class="cross-vertical-track">
-                <div id="topBalanceFill" class="cross-vertical-fill top"></div>
-                <div id="bottomBalanceFill" class="cross-vertical-fill bottom"></div>
-              </div>
-
-              <div class="cross-center-line-horizontal"></div>
-              <div class="cross-center-line-vertical"></div>
-            </div>
-          </article> -->
         </div>
       </section>
 
@@ -245,31 +223,140 @@
         </div>
       </section>
 
-      <section class="card span-2 settings-section">
+      <section class="card span-2 settings-section ">
         <div class="card-header">
           <h2>Instellingen</h2>
         </div>
-        <div class="settings-grid">
-          <label>
-            <span>LB Offset</span>
-            <div class="row"><input id="LB_Offset" type="number" /><button class="btn btn-primary" data-setting-key="LB_Offset">Opslaan</button></div>
-          </label>
-          <label>
-            <span>RB Offset</span>
-            <div class="row"><input id="RB_Offset" type="number" /><button class="btn btn-primary" data-setting-key="RB_Offset">Opslaan</button></div>
-          </label>
-          <label>
-            <span>LO Offset</span>
-            <div class="row"><input id="LO_Offset" type="number" /><button class="btn btn-primary" data-setting-key="LO_Offset">Opslaan</button></div>
-          </label>
-          <label>
-            <span>RO Offset</span>
-            <div class="row"><input id="RO_Offset" type="number" /><button class="btn btn-primary" data-setting-key="RO_Offset">Opslaan</button></div>
-          </label>
-          <label>
-            <span>Licht marge</span>
-            <div class="row"><input id="lichtMarge" type="number" /><button class="btn btn-primary" data-setting-key="licht_marge" data-input-id="lichtMarge">Opslaan</button></div>
-          </label>
+        <div class="settings-groups">
+          <details class="diagnostics-toggle" open>
+            <summary>Sensoren & licht</summary>
+            <div class="settings-grid compact-settings">
+              <label class="setting-item">
+                <span>LB Offset</span>
+                <div class="row"><input id="LB_Offset" type="number" /><button class="btn btn-primary" data-setting-key="LB_Offset">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>RB Offset</span>
+                <div class="row"><input id="RB_Offset" type="number" /><button class="btn btn-primary" data-setting-key="RB_Offset">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>LO Offset</span>
+                <div class="row"><input id="LO_Offset" type="number" /><button class="btn btn-primary" data-setting-key="LO_Offset">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>RO Offset</span>
+                <div class="row"><input id="RO_Offset" type="number" /><button class="btn btn-primary" data-setting-key="RO_Offset">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Licht marge</span>
+                <div class="row"><input id="lichtMarge" type="number" /><button class="btn btn-primary" data-setting-key="licht_marge" data-input-id="lichtMarge">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Full sun threshold</span>
+                <div class="row"><input id="licht_fullSun_treshold" type="number" /><button class="btn btn-primary" data-setting-key="licht_fullSun_treshold">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Force ignore light sensors</span>
+                <div class="row bool-row">
+                  <input id="forceIgnoreLightSensors" type="checkbox" />
+                  <button class="btn btn-primary" data-setting-key="forceIgnoreLightSensors" data-setting-type="boolean">Opslaan</button>
+                </div>
+              </label>
+            </div>
+          </details>
+
+          <details class="diagnostics-toggle">
+            <summary>Beweging & timings</summary>
+            <div class="settings-grid compact-settings">
+              <label class="setting-item">
+                <span>Antipendel time (ms)</span>
+                <div class="row"><input id="antiPendelTime" type="number" /><button class="btn btn-primary" data-setting-key="antiPendelTime">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Max movement time (ms)</span>
+                <div class="row"><input id="maxMovementTime" type="number" /><button class="btn btn-primary" data-setting-key="maxMovementTime">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Time needed to turn (ms)</span>
+                <div class="row"><input id="timeNeededToTurn" type="number" /><button class="btn btn-primary" data-setting-key="timeNeededToTurn">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Time needed to tilt (ms)</span>
+                <div class="row"><input id="timeNeededToTilt" type="number" /><button class="btn btn-primary" data-setting-key="timeNeededToTilt">Opslaan</button></div>
+              </label>
+            </div>
+          </details>
+
+          <details class="diagnostics-toggle">
+            <summary>Systeem flags & timers</summary>
+            <div class="settings-grid compact-settings">
+              <label class="setting-item">
+                <span>Daily test active</span>
+                <div class="row bool-row">
+                  <input id="dailyTest_Active" type="checkbox" />
+                  <button class="btn btn-primary" data-setting-key="dailyTest_Active" data-setting-type="boolean">Opslaan</button>
+                </div>
+              </label>
+              <label class="setting-item">
+                <span>Sync time</span>
+                <div class="row bool-row">
+                  <input id="syncTime" type="checkbox" />
+                  <button class="btn btn-primary" data-setting-key="syncTime" data-setting-type="boolean">Opslaan</button>
+                </div>
+              </label>
+              <label class="setting-item">
+                <span>Logbook time (ms)</span>
+                <div class="row"><input id="logbookTime" type="number" /><button class="btn btn-primary" data-setting-key="logbookTime">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Periodical time (ms)</span>
+                <div class="row"><input id="periodicalTime" type="number" /><button class="btn btn-primary" data-setting-key="periodicalTime">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Send all data time (ms)</span>
+                <div class="row"><input id="sendAllDataTime" type="number" /><button class="btn btn-primary" data-setting-key="sendAllDataTime">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Client connected timeout (ms)</span>
+                <div class="row"><input id="clientConnectedTimeOut" type="number" /><button class="btn btn-primary" data-setting-key="clientConnectedTimeOut">Opslaan</button></div>
+              </label>
+              <label class="setting-item">
+                <span>Settings unlocked time (ms)</span>
+                <div class="row"><input id="settingsUnlockedTime" type="number" /><button class="btn btn-primary" data-setting-key="settingsUnlockedTime">Opslaan</button></div>
+              </label>
+            </div>
+          </details>
+
+          <details class="diagnostics-toggle">
+            <summary>Geavanceerd (JSON)</summary>
+            <div class="settings-grid advanced-settings">
+              <label class="setting-item">
+                <span>turn_Presets (JSON object)</span>
+                <textarea id="turn_Presets" rows="3" placeholder='{"presets":[0,5,10,19,28,35,42,52,61,70,75,80,88,100]}'></textarea>
+                <button class="btn btn-primary" data-setting-key="turn_Presets" data-setting-type="json">Opslaan</button>
+              </label>
+              <label class="setting-item">
+                <span>tilt_Presets (JSON object)</span>
+                <textarea id="tilt_Presets" rows="3" placeholder='{"monthIndex":2,"presets":[0,0,0,0,0,0,10,10,5,0,0,0,0,0]}'></textarea>
+                <button class="btn btn-primary" data-setting-key="tilt_Presets" data-setting-type="json">Opslaan</button>
+              </label>
+              <label class="setting-item">
+                <span>setTime (JSON array)</span>
+                <textarea id="setTime" rows="2" placeholder='[1,5,2026,12,0,0]'></textarea>
+                <button class="btn btn-primary" data-setting-key="setTime" data-setting-type="json">Opslaan</button>
+              </label>
+              <label class="setting-item">
+                <span>mqtt_allData (JSON array)</span>
+                <textarea id="mqtt_allData" rows="2" placeholder='["flags","sensors","tilt"]'></textarea>
+                <button class="btn btn-primary" data-setting-key="mqtt_allData" data-setting-type="json">Opslaan</button>
+              </label>
+              <label class="setting-item">
+                <span>mqtt_Logbook (JSON array)</span>
+                <textarea id="mqtt_Logbook" rows="2" placeholder='["flags","sensors","turn"]'></textarea>
+                <button class="btn btn-primary" data-setting-key="mqtt_Logbook" data-setting-type="json">Opslaan</button>
+              </label>
+            </div>
+          </details>
         </div>
       </section>
     </main>

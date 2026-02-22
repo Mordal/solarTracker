@@ -60,6 +60,11 @@ function setFlags(data) {
   setRedNeutral('TEST_MODE', !!data.Flags.TEST_MODE);
   setRedNeutral('SAFE_MODE', !!data.Flags.SAFE_MODE);
 
+  const forceIgnoreInput = getEl('forceIgnoreLightSensors');
+  if (forceIgnoreInput) {
+    forceIgnoreInput.checked = !!data.Flags.forceIgnoreLS;
+  }
+
   const stopButton = getEl('StopButton');
   if (stopButton) {
     const stopMode = !!data.Flags.STOP_MODE;
@@ -73,10 +78,25 @@ function setOtherData(data) {
   const unlockSquare = getEl('colorSquare');
   const unlockSquareHeader = getEl('colorSquareHeader');
   if (unlockSquare) {
-    unlockSquare.classList.toggle('green-square', !!data?.SettingsUnlock);
+    unlockSquare.classList.toggle('green', !!data?.SettingsUnlock);
   }
   if (unlockSquareHeader) {
     unlockSquareHeader.classList.toggle('green-square', !!data?.SettingsUnlock);
+  }
+
+  const turnTimeInput = getEl('timeNeededToTurn');
+  if (turnTimeInput && typeof data?.Turn_Time === 'number') {
+    turnTimeInput.value = data.Turn_Time;
+  }
+
+  const tiltTimeInput = getEl('timeNeededToTilt');
+  if (tiltTimeInput && typeof data?.Tilt_Time === 'number') {
+    tiltTimeInput.value = data.Tilt_Time;
+  }
+
+  const syncInput = getEl('syncTime');
+  if (syncInput && typeof data?.syncTime === 'boolean') {
+    syncInput.checked = data.syncTime;
   }
 }
 
@@ -334,11 +354,41 @@ function updateTimer(timerId, totalDuration) {
 function hydrateSettingsInputs(data) {
   const offsets = data?.Offsets;
   const sensors = data?.Sensors;
-  if (!offsets || !sensors) return;
+  const timeOuts = appState.timeoutSettings?.TimeOuts;
 
-  getEl('LB_Offset').value = offsets.LB;
-  getEl('RB_Offset').value = offsets.RB;
-  getEl('LO_Offset').value = offsets.LO;
-  getEl('RO_Offset').value = offsets.RO;
-  getEl('lichtMarge').value = sensors.licht_marge;
+  if (offsets && sensors) {
+    getEl('LB_Offset').value = offsets.LB;
+    getEl('RB_Offset').value = offsets.RB;
+    getEl('LO_Offset').value = offsets.LO;
+    getEl('RO_Offset').value = offsets.RO;
+    getEl('lichtMarge').value = sensors.licht_marge;
+
+    const fullSunInput = getEl('licht_fullSun_treshold');
+    if (fullSunInput && typeof data?.Settings?.licht_fullSun_treshold === 'number') {
+      fullSunInput.value = data.Settings.licht_fullSun_treshold;
+    }
+  }
+
+  if (timeOuts) {
+    const antiPendelInput = getEl('antiPendelTime');
+    if (antiPendelInput) antiPendelInput.value = timeOuts.APTime;
+
+    const maxMoveInput = getEl('maxMovementTime');
+    if (maxMoveInput) maxMoveInput.value = timeOuts.maxMoveTime;
+
+    const logbookInput = getEl('logbookTime');
+    if (logbookInput) logbookInput.value = timeOuts.logbookTime;
+
+    const periodicalInput = getEl('periodicalTime');
+    if (periodicalInput) periodicalInput.value = timeOuts.periodicalTime;
+
+    const sendAllInput = getEl('sendAllDataTime');
+    if (sendAllInput) sendAllInput.value = timeOuts.sendAllDataTime;
+
+    const clientConInput = getEl('clientConnectedTimeOut');
+    if (clientConInput) clientConInput.value = timeOuts.clientConTimeOut;
+
+    const unlockedInput = getEl('settingsUnlockedTime');
+    if (unlockedInput) unlockedInput.value = timeOuts.settingsUnlockTime;
+  }
 }
