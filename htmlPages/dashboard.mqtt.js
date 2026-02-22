@@ -7,6 +7,7 @@ function decodeMqttPayload(message) {
 function routeMqttMessage(topic, payload) {
   try {
     const data = JSON.parse(payload);
+    markDataFresh();
 
     switch (topic) {
       case dashboardConfig.mqttTopics.FLAGS:

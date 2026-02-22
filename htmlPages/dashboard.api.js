@@ -53,6 +53,7 @@ function applyCoreDashboardData({ flags, sensors, turn, tilt, otherData, timeRem
   setTiltMovement(tilt);
   setOtherData(otherData);
   setTimeRemaining(timeRem);
+  markDataFresh();
 }
 
 
@@ -101,5 +102,14 @@ async function saveSetting(key, value) {
 
 async function unlockSettings(code) {
   const response = await apiPost('/UNLOCK', encodeURIComponent(code), false);
+  return response.text();
+}
+
+async function resetAlarms() {
+  const response = await fetch(`${dashboardConfig.baseUrl}/API/RESETALARM`);
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`GET /API/RESETALARM failed: ${response.status} ${text}`);
+  }
   return response.text();
 }

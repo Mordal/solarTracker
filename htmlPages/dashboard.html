@@ -13,88 +13,101 @@
         <h1>Solar Tracker</h1>
         <p class="subtitle">Realtime bediening & status</p>
       </div>
-      <div class="quick-status">
-        <div class="badge-row">
-          <span>WiFi</span>
-          <span id="Wifi_connected" class="dot neutral"></span>
-        </div>
-        <div class="badge-row">
-          <span>MQTT</span>
-          <span id="Mqtt_connected" class="dot neutral"></span>
-        </div>
-      </div>
     </header>
 
-    <main class="layout">
-      <section class="card span-2">
+    <main class="layout dashboard-layout">
+      <section class="card span-1 status-sidebar">
         <div class="card-header">
-          <h2>Algemene bediening</h2>
+          <h2>Status</h2>
         </div>
-
-        <div class="control-grid">
-          <div class="panel">
-            <h3>Stop Mode</h3>
-            <button id="StopButton" class="btn btn-stop">STOP</button>
-          </div>
-
-          <div class="panel">
-            <h3>Settings unlock</h3>
-            <div class="unlock-row">
-              <input id="unlockInput" type="text" placeholder="Unlock code" />
-              <button id="unlockBtn" class="btn btn-primary">UNLOCK</button>
-              <span id="colorSquare" class="unlock-dot"></span>
+        <div class="status-board">
+          <div class="panel status-panel">
+            <h3>Connectiviteit</h3>
+            <div class="status-list">
+              <div><span>WiFi</span><span id="Wifi_connected" class="dot neutral"></span></div>
+              <div><span>MQTT</span><span id="Mqtt_connected" class="dot neutral"></span></div>
+              <div><span>Data</span><span id="Data_freshness" class="dot neutral"></span></div>
+              <div><span>Laatste update</span><span id="Last_update" class="badge-time">--:--:--</span></div>
+              <div><span>Settings</span><span id="colorSquareHeader" class="unlock-dot"></span></div>
             </div>
           </div>
 
-          <div class="panel">
-            <h3>Ga naar positie</h3>
-            <div class="goto-grid">
-              <label>
-                <span id="Draaien-Positie_Percentage">Draaien - 0%</span>
-                <div class="row">
-                  <input type="number" id="Draaien-Positie_Input" placeholder="0 - 100" />
-                  <button id="Draaien-Positie_Btn" class="btn btn-primary">GO</button>
-                </div>
-              </label>
-              <label>
-                <span id="Kantelen-Positie_Percentage">Kantelen - 0%</span>
-                <div class="row">
-                  <input type="number" id="Kantelen-Positie_Input" placeholder="0 - 100" />
-                  <button id="Kantelen-Positie_Btn" class="btn btn-primary">GO</button>
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card span-1">
-        <div class="card-header">
-          <h2>Flags, alarms, modes</h2>
-        </div>
-        <div class="triple-grid">
-          <div>
+          <div class="panel status-panel alarms-panel">
             <h3>Alarms</h3>
             <div class="status-list">
               <div><span>Draaien te lang</span><span id="Draaien_too_long" class="dot neutral"></span></div>
               <div><span>Kantelen te lang</span><span id="Kantelen_too_long" class="dot neutral"></span></div>
               <div><span>Reset happened</span><span id="reset" class="dot neutral"></span></div>
             </div>
+            <div class="alarm-actions">
+              <button id="resetAlarmsBtn" class="btn btn-soft">Reset alarms</button>
+              <div id="alarmLog" class="alarm-console">[init] Console klaar voor alarm events...</div>
+            </div>
           </div>
-          <div>
+
+          <div class="panel status-panel">
             <h3>Modes</h3>
-            <div class="status-list">
-              <div><span>Night</span><span id="NIGHT_MODE" class="dot neutral"></span></div>
-              <div><span>Stop</span><span id="STOP_MODE" class="dot neutral"></span></div>
-              <div><span>Force</span><span id="FORCE_MODE" class="dot neutral"></span></div>
-              <div><span>Test</span><span id="TEST_MODE" class="dot neutral"></span></div>
-              <div><span>Safe</span><span id="SAFE_MODE" class="dot neutral"></span></div>
+            <div class="mode-grid">
+              <div class="mode-chip"><span>Night</span><span id="NIGHT_MODE" class="dot neutral"></span></div>
+              <div class="mode-chip"><span>Stop</span><span id="STOP_MODE" class="dot neutral"></span></div>
+              <div class="mode-chip"><span>Force</span><span id="FORCE_MODE" class="dot neutral"></span></div>
+              <div class="mode-chip"><span>Test</span><span id="TEST_MODE" class="dot neutral"></span></div>
+              <div class="mode-chip"><span>Safe</span><span id="SAFE_MODE" class="dot neutral"></span></div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="card span-1">
+      <section class="card span-1 position-section">
+        <div class="card-header">
+          <h2>Positie bediening</h2>
+        </div>
+        <div class="command-layout">
+          <div class="panel goto-card">
+            <h3>Draaien</h3>
+            <div class="position-readout">
+              <div class="position-track">
+                <div id="Draaien-Positie_Fill" class="position-fill"></div>
+              </div>
+              <strong id="Draaien-Positie_Percentage">0%</strong>
+            </div>
+            <div class="row">
+              <input type="number" id="Draaien-Positie_Input" placeholder="0 - 100%" min="0" max="100" step="0.01" />
+              <button id="Draaien-Positie_Btn" class="btn btn-primary">Ga</button>
+            </div>
+            <div class="preset-row" data-target-input="Draaien-Positie_Input" data-target-btn="Draaien-Positie_Btn">
+              <button type="button" class="btn btn-soft" data-preset="0">0%</button>
+              <button type="button" class="btn btn-soft" data-preset="25">25%</button>
+              <button type="button" class="btn btn-soft" data-preset="50">50%</button>
+              <button type="button" class="btn btn-soft" data-preset="75">75%</button>
+              <button type="button" class="btn btn-soft" data-preset="100">100%</button>
+            </div>
+          </div>
+
+          <div class="panel goto-card">
+            <h3>Kantelen</h3>
+            <div class="position-readout">
+              <div class="position-track">
+                <div id="Kantelen-Positie_Fill" class="position-fill"></div>
+              </div>
+              <strong id="Kantelen-Positie_Percentage">0%</strong>
+            </div>
+            <div class="row">
+              <input type="number" id="Kantelen-Positie_Input" placeholder="0 - 100%" min="0" max="100" step="0.01" />
+              <button id="Kantelen-Positie_Btn" class="btn btn-primary">Ga</button>
+            </div>
+            <div class="preset-row" data-target-input="Kantelen-Positie_Input" data-target-btn="Kantelen-Positie_Btn">
+              <button type="button" class="btn btn-soft" data-preset="0">0%</button>
+              <button type="button" class="btn btn-soft" data-preset="25">25%</button>
+              <button type="button" class="btn btn-soft" data-preset="50">50%</button>
+              <button type="button" class="btn btn-soft" data-preset="75">75%</button>
+              <button type="button" class="btn btn-soft" data-preset="100">100%</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-1 sensors-section">
         <div class="card-header">
           <h2>Sensors</h2>
         </div>
@@ -125,12 +138,12 @@
             </div>
           </article>
 
-          <article class="sensor-panel">
+          <!-- <article class="sensor-panel">
             <div class="cross-balance-combined">
-              <div class="cross-value top">Boven <strong id="topCombinedValue">-</strong></div>
-              <div class="cross-value right">Rechts <strong id="rightCombinedValue">-</strong></div>
-              <div class="cross-value bottom">Onder <strong id="bottomCombinedValue">-</strong></div>
-              <div class="cross-value left">Links <strong id="leftCombinedValue">-</strong></div>
+              <div class="cross-value top"><strong id="topCombinedValue">-</strong></div>
+              <div class="cross-value right"><strong id="rightCombinedValue">-</strong></div>
+              <div class="cross-value bottom"><strong id="bottomCombinedValue">-</strong></div>
+              <div class="cross-value left"><strong id="leftCombinedValue">-</strong></div>
 
               <div class="cross-horizontal-track">
                 <div id="leftBalanceFill" class="cross-horizontal-fill left"></div>
@@ -145,16 +158,14 @@
               <div class="cross-center-line-horizontal"></div>
               <div class="cross-center-line-vertical"></div>
             </div>
-
-            <p id="lrDirection" class="direction-text">Rotatierichting: —</p>
-            <p id="udDirection" class="direction-text">Kantelrichting: —</p>
-          </article>
+          </article> -->
         </div>
       </section>
 
-      <section class="card span-2">
+      <section class="card span-2 movement-section">
         <div class="card-header">
           <h2>Movement control</h2>
+          <button id="StopButton" class="btn btn-stop">STOP</button>
         </div>
         <div class="movement-grid">
           <article class="movement-card">
@@ -211,14 +222,30 @@
         </div>
       </section>
 
-      <section class="card span-2">
+      <section class="card span-2 diagnostics-section">
         <div class="card-header">
-          <h2>Timers</h2>
+          <h2>Advanced diagnostics</h2>
         </div>
-        <div class="timer-grid" id="timerGrid"></div>
+        <details class="diagnostics-toggle">
+          <summary>Timers</summary>
+          <div class="timer-grid" id="timerGrid"></div>
+        </details>
       </section>
 
-      <section class="card span-2">
+      <section class="card span-2 security-section">
+        <div class="card-header">
+          <h2>Security</h2>
+        </div>
+        <div class="panel security-panel">
+          <div class="unlock-row">
+            <input id="unlockInput" type="text" placeholder="Unlock code" />
+            <button id="unlockBtn" class="btn btn-primary">UNLOCK</button>
+            <span id="colorSquare" class="unlock-dot"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-2 settings-section">
         <div class="card-header">
           <h2>Instellingen</h2>
         </div>

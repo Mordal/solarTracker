@@ -65,6 +65,8 @@ function bindUnlock() {
 function bindGoToButtons() {
   const draaienBtn = document.getElementById('Draaien-Positie_Btn');
   const kantelenBtn = document.getElementById('Kantelen-Positie_Btn');
+  const draaienInput = document.getElementById('Draaien-Positie_Input');
+  const kantelenInput = document.getElementById('Kantelen-Positie_Input');
 
   draaienBtn?.addEventListener('click', async (event) => {
     event.preventDefault();
@@ -80,6 +82,36 @@ function bindGoToButtons() {
     const value = validatePositionInput(input);
     if (value === null) return;
     await goToPosition('TILT_Position', value);
+  });
+
+  draaienInput?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    draaienBtn?.click();
+  });
+
+  kantelenInput?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    kantelenBtn?.click();
+  });
+
+  const presetRows = document.querySelectorAll('.preset-row');
+  presetRows.forEach((row) => {
+    const targetInputId = row.getAttribute('data-target-input');
+    const targetBtnId = row.getAttribute('data-target-btn');
+
+    row.querySelectorAll('[data-preset]').forEach((presetButton) => {
+      presetButton.addEventListener('click', () => {
+        const presetValue = presetButton.getAttribute('data-preset');
+        const targetInput = document.getElementById(targetInputId);
+        const targetBtn = document.getElementById(targetBtnId);
+        if (!targetInput || !targetBtn) return;
+
+        targetInput.value = presetValue;
+        targetBtn.click();
+      });
+    });
   });
 }
 
@@ -163,6 +195,40 @@ function bindSettingsButtons() {
   });
 }
 
+function bindAlarmActions() {
+  const resetBtn = document.getElementById('resetAlarmsBtn');
+  const alarmLog = document.getElementById('alarmLog');
+  if (!resetBtn || !alarmLog) return;
+
+  const appendLog = (message) => {
+    const now = new Date().toLocaleTimeString('nl-BE', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+    const line = `[${now}] ${message}`;
+    alarmLog.textContent = `${alarmLog.textContent}\n${line}`.trim();
+    alarmLog.scrollTop = alarmLog.scrollHeight;
+  };
+
+  resetBtn.addEventListener('click', async () => {
+    resetBtn.textContent = 'Bezig...';
+    resetBtn.disabled = true;
+
+    try {
+      await resetAlarms();
+      appendLog('Alarms reset uitgevoerd.');
+      refreshFallbackData();
+    } catch (error) {
+      appendLog('Reset mislukt (mogelijk locked).');
+      console.error('Reset alarms failed:', error.message);
+    } finally {
+      resetBtn.textContent = 'Reset alarms';
+      resetBtn.disabled = false;
+    }
+  });
+}
+
 async function bootstrap() {
   initTimerUi();
   bindStopButton();
@@ -170,6 +236,7 @@ async function bootstrap() {
   bindGoToButtons();
   bindForceButtons();
   bindSettingsButtons();
+  bindAlarmActions();
 
   try {
     await fetchInitialData();
@@ -179,6 +246,7 @@ async function bootstrap() {
 
   await registerClient();
   setInterval(registerClient, 25000);
+  setInterval(updateDataFreshnessIndicator, 1000);
 
   const mqttClient = await startMqtt();
   if (!mqttClient) {

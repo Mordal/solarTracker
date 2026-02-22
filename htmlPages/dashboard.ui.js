@@ -71,8 +71,40 @@ function setFlags(data) {
 function setOtherData(data) {
   setRedNeutral('reset', !!data?.Reset);
   const unlockSquare = getEl('colorSquare');
-  if (!unlockSquare) return;
-  unlockSquare.classList.toggle('green-square', !!data?.SettingsUnlock);
+  const unlockSquareHeader = getEl('colorSquareHeader');
+  if (unlockSquare) {
+    unlockSquare.classList.toggle('green-square', !!data?.SettingsUnlock);
+  }
+  if (unlockSquareHeader) {
+    unlockSquareHeader.classList.toggle('green-square', !!data?.SettingsUnlock);
+  }
+}
+
+function markDataFresh() {
+  appState.lastDataUpdate = Date.now();
+  setDot('Data_freshness', 'green');
+
+  const lastUpdate = getEl('Last_update');
+  if (lastUpdate) {
+    lastUpdate.textContent = new Date(appState.lastDataUpdate).toLocaleTimeString('nl-BE', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+  }
+}
+
+function updateDataFreshnessIndicator() {
+  const staleAfterMs = 7000;
+  const hasUpdate = !!appState.lastDataUpdate;
+
+  if (!hasUpdate) {
+    setDot('Data_freshness', 'neutral');
+    return;
+  }
+
+  const age = Date.now() - appState.lastDataUpdate;
+  setDot('Data_freshness', age > staleAfterMs ? 'red' : 'green');
 }
 
 function setText(id, value) {
@@ -93,6 +125,11 @@ function setHeight(id, percent) {
   if (!el) return;
   const clamped = Math.max(0, Math.min(100, percent));
   el.style.height = `${clamped}%`;
+}
+
+function formatPercent(value) {
+  const rounded = Math.round(value * 100) / 100;
+  return `${rounded}%`;
 }
 
 function setWaterLevelBubble(left, right, top, bottom) {
@@ -177,38 +214,14 @@ function setSensors(data) {
   setHeight('topBalanceFill', topPercent);
   setHeight('bottomBalanceFill', bottomPercent);
 
-  const lrDirection = getEl('lrDirection');
-  if (lrDirection) {
-    const lrDiff = right - left;
-    const lrThreshold = 25;
-    if (Math.abs(lrDiff) <= lrThreshold) {
-      lrDirection.textContent = 'Rotatierichting: in balans ↔';
-    } else if (lrDiff > 0) {
-      lrDirection.textContent = 'Rotatierichting: draai naar rechts →';
-    } else {
-      lrDirection.textContent = 'Rotatierichting: draai naar links ←';
-    }
-  }
-
-  const udDirection = getEl('udDirection');
-  if (udDirection) {
-    const udDiff = top - bottom;
-    const udThreshold = 25;
-    if (Math.abs(udDiff) <= udThreshold) {
-      udDirection.textContent = 'Kantelrichting: in balans ↕';
-    } else if (udDiff > 0) {
-      udDirection.textContent = 'Kantelrichting: kantel omhoog ↑';
-    } else {
-      udDirection.textContent = 'Kantelrichting: kantel omlaag ↓';
-    }
-  }
 }
 
 function setTurnMovement(data) {
   if (!data?.Turn || !data?.Left || !data?.Right) return;
 
   const percentage = data.Turn.percentage / 100;
-  getEl('Draaien-Positie_Percentage').textContent = `Draaien - ${percentage}%`;
+  getEl('Draaien-Positie_Percentage').textContent = formatPercent(percentage);
+  setWidth('Draaien-Positie_Fill', percentage);
 
   setRedNeutral('LEFT_Antipendel', !!data.Turn.antiPendel);
   setGreenNeutral('LEFT_Active', !!data.Left.moving);
@@ -227,7 +240,8 @@ function setTiltMovement(data) {
   if (!data?.Tilt || !data?.Extend || !data?.Retract) return;
 
   const percentage = data.Tilt.percentage / 100;
-  getEl('Kantelen-Positie_Percentage').textContent = `Kantelen - ${percentage}%`;
+  getEl('Kantelen-Positie_Percentage').textContent = formatPercent(percentage);
+  setWidth('Kantelen-Positie_Fill', percentage);
 
   setRedNeutral('OUT_Antipendel', !!data.Tilt.antiPendel);
   setGreenNeutral('OUT_Active', !!data.Extend.moving);
