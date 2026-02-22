@@ -5,7 +5,7 @@ function getEl(id) {
 function setDot(id, type) {
   const el = getEl(id);
   if (!el) return;
-  el.classList.remove('green', 'red', 'neutral');
+  el.classList.remove('green', 'red', 'neutral', 'orange');
   el.classList.add(type);
 }
 
@@ -19,6 +19,18 @@ function setRedNeutral(id, isError) {
 
 function setGreenNeutral(id, isOn) {
   setDot(id, isOn ? 'green' : 'neutral');
+}
+
+function setSensorIgnoreState(id, isOn) {
+  const ignoreLightSensors = !!appState.ignoreLS;
+  const ignoreSensorsDot = getEl('ignoreSensorsDot');
+  const isOrange = ignoreSensorsDot?.classList.contains('orange');
+
+  if (ignoreLightSensors || isOrange) {
+    setDot(id, 'orange');
+    return;
+  }
+  setGreenNeutral(id, isOn);
 }
 
 function initTimerUi() {
@@ -59,6 +71,14 @@ function setFlags(data) {
   setGreenNeutral('FORCE_MODE', !!data.Flags.FORCE_MODE);
   setRedNeutral('TEST_MODE', !!data.Flags.TEST_MODE);
   setRedNeutral('SAFE_MODE', !!data.Flags.SAFE_MODE);
+
+  appState.forceIgnoreLS = !!data.Flags.forceIgnoreLS;
+  appState.ignoreLS = !!data.Flags.ignoreLS;
+
+  const ignoreSensorsDot = getEl('ignoreSensorsDot');
+  if (ignoreSensorsDot) {
+    setDot('ignoreSensorsDot', appState.forceIgnoreLS ? 'orange' : 'neutral');
+  }
 
   const forceIgnoreInput = getEl('forceIgnoreLightSensors');
   if (forceIgnoreInput) {
@@ -245,13 +265,13 @@ function setTurnMovement(data) {
 
   setRedNeutral('LEFT_Antipendel', !!data.Turn.antiPendel);
   setGreenNeutral('LEFT_Active', !!data.Left.moving);
-  setGreenNeutral('LEFT_Sensors', !!data.Left.sensors);
+  setSensorIgnoreState('LEFT_Sensors', !!data.Left.sensors);
   setRedNeutral('LEFT_End', !!data.Left.eindeloop);
   setGreenNeutral('LEFT_Force', !!data.Left.force);
 
   setRedNeutral('RIGHT_Antipendel', !!data.Turn.antiPendel);
   setGreenNeutral('RIGHT_Active', !!data.Right.moving);
-  setGreenNeutral('RIGHT_Sensors', !!data.Right.sensors);
+  setSensorIgnoreState('RIGHT_Sensors', !!data.Right.sensors);
   setRedNeutral('RIGHT_End', !!data.Right.eindeloop);
   setGreenNeutral('RIGHT_Force', !!data.Right.force);
 }
@@ -265,13 +285,13 @@ function setTiltMovement(data) {
 
   setRedNeutral('OUT_Antipendel', !!data.Tilt.antiPendel);
   setGreenNeutral('OUT_Active', !!data.Extend.moving);
-  setGreenNeutral('OUT_Sensors', !!data.Extend.sensors);
+  setSensorIgnoreState('OUT_Sensors', !!data.Extend.sensors);
   setRedNeutral('OUT_End', !!data.Extend.eindeloop);
   setGreenNeutral('OUT_Force', !!data.Extend.force);
 
   setRedNeutral('IN_Antipendel', !!data.Tilt.antiPendel);
   setGreenNeutral('IN_Active', !!data.Retract.moving);
-  setGreenNeutral('IN_Sensors', !!data.Retract.sensors);
+  setSensorIgnoreState('IN_Sensors', !!data.Retract.sensors);
   setRedNeutral('IN_End', !!data.Retract.eindeloop);
   setGreenNeutral('IN_Force', !!data.Retract.force);
 }

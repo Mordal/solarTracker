@@ -53,6 +53,7 @@
               <div class="mode-chip"><span>Force</span><span id="FORCE_MODE" class="dot neutral"></span></div>
               <div class="mode-chip"><span>Test</span><span id="TEST_MODE" class="dot neutral"></span></div>
               <div class="mode-chip"><span>Safe</span><span id="SAFE_MODE" class="dot neutral"></span></div>
+              <div class="mode-chip"><span>Sensors Off</span><span id="ignoreSensorsDot" class="dot neutral"></span></div>
             </div>
           </div>
         </div>
@@ -258,8 +259,10 @@
               <label class="setting-item">
                 <span>Force ignore light sensors</span>
                 <div class="row bool-row">
-                  <input id="forceIgnoreLightSensors" type="checkbox" />
-                  <button class="btn btn-primary" data-setting-key="forceIgnoreLightSensors" data-setting-type="boolean">Opslaan</button>
+                  <label class="toggle-switch" for="forceIgnoreLightSensors">
+                    <input id="forceIgnoreLightSensors" type="checkbox" data-setting-key="forceIgnoreLightSensors" data-setting-type="boolean" />
+                    <span class="toggle-slider"></span>
+                  </label>
                 </div>
               </label>
             </div>
@@ -293,15 +296,19 @@
               <label class="setting-item">
                 <span>Daily test active</span>
                 <div class="row bool-row">
-                  <input id="dailyTest_Active" type="checkbox" />
-                  <button class="btn btn-primary" data-setting-key="dailyTest_Active" data-setting-type="boolean">Opslaan</button>
+                  <label class="toggle-switch" for="dailyTest_Active">
+                    <input id="dailyTest_Active" type="checkbox" data-setting-key="dailyTest_Active" data-setting-type="boolean" />
+                    <span class="toggle-slider"></span>
+                  </label>
                 </div>
               </label>
               <label class="setting-item">
                 <span>Sync time</span>
                 <div class="row bool-row">
-                  <input id="syncTime" type="checkbox" />
-                  <button class="btn btn-primary" data-setting-key="syncTime" data-setting-type="boolean">Opslaan</button>
+                  <label class="toggle-switch" for="syncTime">
+                    <input id="syncTime" type="checkbox" data-setting-key="syncTime" data-setting-type="boolean" />
+                    <span class="toggle-slider"></span>
+                  </label>
                 </div>
               </label>
               <label class="setting-item">

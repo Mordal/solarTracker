@@ -159,6 +159,10 @@ h3 {
   background: var(--success) !important;
 }
 
+.orange {
+  background: var(--warning) !important;
+}
+
 .unlock-dot {
   width: 16px;
   height: 16px;
@@ -742,14 +746,53 @@ input {
 }
 
 .bool-row {
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
-.bool-row input[type='checkbox'] {
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
-  margin-right: 8px;
+.toggle-switch {
+  position: relative;
+  display: inline-flex;
+  width: 46px;
+  min-width: 46px;
+  height: 26px;
+}
+
+.toggle-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  background: #334155;
+  border: 1px solid #475569;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f8fafc;
+  transition: transform 0.2s ease;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: #0f766e;
+  border-color: #14b8a6;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(20px);
 }
 
 .compact-settings input {

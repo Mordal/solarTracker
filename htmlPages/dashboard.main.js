@@ -186,7 +186,7 @@ function bindForceButtons() {
 }
 
 function bindSettingsButtons() {
-  const buttons = document.querySelectorAll('[data-setting-key]');
+  const buttons = document.querySelectorAll('button[data-setting-key]');
 
   buttons.forEach((button) => {
     button.addEventListener('click', async (event) => {
@@ -220,6 +220,24 @@ function bindSettingsButtons() {
           button.classList.remove('save-error');
           button.textContent = 'Opslaan';
         }, 1200);
+        console.error(`Saving ${key} failed:`, error.message);
+      }
+    });
+  });
+}
+
+function bindSettingToggles() {
+  const toggles = document.querySelectorAll('input[type="checkbox"][data-setting-key][data-setting-type="boolean"]');
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener('change', async () => {
+      const key = toggle.getAttribute('data-setting-key');
+      const previous = !toggle.checked;
+
+      try {
+        await saveSetting(key, !!toggle.checked);
+      } catch (error) {
+        toggle.checked = previous;
         console.error(`Saving ${key} failed:`, error.message);
       }
     });
@@ -267,6 +285,7 @@ async function bootstrap() {
   bindGoToButtons();
   bindForceButtons();
   bindSettingsButtons();
+  bindSettingToggles();
   bindAlarmActions();
 
   try {
