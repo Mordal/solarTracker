@@ -69,7 +69,7 @@ function setFlags(data) {
 }
 
 function setOtherData(data) {
-  setGreenNeutral('reset', !!data?.Reset);
+  setRedNeutral('reset', !!data?.Reset);
   const unlockSquare = getEl('colorSquare');
   if (!unlockSquare) return;
   unlockSquare.classList.toggle('green-square', !!data?.SettingsUnlock);
@@ -104,18 +104,27 @@ function setWaterLevelBubble(left, right, top, bottom) {
 
   const edgeAt = 2000;
 
-  // normaliseer
   let xNorm = xDiff / edgeAt;
   let yNorm = yDiff / edgeAt;
 
-  // bereken vector lengte
-  const length = Math.sqrt(xNorm * xNorm + yNorm * yNorm);
+  // Bereken vector lengte
+  let length = Math.sqrt(xNorm * xNorm + yNorm * yNorm);
 
-  // als buiten de cirkel → schaal terug tot rand
+  // Begrens tot cirkel
   if (length > 1) {
     xNorm /= length;
     yNorm /= length;
+    length = 1;
   }
+
+  // 🎯 LOGARITMISCHE / EXPONENTIELE SCHAAL
+  const curveFactor = 0.5; // lager = gevoeliger rond midden
+  const scaledLength = Math.pow(length, curveFactor);
+
+  // Herbereken vector met nieuwe lengte
+  const scale = length === 0 ? 0 : scaledLength / length;
+  xNorm *= scale;
+  yNorm *= scale;
 
   const maxOffset = 66;
   const x = xNorm * maxOffset;

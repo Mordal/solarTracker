@@ -320,14 +320,50 @@ input {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #e0f2fe, #38bdf8 58%, #0284c7);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.85);
-  transition: transform 0.2s ease;
   z-index: 3;
+
+  /* Zon-kern */
+  background: radial-gradient(circle at 35% 35%,
+    #fffde7 0%,
+    #ffe082 35%,
+    #ffca28 60%,
+    #ffb300 80%,
+    #ff8f00 100%
+  );
+
+  /* Gloed */
+  box-shadow:
+    0 0 6px rgba(255, 200, 0, 0.9),
+    0 0 14px rgba(255, 170, 0, 0.7),
+    0 0 22px rgba(255, 140, 0, 0.5);
+
+  transition: transform 0.2s ease;
+}
+
+/* Zonnestralen */
+.sensor-level-bubble::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    rgba(255, 200, 0, 0.6) 0deg 10deg,
+    transparent 10deg 20deg
+  );
+  animation: rotateSun 8s ease-in-out infinite;
+  z-index: -1;
+  filter: blur(1px);
+  opacity: 0.7;
+}
+
+/* Subtiele rotatie */
+@keyframes rotateSun {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .sensor-head {
