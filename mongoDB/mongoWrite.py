@@ -36,7 +36,7 @@ print(f"Client: {client}")
 print(f"Connected to: {client.address}")
 print(f"Server Version: {client.server_info()['version']}")
 print(f"MongoDB URI: {uri}")
-
+exit()
 
 # Print alle databases
 print("\nDatabases:")
