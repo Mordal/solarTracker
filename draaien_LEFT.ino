@@ -10,6 +10,8 @@ void forceLinksDraaien() {
 
 bool needToTurnLeft() {
    if (ignoreLightSensors || forceIgnoreLightSensors) {
+      linksDraaien_Sensors = false;
+      rechtsDraaien_Sensors = false;
       return false;
    }
    if (lichtSensors_Links > (lichtSensors_Rechts + licht_marge)) {

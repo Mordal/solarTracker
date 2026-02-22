@@ -11,6 +11,8 @@ void forceRetract() {
 
 bool needToRetract() {
    if (ignoreLightSensors || forceIgnoreLightSensors) {
+      uitschuiven_Sensors = false;
+      inschuiven_Sensors = false;
       return false;
    }
    if (lichtSensors_Onder > (lichtSensors_Boven + licht_marge)) {
