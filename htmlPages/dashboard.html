@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar Tracker Dashboard</title>
+    <link rel="icon" href="data:;base64,=" />
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>Solar Tracker</h1>
+        <p class="subtitle">Realtime bediening & status</p>
+      </div>
+      <div class="quick-status">
+        <div class="badge-row">
+          <span>WiFi</span>
+          <span id="Wifi_connected" class="dot neutral"></span>
+        </div>
+        <div class="badge-row">
+          <span>MQTT</span>
+          <span id="Mqtt_connected" class="dot neutral"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="card span-2">
+        <div class="card-header">
+          <h2>Algemene bediening</h2>
+        </div>
+
+        <div class="control-grid">
+          <div class="panel">
+            <h3>Stop Mode</h3>
+            <button id="StopButton" class="btn btn-stop">STOP</button>
+          </div>
+
+          <div class="panel">
+            <h3>Settings unlock</h3>
+            <div class="unlock-row">
+              <input id="unlockInput" type="text" placeholder="Unlock code" />
+              <button id="unlockBtn" class="btn btn-primary">UNLOCK</button>
+              <span id="colorSquare" class="unlock-dot"></span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Ga naar positie</h3>
+            <div class="goto-grid">
+              <label>
+                <span id="Draaien-Positie_Percentage">Draaien - 0%</span>
+                <div class="row">
+                  <input type="number" id="Draaien-Positie_Input" placeholder="0 - 100" />
+                  <button id="Draaien-Positie_Btn" class="btn btn-primary">GO</button>
+                </div>
+              </label>
+              <label>
+                <span id="Kantelen-Positie_Percentage">Kantelen - 0%</span>
+                <div class="row">
+                  <input type="number" id="Kantelen-Positie_Input" placeholder="0 - 100" />
+                  <button id="Kantelen-Positie_Btn" class="btn btn-primary">GO</button>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-1">
+        <div class="card-header">
+          <h2>Flags, alarms, modes</h2>
+        </div>
+        <div class="triple-grid">
+          <div>
+            <h3>Alarms</h3>
+            <div class="status-list">
+              <div><span>Draaien te lang</span><span id="Draaien_too_long" class="dot neutral"></span></div>
+              <div><span>Kantelen te lang</span><span id="Kantelen_too_long" class="dot neutral"></span></div>
+              <div><span>Reset happened</span><span id="reset" class="dot neutral"></span></div>
+            </div>
+          </div>
+          <div>
+            <h3>Modes</h3>
+            <div class="status-list">
+              <div><span>Night</span><span id="NIGHT_MODE" class="dot neutral"></span></div>
+              <div><span>Stop</span><span id="STOP_MODE" class="dot neutral"></span></div>
+              <div><span>Force</span><span id="FORCE_MODE" class="dot neutral"></span></div>
+              <div><span>Test</span><span id="TEST_MODE" class="dot neutral"></span></div>
+              <div><span>Safe</span><span id="SAFE_MODE" class="dot neutral"></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-1">
+        <div class="card-header">
+          <h2>Sensors</h2>
+        </div>
+        <div class="sensor-layout">
+          <article class="sensor-panel">
+            <div class="sensor-spatial-grid">
+              <div class="sensor-card pos-lb">
+                <div class="sensor-head"><strong>LB</strong><span id="lb">-</span></div>
+                <div class="sensor-level-track"><div id="lbLevel" class="sensor-level-fill"></div></div>
+              </div>
+              <div class="sensor-card pos-rb">
+                <div class="sensor-head"><strong>RB</strong><span id="rb">-</span></div>
+                <div class="sensor-level-track"><div id="rbLevel" class="sensor-level-fill"></div></div>
+              </div>
+              <div class="sensor-card pos-lo">
+                <div class="sensor-head"><strong>LO</strong><span id="lo">-</span></div>
+                <div class="sensor-level-track"><div id="loLevel" class="sensor-level-fill"></div></div>
+              </div>
+              <div class="sensor-card pos-ro">
+                <div class="sensor-head"><strong>RO</strong><span id="ro">-</span></div>
+                <div class="sensor-level-track"><div id="roLevel" class="sensor-level-fill"></div></div>
+              </div>
+              <div class="sensor-spatial-center" id="sensorLevel">
+                <div class="sensor-level-ring"></div>
+                <div class="sensor-level-center"></div>
+                <div class="sensor-level-bubble" id="sensorLevelBubble"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="sensor-panel">
+            <div class="cross-balance-combined">
+              <div class="cross-value top">Boven <strong id="topCombinedValue">-</strong></div>
+              <div class="cross-value right">Rechts <strong id="rightCombinedValue">-</strong></div>
+              <div class="cross-value bottom">Onder <strong id="bottomCombinedValue">-</strong></div>
+              <div class="cross-value left">Links <strong id="leftCombinedValue">-</strong></div>
+
+              <div class="cross-horizontal-track">
+                <div id="leftBalanceFill" class="cross-horizontal-fill left"></div>
+                <div id="rightBalanceFill" class="cross-horizontal-fill right"></div>
+              </div>
+
+              <div class="cross-vertical-track">
+                <div id="topBalanceFill" class="cross-vertical-fill top"></div>
+                <div id="bottomBalanceFill" class="cross-vertical-fill bottom"></div>
+              </div>
+
+              <div class="cross-center-line-horizontal"></div>
+              <div class="cross-center-line-vertical"></div>
+            </div>
+
+            <p id="lrDirection" class="direction-text">Rotatierichting: —</p>
+            <p id="udDirection" class="direction-text">Kantelrichting: —</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="card span-2">
+        <div class="card-header">
+          <h2>Movement control</h2>
+        </div>
+        <div class="movement-grid">
+          <article class="movement-card">
+            <h3>Links</h3>
+            <div class="status-list compact">
+              <div><span>Active</span><span id="LEFT_Active" class="dot neutral"></span></div>
+              <div><span>Sensors</span><span id="LEFT_Sensors" class="dot neutral"></span></div>
+              <div><span>End</span><span id="LEFT_End" class="dot neutral"></span></div>
+              <div><span>Antipendel</span><span id="LEFT_Antipendel" class="dot neutral"></span></div>
+              <div><span>Alarm</span><span id="LEFT_Alarm" class="dot neutral"></span></div>
+              <div><span>Force</span><span id="LEFT_Force" class="dot neutral"></span></div>
+            </div>
+            <button class="btn btn-force" data-force-id="LEFT_Force">FORCE</button>
+          </article>
+
+          <article class="movement-card">
+            <h3>Rechts</h3>
+            <div class="status-list compact">
+              <div><span>Active</span><span id="RIGHT_Active" class="dot neutral"></span></div>
+              <div><span>Sensors</span><span id="RIGHT_Sensors" class="dot neutral"></span></div>
+              <div><span>End</span><span id="RIGHT_End" class="dot neutral"></span></div>
+              <div><span>Antipendel</span><span id="RIGHT_Antipendel" class="dot neutral"></span></div>
+              <div><span>Alarm</span><span id="RIGHT_Alarm" class="dot neutral"></span></div>
+              <div><span>Force</span><span id="RIGHT_Force" class="dot neutral"></span></div>
+            </div>
+            <button class="btn btn-force" data-force-id="RIGHT_Force">FORCE</button>
+          </article>
+
+          <article class="movement-card">
+            <h3>Onder</h3>
+            <div class="status-list compact">
+              <div><span>Active</span><span id="IN_Active" class="dot neutral"></span></div>
+              <div><span>Sensors</span><span id="IN_Sensors" class="dot neutral"></span></div>
+              <div><span>End</span><span id="IN_End" class="dot neutral"></span></div>
+              <div><span>Antipendel</span><span id="IN_Antipendel" class="dot neutral"></span></div>
+              <div><span>Alarm</span><span id="IN_Alarm" class="dot neutral"></span></div>
+              <div><span>Force</span><span id="IN_Force" class="dot neutral"></span></div>
+            </div>
+            <button class="btn btn-force" data-force-id="IN_Force">FORCE</button>
+          </article>
+
+          <article class="movement-card">
+            <h3>Boven</h3>
+            <div class="status-list compact">
+              <div><span>Active</span><span id="OUT_Active" class="dot neutral"></span></div>
+              <div><span>Sensors</span><span id="OUT_Sensors" class="dot neutral"></span></div>
+              <div><span>End</span><span id="OUT_End" class="dot neutral"></span></div>
+              <div><span>Antipendel</span><span id="OUT_Antipendel" class="dot neutral"></span></div>
+              <div><span>Alarm</span><span id="OUT_Alarm" class="dot neutral"></span></div>
+              <div><span>Force</span><span id="OUT_Force" class="dot neutral"></span></div>
+            </div>
+            <button class="btn btn-force" data-force-id="OUT_Force">FORCE</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="card span-2">
+        <div class="card-header">
+          <h2>Timers</h2>
+        </div>
+        <div class="timer-grid" id="timerGrid"></div>
+      </section>
+
+      <section class="card span-2">
+        <div class="card-header">
+          <h2>Instellingen</h2>
+        </div>
+        <div class="settings-grid">
+          <label>
+            <span>LB Offset</span>
+            <div class="row"><input id="LB_Offset" type="number" /><button class="btn btn-primary" data-setting-key="LB_Offset">Opslaan</button></div>
+          </label>
+          <label>
+            <span>RB Offset</span>
+            <div class="row"><input id="RB_Offset" type="number" /><button class="btn btn-primary" data-setting-key="RB_Offset">Opslaan</button></div>
+          </label>
+          <label>
+            <span>LO Offset</span>
+            <div class="row"><input id="LO_Offset" type="number" /><button class="btn btn-primary" data-setting-key="LO_Offset">Opslaan</button></div>
+          </label>
+          <label>
+            <span>RO Offset</span>
+            <div class="row"><input id="RO_Offset" type="number" /><button class="btn btn-primary" data-setting-key="RO_Offset">Opslaan</button></div>
+          </label>
+          <label>
+            <span>Licht marge</span>
+            <div class="row"><input id="lichtMarge" type="number" /><button class="btn btn-primary" data-setting-key="licht_marge" data-input-id="lichtMarge">Opslaan</button></div>
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <footer>Solar Tracker dashboard v2</footer>
+
+    <script src="dashboard.config.js"></script>
+    <script src="dashboard.ui.js"></script>
+    <script src="dashboard.api.js"></script>
+    <script src="dashboard.mqtt.js"></script>
+    <script src="dashboard.main.js"></script>
+  </body>
+</html>
