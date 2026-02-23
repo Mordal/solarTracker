@@ -1,5 +1,29 @@
+function getApiBaseCandidates() {
+  if (appState.apiBaseUrl) {
+    return [appState.apiBaseUrl, ...dashboardConfig.apiBaseCandidates.filter((base) => base !== appState.apiBaseUrl)];
+  }
+  return [...dashboardConfig.apiBaseCandidates];
+}
+
+async function apiRequest(path, options = {}) {
+  const candidates = getApiBaseCandidates();
+  let lastError = null;
+
+  for (const baseUrl of candidates) {
+    try {
+      const response = await fetch(`${baseUrl}${path}`, options);
+      appState.apiBaseUrl = baseUrl;
+      return response;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw new Error(`API request failed for ${path}: ${lastError?.message || 'no reachable base URL'}`);
+}
+
 async function apiGet(path) {
-  const response = await fetch(`${dashboardConfig.baseUrl}${path}`);
+  const response = await apiRequest(path);
   if (!response.ok) {
     throw new Error(`GET ${path} failed: ${response.status}`);
   }
@@ -7,12 +31,11 @@ async function apiGet(path) {
 }
 
 async function apiPost(path, body, isJson = true) {
-  const options = {
+  const response = await apiRequest(path, {
     method: 'POST',
     body: isJson ? JSON.stringify(body) : body,
-  };
+  });
 
-  const response = await fetch(`${dashboardConfig.baseUrl}${path}`, options);
   if (!response.ok) {
     const text = await response.text();
     throw new Error(`POST ${path} failed: ${response.status} ${text}`);
@@ -71,7 +94,7 @@ async function registerClient() {
   const timeout = setTimeout(() => controller.abort(), 2000);
 
   try {
-    await fetch(`${dashboardConfig.baseUrl}/API/CLIENTCONNECTED`, {
+    await apiRequest('/API/CLIENTCONNECTED', {
       signal: controller.signal,
     });
     clearTimeout(timeout);
@@ -101,12 +124,12 @@ async function saveSetting(key, value) {
 }
 
 async function unlockSettings(code) {
-  const response = await apiPost('/UNLOCK', encodeURIComponent(code), false);
+  const response = await apiPost('/UNLOCK', code, false);
   return response.text();
 }
 
 async function resetAlarms() {
-  const response = await fetch(`${dashboardConfig.baseUrl}/API/RESETALARM`);
+  const response = await apiRequest('/API/RESETALARM');
   if (!response.ok) {
     const text = await response.text();
     throw new Error(`GET /API/RESETALARM failed: ${response.status} ${text}`);

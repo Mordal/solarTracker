@@ -74,7 +74,7 @@ void clientConnection(WiFiClient& client) {
    bool unlockRequest = false;
    bool settingsRequest = false;
    bool controlRequest = false;
-   int contentLength;
+   int contentLength = 0;
 
    while (client.connected()) {  // loop while the client's connected
       if (!client.available())
