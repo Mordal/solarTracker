@@ -173,8 +173,8 @@ function bindForceButtons() {
 
     activeIds.forEach((id) => {
       appState.forceHold[id] = false;
-      const button = document.querySelector(`[data-force-id="${id}"]`);
-      button?.classList.remove('hold');
+      const buttons = document.querySelectorAll(`[data-force-id="${id}"]`);
+      buttons.forEach((button) => button.classList.remove('hold'));
     });
 
     await Promise.all(activeIds.map((id) => setForceMovement(id, false).catch(() => null)));

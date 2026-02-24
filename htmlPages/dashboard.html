@@ -114,28 +114,34 @@
         </div>
         <div class="sensor-layout">
           <article class="sensor-panel">
-            <div class="sensor-spatial-grid">
-              <div class="sensor-card pos-lb">
-                <div class="sensor-head"><strong>LB</strong><span id="lb">-</span></div>
-                <div class="sensor-level-track"><div id="lbLevel" class="sensor-level-fill"></div></div>
+            <div class="sensor-compass">
+              <button type="button" class="btn btn-direction dir-up" data-force-id="OUT_Force" aria-label="Boven" title="Boven"></button>
+              <button type="button" class="btn btn-direction dir-left" data-force-id="LEFT_Force" aria-label="Links" title="Links"></button>
+              <div class="sensor-spatial-grid">
+                <div class="sensor-card pos-lb">
+                  <div class="sensor-head"><strong>LB</strong><span id="lb">-</span></div>
+                  <div class="sensor-level-track"><div id="lbLevel" class="sensor-level-fill"></div></div>
+                </div>
+                <div class="sensor-card pos-rb">
+                  <div class="sensor-head"><strong>RB</strong><span id="rb">-</span></div>
+                  <div class="sensor-level-track"><div id="rbLevel" class="sensor-level-fill"></div></div>
+                </div>
+                <div class="sensor-card pos-lo">
+                  <div class="sensor-head"><strong>LO</strong><span id="lo">-</span></div>
+                  <div class="sensor-level-track"><div id="loLevel" class="sensor-level-fill"></div></div>
+                </div>
+                <div class="sensor-card pos-ro">
+                  <div class="sensor-head"><strong>RO</strong><span id="ro">-</span></div>
+                  <div class="sensor-level-track"><div id="roLevel" class="sensor-level-fill"></div></div>
+                </div>
+                <div class="sensor-spatial-center" id="sensorLevel">
+                  <div class="sensor-level-ring"></div>
+                  <div class="sensor-level-center"></div>
+                  <div class="sensor-level-bubble" id="sensorLevelBubble"></div>
+                </div>
               </div>
-              <div class="sensor-card pos-rb">
-                <div class="sensor-head"><strong>RB</strong><span id="rb">-</span></div>
-                <div class="sensor-level-track"><div id="rbLevel" class="sensor-level-fill"></div></div>
-              </div>
-              <div class="sensor-card pos-lo">
-                <div class="sensor-head"><strong>LO</strong><span id="lo">-</span></div>
-                <div class="sensor-level-track"><div id="loLevel" class="sensor-level-fill"></div></div>
-              </div>
-              <div class="sensor-card pos-ro">
-                <div class="sensor-head"><strong>RO</strong><span id="ro">-</span></div>
-                <div class="sensor-level-track"><div id="roLevel" class="sensor-level-fill"></div></div>
-              </div>
-              <div class="sensor-spatial-center" id="sensorLevel">
-                <div class="sensor-level-ring"></div>
-                <div class="sensor-level-center"></div>
-                <div class="sensor-level-bubble" id="sensorLevelBubble"></div>
-              </div>
+              <button type="button" class="btn btn-direction dir-right" data-force-id="RIGHT_Force" aria-label="Rechts" title="Rechts"></button>
+              <button type="button" class="btn btn-direction dir-down" data-force-id="IN_Force" aria-label="Onder" title="Onder"></button>
             </div>
           </article>
         </div>
