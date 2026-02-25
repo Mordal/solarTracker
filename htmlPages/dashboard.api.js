@@ -1,15 +1,16 @@
-function getApiBaseCandidates() {
-  if (appState.apiBaseUrl) {
-    return [appState.apiBaseUrl, ...dashboardConfig.apiBaseCandidates.filter((base) => base !== appState.apiBaseUrl)];
-  }
-  return [...dashboardConfig.apiBaseCandidates];
-}
+// function getApiBaseCandidates() {
+//   if (appState.apiBaseUrl) {
+//     return [appState.apiBaseUrl, ...dashboardConfig.apiBaseCandidates.filter((base) => base !== appState.apiBaseUrl)];
+//   }
+//   return [...dashboardConfig.apiBaseCandidates];
+// }
 
 async function apiRequest(path, options = {}) {
-  const candidates = getApiBaseCandidates();
-  let lastError = null;
+  // const candidates = getApiBaseCandidates();
+  // let lastError = null;
 
-  for (const baseUrl of candidates) {
+  // for (const baseUrl of candidates) {
+  const baseUrl = `https://${apiHost}:91`;
     try {
       const response = await fetch(`${baseUrl}${path}`, options);
       appState.apiBaseUrl = baseUrl;
@@ -17,7 +18,7 @@ async function apiRequest(path, options = {}) {
     } catch (error) {
       lastError = error;
     }
-  }
+  // }
 
   throw new Error(`API request failed for ${path}: ${lastError?.message || 'no reachable base URL'}`);
 }
