@@ -18,7 +18,7 @@ const dashboardConfig = {
 
   // mqttUrl: `ws://mqtt.${apiHost}`,
   // mqttUrl: `wss://${apiHost}:543`, 
-//  mqttUrl: 'ws://pieserver.myds.me:80',
+//  mqttUrl: 'ws://pieserver.myds.me:9001',
   mqttUrl: 'ws://pieserver.myds.me:9001', //DIT WERKT
 
   mqttCdnFallbacks: [
