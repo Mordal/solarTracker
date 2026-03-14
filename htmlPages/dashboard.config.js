@@ -19,7 +19,11 @@ const dashboardConfig = {
   // mqttUrl: `ws://mqtt.${apiHost}`,
   // mqttUrl: `wss://${apiHost}:543`, 
 //  mqttUrl: 'ws://pieserver.myds.me:9001',
-  mqttUrl: 'ws://pieserver.myds.me:9001', //DIT WERKT
+  mqttUrl: 'wss://pieserver.myds.me:9000', //DIT WERKT
+
+
+  // mqttUrl: 'wss://192.168.0.205:9000', //DIT WERKT
+
 
   mqttCdnFallbacks: [
     'https://unpkg.com/mqtt/dist/mqtt.min.js',
