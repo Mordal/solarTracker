@@ -78,6 +78,7 @@ function bindUnlock() {
     try {
       const responseText = await unlockSettings(code);
       unlockInput.value = responseText;
+      console.log('Unlock successful:', responseText);
       refreshFallbackData();
     } catch (error) {
       unlockInput.value = 'Unlock failed';
@@ -244,21 +245,23 @@ function bindSettingToggles() {
   });
 }
 
+function appendLog(message) {
+  const alarmLog = document.getElementById('alarmLog');
+  if (!alarmLog) return;
+  const now = new Date().toLocaleTimeString('nl-BE', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+  const line = `[${now}] ${message}`;
+  alarmLog.textContent = `${alarmLog.textContent}\n${line}`.trim();
+  alarmLog.scrollTop = alarmLog.scrollHeight;
+}
+
 function bindAlarmActions() {
   const resetBtn = document.getElementById('resetAlarmsBtn');
   const alarmLog = document.getElementById('alarmLog');
   if (!resetBtn || !alarmLog) return;
-
-  const appendLog = (message) => {
-    const now = new Date().toLocaleTimeString('nl-BE', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
-    const line = `[${now}] ${message}`;
-    alarmLog.textContent = `${alarmLog.textContent}\n${line}`.trim();
-    alarmLog.scrollTop = alarmLog.scrollHeight;
-  };
 
   resetBtn.addEventListener('click', async () => {
     resetBtn.textContent = 'Bezig...';
@@ -267,6 +270,7 @@ function bindAlarmActions() {
     try {
       await resetAlarms();
       appendLog('Alarms reset uitgevoerd.');
+      console.log('Alarms reset uitgevoerd.');
       refreshFallbackData();
     } catch (error) {
       appendLog('Reset mislukt (mogelijk locked).');

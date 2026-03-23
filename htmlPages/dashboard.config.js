@@ -1,30 +1,11 @@
 const apiHost = 'pieserver.myds.me';
-const pageIsHttps = window.location.protocol === 'https:';
+const mqttPort = 9000;
+const controlPort = 91;
+
+const mqttUrl = `wss://${apiHost}:${mqttPort}`; 
+const apiUrl = `https://${apiHost}:${controlPort}`;
 
 const dashboardConfig = {
-  apiBaseCandidates: pageIsHttps     
-  ? [
-      `https://${apiHost}:91`,
-      `https://${apiHost}`,
-      `http://${apiHost}:90`,
-    ]
-    : [
-      `https://${apiHost}:91`,
-      `https://${apiHost}`,
-      `http://${apiHost}:90`,
-    ],
-//   mqttUrl: pageIsHttps ? `wss://${apiHost}:9001` : `ws://${apiHost}:9001`,
-
-
-  // mqttUrl: `ws://mqtt.${apiHost}`,
-  // mqttUrl: `wss://${apiHost}:543`, 
-//  mqttUrl: 'ws://pieserver.myds.me:9001',
-  mqttUrl: 'wss://pieserver.myds.me:9000', //DIT WERKT
-
-
-  // mqttUrl: 'wss://192.168.0.205:9000', //DIT WERKT
-
-
   mqttCdnFallbacks: [
     'https://unpkg.com/mqtt/dist/mqtt.min.js',
     'https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js',
@@ -53,7 +34,6 @@ const dashboardConfig = {
 };
 
 const appState = {
-  apiBaseUrl: null,
   timeoutSettings: {},
   timers: {},
   forceHold: {

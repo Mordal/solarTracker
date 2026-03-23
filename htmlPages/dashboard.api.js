@@ -1,24 +1,11 @@
-// function getApiBaseCandidates() {
-//   if (appState.apiBaseUrl) {
-//     return [appState.apiBaseUrl, ...dashboardConfig.apiBaseCandidates.filter((base) => base !== appState.apiBaseUrl)];
-//   }
-//   return [...dashboardConfig.apiBaseCandidates];
-// }
-
 async function apiRequest(path, options = {}) {
-  // const candidates = getApiBaseCandidates();
-  // let lastError = null;
-
-  // for (const baseUrl of candidates) {
-  const baseUrl = `https://${apiHost}:91`;
     try {
-      const response = await fetch(`${baseUrl}${path}`, options);
-      appState.apiBaseUrl = baseUrl;
+      const response = await fetch(`${apiUrl}${path}`, options);
       return response;
     } catch (error) {
       lastError = error;
     }
-  // }
+
 
   throw new Error(`API request failed for ${path}: ${lastError?.message || 'no reachable base URL'}`);
 }
@@ -58,6 +45,7 @@ async function fetchCoreDashboardData() {
 }
 
 async function fetchInitialData() {
+  appendLog('Fetching initial data...');
   const [timeouts, coreData, settingOffsets] = await Promise.all([
     apiGet('/API/SETTINGSTIMEOUTS'),
     fetchCoreDashboardData(),
@@ -83,6 +71,7 @@ function applyCoreDashboardData({ flags, sensors, turn, tilt, otherData, timeRem
 
 async function refreshFallbackData() {
   try {
+    console.log('Fallback data refresh...');
     const coreData = await fetchCoreDashboardData();
     applyCoreDashboardData(coreData);
   } catch (error) {

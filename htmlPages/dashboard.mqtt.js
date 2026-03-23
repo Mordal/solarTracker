@@ -55,33 +55,48 @@ function loadMqttScript(urls) {
 }
 
 async function startMqtt() {
+  appendLog('Loading MQTT library...');
   try {
     await loadMqttScript([...dashboardConfig.mqttCdnFallbacks]);
 
     if (typeof mqtt === 'undefined') {
+      appendLog('MQTT library unavailable');
       throw new Error('MQTT library unavailable after load');
     }
-
-    const client = mqtt.connect(dashboardConfig.mqttUrl);
+    appendLog('MQTT library loaded, connecting...');
+    const client = mqtt.connect(mqttUrl);
 
     client.on('connect', () => {
+      appendLog(' -> MQTT connected');
       client.subscribe(Object.values(dashboardConfig.mqttTopics), (err) => {
         if (err) {
+          appendLog('MQTT subscribe error');
           console.error('MQTT subscribe error:', err.message || err);
         }
       });
     });
 
+    // Bericht ontvangen      
     client.on('message', (topic, message) => {
       routeMqttMessage(topic, decodeMqttPayload(message));
     });
 
+    // Verbinding fout
     client.on('error', (err) => {
+      appendLog('MQTT connection error');
       console.warn('MQTT connection error:', err.message || err);
     });
 
+    // Offline event
+    client.on('offline', () => {
+      appendLog('MQTT Client offline');
+      console.log('MQTT Client offline');
+    });
+
     return client;
+
   } catch (error) {
+    appendLog('MQTT startup failed, using API fallback');
     console.warn('MQTT startup failed, using API fallback:', error.message);
     return null;
   }
